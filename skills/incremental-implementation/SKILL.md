@@ -226,6 +226,11 @@ After each increment, verify:
 | "Let me run the build command again just to be sure" | After a successful run, repeating the same command adds nothing unless the code has changed since. Run it again after subsequent edits, not as reassurance. |
 
 ## Red Flags
+- Commits with messages like "WIP" or "stuff" (no intent captured)
+- Multiple features mixed in one commit
+- Tests written after the feature "just to check"
+- Refactoring without tests covering the area first
+- Pushing broken code with "will fix later"
 
 - More than 100 lines of code written without running tests
 - Multiple unrelated changes in a single increment
@@ -238,7 +243,17 @@ After each increment, verify:
 - Creating new utility files for one-time operations
 - Running the same build/test command twice in a row without any intervening code change
 
+## See Also
+
+- [planning-and-task-breakdown](skills/planning-and-task-breakdown/SKILL.md)
+- [test-driven-development](skills/test-driven-development/SKILL.md)
+- [git-workflow-and-versioning](skills/git-workflow-and-versioning/SKILL.md)
+
+
 ## Verification
+- [ ] Every commit message explains WHY, not just WHAT
+- [ ] Each commit leaves all tests passing
+- [ ] No commit touches more than 5 files (atomic change check)
 
 After completing all increments for a task:
 

@@ -199,3 +199,9 @@ Not every task needs every skill. A bug fix might only need: `debugging-and-erro
 | Ops | cost-optimization | Cloud spend reduction without sacrificing reliability |
 | Ops | data-engineering | Data pipelines, ETL/ELT, schema evolution, data quality |
 | Ops | ai-ops | ML model deployment, monitoring, drift detection, retraining |
+
+## See Also
+
+- [context-engineering](skills/context-engineering/SKILL.md)
+- [interview-me](skills/interview-me/SKILL.md)
+- [spec-driven-development](skills/spec-driven-development/SKILL.md)

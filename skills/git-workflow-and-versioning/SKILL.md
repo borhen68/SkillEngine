@@ -283,6 +283,11 @@ git log --grep="validation" --oneline
 | "I don't need a .gitignore" | Until `.env` with production secrets gets committed. Set it up immediately. |
 
 ## Red Flags
+- "Fix typo" commits (amend or squash instead)
+- Committing broken code "to save progress"
+- Force-pushing to shared branches
+- Rewriting history on already-merged commits
+- Commit messages that describe what changed, not why
 
 - Large uncommitted changes accumulating
 - Commit messages like "fix", "update", "misc"
@@ -292,7 +297,18 @@ git log --grep="validation" --oneline
 - Long-lived branches that diverge significantly from main
 - Force-pushing to shared branches
 
+## See Also
+
+- [ci-cd-and-automation](skills/ci-cd-and-automation/SKILL.md)
+- [shipping-and-launch](skills/shipping-and-launch/SKILL.md)
+- [incremental-implementation](skills/incremental-implementation/SKILL.md)
+
+
 ## Verification
+- [ ] Every commit has a descriptive message explaining intent
+- [ ] No secrets, passwords, or tokens in commit history
+- [ ] Branch history is linear and readable (rebased, not merged messily)
+- [ ] Commit diff matches the commit message (no unrelated changes)
 
 For every commit:
 

@@ -180,6 +180,13 @@ Honesty about what you couldn't verify is more valuable than false confidence.
 - Delivering code without source citations for framework-specific decisions
 - Fetching an entire docs site when only one page is relevant
 
+## See Also
+
+- [spec-driven-development](skills/spec-driven-development/SKILL.md)
+- [incremental-implementation](skills/incremental-implementation/SKILL.md)
+- [test-driven-development](skills/test-driven-development/SKILL.md)
+
+
 ## Verification
 
 After implementing with source-driven development:

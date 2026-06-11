@@ -311,6 +311,13 @@ For detailed accessibility requirements and testing tools, see `references/acces
 | "The AI aesthetic is fine for now" | It signals low quality. Use the project's actual design system from the start. |
 
 ## Red Flags
+- Components with 200+ lines (too much responsibility)
+- Inline styles or arbitrary pixel values
+- Hard-coded content in components
+- No loading, empty, or error states
+- Color as the sole indicator of state
+- Keyboard navigation not supported
+- Focus trapping missing in modals/drawers
 
 - Components with more than 200 lines (split them)
 - Inline styles or arbitrary pixel values
@@ -320,6 +327,10 @@ For detailed accessibility requirements and testing tools, see `references/acces
 - Generic "AI look" (purple gradients, oversized cards, stock layouts)
 
 ## Verification
+- [ ] Component renders correctly in all states (loading, empty, error, success)
+- [ ] Keyboard navigation works (Tab, Enter, Escape, Arrow keys)
+- [ ] Screen reader announces dynamic content changes
+- [ ] Colorblind-friendly: state conveyed with text/icons, not just color
 
 After building UI:
 

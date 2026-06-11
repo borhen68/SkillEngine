@@ -285,6 +285,11 @@ Every deployment needs a rollback plan before it happens:
 | "Rolling back is admitting failure" | Rolling back is responsible engineering. Shipping a broken feature is the failure. |
 
 ## Red Flags
+- Deploying on Friday afternoon
+- No rollback plan ("we will just fix forward")
+- Monitoring dashboards not checked before declaring success
+- Deploying without a feature flag for risky changes
+- Skipping staging entirely "because it is just a small change"
 
 - Deploying without a rollback plan
 - No monitoring or error reporting in production
@@ -295,6 +300,10 @@ Every deployment needs a rollback plan before it happens:
 - "It's Friday afternoon, let's ship it"
 
 ## Verification
+- [ ] Rollback tested (can revert in under 5 minutes)
+- [ ] Monitoring confirms healthy state for 30 minutes post-deploy
+- [ ] Error rate is at or below pre-deploy baseline
+- [ ] Feature flag can disable the change without a new deploy
 
 Before deploying:
 

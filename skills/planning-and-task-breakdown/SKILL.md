@@ -207,6 +207,10 @@ When multiple agents or sessions are available:
 | "I can hold it all in my head" | Context windows are finite. Written plans survive session boundaries and compaction. |
 
 ## Red Flags
+- Tasks described with verbs like "implement" or "build" without specifying what done looks like
+- Tasks that depend on 3+ other tasks (too much coupling)
+- No checkpoint defined between tasks (impossible to verify progress)
+- Plan created without reading existing code first (reinvents conventions)
 
 - Starting implementation without a written task list
 - Tasks that say "implement the feature" without acceptance criteria
@@ -215,7 +219,17 @@ When multiple agents or sessions are available:
 - No checkpoints between tasks
 - Dependency order isn't considered
 
+## See Also
+
+- [spec-driven-development](skills/spec-driven-development/SKILL.md)
+- [incremental-implementation](skills/incremental-implementation/SKILL.md)
+- [interview-me](skills/interview-me/SKILL.md)
+
+
 ## Verification
+- [ ] Each task can be completed in under 2 hours of focused work
+- [ ] Plan includes explicit checkpoint after every 2-3 tasks
+- [ ] Riskiest tasks are scheduled first (fail-fast ordering)
 
 Before starting implementation, confirm:
 

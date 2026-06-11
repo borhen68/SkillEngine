@@ -261,6 +261,11 @@ Special consideration for AI agent context:
 | "Comments get outdated" | Comments on *why* are stable. Comments on *what* get outdated — that's why you only write the former. |
 
 ## Red Flags
+- ADRs written after the decision is already implemented
+- Documentation that describes what the code does (code already shows that)
+- ADRs with no alternatives considered ("we just picked this")
+- Outdated docs that contradict the current code
+- Documentation in a separate system from the code (inevitably drifts)
 
 - Architectural decisions with no written rationale
 - Public APIs with no documentation or types
@@ -270,7 +275,18 @@ Special consideration for AI agent context:
 - No ADRs in a project with significant architectural choices
 - Documentation that restates the code instead of explaining intent
 
+## See Also
+
+- [spec-driven-development](skills/spec-driven-development/SKILL.md)
+- [api-and-interface-design](skills/api-and-interface-design/SKILL.md)
+- [shipping-and-launch](skills/shipping-and-launch/SKILL.md)
+
+
 ## Verification
+- [ ] Every ADR links to the code it describes
+- [ ] Alternatives considered section has at least 2 options
+- [ ] Decision is reversible (documented how to undo if wrong)
+- [ ] Documentation reviewed when code changes
 
 After documenting:
 

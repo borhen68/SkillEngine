@@ -328,6 +328,11 @@ For detailed performance checklists, optimization commands, and anti-pattern ref
 | "The framework handles performance" | Frameworks prevent some issues but can't fix N+1 queries or oversized bundles. |
 
 ## Red Flags
+- Optimizing without profiling first
+- Premature optimization (complex code for hypothetical performance issues)
+- Caching without cache invalidation strategy
+- Optimizing developer ergonomics instead of user-facing metrics
+- Adding complexity that saves 1ms on a 500ms network call
 
 - Optimization without profiling data to justify it
 - N+1 query patterns in data fetching
@@ -338,6 +343,10 @@ For detailed performance checklists, optimization commands, and anti-pattern ref
 - `React.memo` and `useMemo` everywhere (overusing is as bad as underusing)
 
 ## Verification
+- [ ] Before/after measurements documented with numbers
+- [ ] Optimization target (budget/limit) defined before starting
+- [ ] Regression tests verify the optimization still works
+- [ ] Complexity added is justified by the performance gain
 
 After any performance-related change:
 

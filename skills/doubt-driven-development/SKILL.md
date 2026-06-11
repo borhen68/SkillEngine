@@ -207,6 +207,11 @@ If 3 cycles is "obviously insufficient" because the artifact is large: the artif
 | "User said yes once, so I can keep invoking the CLI" | Each invocation is its own authorization. The artifact, the prompt, and the flags change between calls — re-confirm the exact command with the user before every run. |
 
 ## Red Flags
+- Skipping doubt check because "I am confident"
+- Reviewing your own work immediately after writing it (still in same context)
+- Treating doubt check as a formality (going through the motions)
+- Only doubting code, not requirements or assumptions
+- Ignoring the doubt check results when they are inconvenient
 
 - Spawning a fresh-context reviewer for a one-line rename or formatting change
 - Treating reviewer output as authoritative without re-reading the artifact text
@@ -230,7 +235,18 @@ If 3 cycles is "obviously insufficient" because the artifact is large: the artif
 - **`debugging-and-error-recovery`**: when the reviewer surfaces a real failure mode, drop into the debugging skill to localize and fix.
 - **Repo orchestration rules** (`references/orchestration-patterns.md`): this skill orchestrates from the main session. A persona calling another persona is anti-pattern B — see Loading Constraints above.
 
+## See Also
+
+- [code-review-and-quality](skills/code-review-and-quality/SKILL.md)
+- [test-driven-development](skills/test-driven-development/SKILL.md)
+- [incremental-implementation](skills/incremental-implementation/SKILL.md)
+
+
 ## Verification
+- [ ] Fresh-context reviewer identified (different session or agent)
+- [ ] At least one assumption was challenged
+- [ ] At least one risk was identified that the original author missed
+- [ ] Findings are documented, not just mentally noted
 
 After applying doubt-driven development:
 

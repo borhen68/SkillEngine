@@ -359,6 +359,11 @@ For detailed testing patterns, examples, and anti-patterns across frameworks, se
 | "Let me run the tests again just to be extra sure" | After a clean test run, repeating the same command adds nothing unless the code has changed since. Run again after subsequent edits, not as reassurance. |
 
 ## Red Flags
+- Tests that check implementation details (private methods, internal state)
+- Tests with no assertions (smoke tests pretending to be real tests)
+- Skipping RED step (writing code before the test)
+- One giant test file instead of focused test suites
+- Mocking the system under test instead of dependencies
 
 - Writing code without any corresponding tests
 - Tests that pass on the first run (they may not be testing what you think)
@@ -370,6 +375,10 @@ For detailed testing patterns, examples, and anti-patterns across frameworks, se
 - Running the same test command twice in a row without any intervening code change
 
 ## Verification
+- [ ] Every public behavior has at least one test
+- [ ] Tests fail if the implementation is removed (actually tests something)
+- [ ] Test names describe behavior, not method names
+- [ ] No test passes when the implementation is intentionally broken
 
 After completing any implementation:
 

@@ -276,6 +276,11 @@ function getTask(id: TaskId): Promise<Task> { ... }
 | "Internal APIs don't need contracts" | Internal consumers are still consumers. Contracts prevent coupling and enable parallel work. |
 
 ## Red Flags
+- Response shapes that vary based on internal state (not client-visible conditions)
+- Endpoints that require clients to make multiple calls for a single user action
+- Breaking changes shipped without a migration guide
+- APIs that return raw database errors to clients
+- No rate limiting on mutation endpoints
 
 - Endpoints that return different shapes depending on conditions
 - Inconsistent error formats across endpoints
@@ -285,7 +290,17 @@ function getTask(id: TaskId): Promise<Task> { ... }
 - Verbs in REST URLs (`/api/createTask`, `/api/getUsers`)
 - Third-party API responses used without validation or sanitization
 
+## See Also
+
+- [security-and-hardening](skills/security-and-hardening/SKILL.md)
+- [test-driven-development](skills/test-driven-development/SKILL.md)
+- [documentation-and-adrs](skills/documentation-and-adrs/SKILL.md)
+
+
 ## Verification
+- [ ] API can be consumed without reading implementation code
+- [ ] Breaking change assessment completed (who is affected, what breaks)
+- [ ] Backward compatibility verified against existing consumers
 
 After designing an API:
 

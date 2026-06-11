@@ -199,6 +199,11 @@ Two questions in, the agent has discovered the actual ask isn't "a dashboard." I
 | "The user said yes, we're done" | If the yes followed a vague restate or an open-ended "sounds good," the yes is hollow. Restate concretely and re-confirm. |
 
 ## Red Flags
+- Accepting vague requirements without asking clarifying questions
+- Assuming the user wants what they asked for (solutions, not problems)
+- Not surfacing implicit constraints (budget, timeline, team size)
+- Skipping the interview because "we already know what to build"
+- Asking leading questions that confirm your assumptions
 
 - Three or more questions in a single message: that's batching, not interviewing
 - A question without your hypothesis attached: that's surveying, not committing
@@ -211,7 +216,18 @@ Two questions in, the agent has discovered the actual ask isn't "a dashboard." I
 - Saving the intent doc before the user has confirmed (the doc itself implies a yes the user didn't give)
 - Skipping the "Out of scope" line in the restate (silent disagreement about non-goals is half of misalignment)
 
+## See Also
+
+- [idea-refine](skills/idea-refine/SKILL.md)
+- [spec-driven-development](skills/spec-driven-development/SKILL.md)
+- [context-engineering](skills/context-engineering/SKILL.md)
+
+
 ## Verification
+- [ ] Requirements are specific enough to write acceptance criteria
+- [ ] At least one implicit assumption was surfaced and validated
+- [ ] Success criteria are defined in measurable terms
+- [ ] Constraints (budget, timeline, team) are documented
 
 After applying interview-me:
 

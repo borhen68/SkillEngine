@@ -186,6 +186,11 @@ The spec is a living document, not a one-time artifact:
 | "The user knows what they want" | Even clear requests have implicit assumptions. The spec surfaces those assumptions. |
 
 ## Red Flags
+- Spec written after implementation (post-hoc rationalization)
+- Spec that is just a list of features (no user journeys or edge cases)
+- Spec missing acceptance criteria (how do we know it is done?)
+- Spec with no non-functional requirements (performance, security, accessibility)
+- Spec that assumes perfect conditions (no error handling defined)
 
 - Starting to write code without any written requirements
 - Asking "should I just start building?" before clarifying what "done" means
@@ -193,7 +198,18 @@ The spec is a living document, not a one-time artifact:
 - Making architectural decisions without documenting them
 - Skipping the spec because "it's obvious what to build"
 
+## See Also
+
+- [planning-and-task-breakdown](skills/planning-and-task-breakdown/SKILL.md)
+- [test-driven-development](skills/test-driven-development/SKILL.md)
+- [api-and-interface-design](skills/api-and-interface-design/SKILL.md)
+
+
 ## Verification
+- [ ] Spec reviewed by someone who will implement it (feasibility check)
+- [ ] Every requirement has acceptance criteria
+- [ ] Edge cases and error paths are documented
+- [ ] Spec is versioned and changes are tracked
 
 Before proceeding to implementation, confirm:
 

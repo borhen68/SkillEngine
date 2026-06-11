@@ -302,6 +302,9 @@ Part of code review is dependency review:
 - [ ] Pagination on list endpoints
 
 ### Verification
+- [ ] Reviewer can explain the change to a third party without looking at the code
+- [ ] At least one question was asked (not just approvals)
+- [ ] Security implications explicitly considered
 - [ ] Tests pass
 - [ ] Build succeeds
 - [ ] Manual verification done (if applicable)
@@ -326,6 +329,11 @@ Part of code review is dependency review:
 | "The tests pass, so it's good" | Tests are necessary but not sufficient. They don't catch architecture problems, security issues, or readability concerns. |
 
 ## Red Flags
+- Approving without reading the code ("LGTM" reflex)
+- Reviewing style instead of architecture (nitpicks on formatting, missing the design flaw)
+- Not questioning whether the feature should exist at all
+- Missing security or performance checks in review
+- Review comments that are vague ("this seems off" without explaining why)
 
 - PRs merged without any review
 - Review that only checks if tests pass (ignoring other axes)

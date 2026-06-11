@@ -311,6 +311,11 @@ function UserBadge({ user }: Props) {
 | "I'll refactor while adding this feature" | Separate refactoring from feature work. Mixed changes are harder to review, revert, and understand in history. |
 
 ## Red Flags
+- Simplifying without understanding why the complexity existed
+- Removing "unused" code that is actually part of a feature flag path
+- Replacing explicit code with "clever" one-liners
+- Simplifying for fewer lines at the cost of readability
+- Removing tests because "the code is simpler now"
 
 - Simplification that requires modifying tests to pass (you likely changed behavior)
 - "Simplified" code that is longer and harder to follow than the original
@@ -320,7 +325,18 @@ function UserBadge({ user }: Props) {
 - Batching many simplifications into one large, hard-to-review commit
 - Refactoring code outside the scope of the current task without being asked
 
+## See Also
+
+- [code-review-and-quality](skills/code-review-and-quality/SKILL.md)
+- [test-driven-development](skills/test-driven-development/SKILL.md)
+- [incremental-implementation](skills/incremental-implementation/SKILL.md)
+
+
 ## Verification
+- [ ] All existing tests still pass after simplification
+- [ ] New team member understands the simplified code faster than the original
+- [ ] No behavior changes (verified by tests and/or diff review)
+- [ ] Simplification is justified (what complexity was removed and why)
 
 After completing a simplification pass:
 

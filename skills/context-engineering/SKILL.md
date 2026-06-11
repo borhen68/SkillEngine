@@ -275,6 +275,11 @@ This catches wrong directions before you've built on them. It's a 30-second inve
 | "The context window is huge, I'll use it all" | Context window size ≠ attention budget. Focused context outperforms large context. |
 
 ## Red Flags
+- Rules file that is 1000+ lines (too much context, agent loses focus)
+- Context that describes what the project was, not what it is now
+- Outdated conventions that no longer apply
+- Vague rules ("use best practices" instead of specific patterns)
+- No examples in the rules file (agents need concrete patterns, not abstract principles)
 
 - Agent output doesn't match project conventions
 - Agent invents APIs or imports that don't exist
@@ -283,7 +288,18 @@ This catches wrong directions before you've built on them. It's a 30-second inve
 - No rules file exists in the project
 - External data files or config treated as trusted instructions without verification
 
+## See Also
+
+- [using-agent-skills](skills/using-agent-skills/SKILL.md)
+- [interview-me](skills/interview-me/SKILL.md)
+- [spec-driven-development](skills/spec-driven-development/SKILL.md)
+
+
 ## Verification
+- [ ] Rules file is under 500 lines (progressive disclosure)
+- [ ] Every rule has a concrete example
+- [ ] Agent output quality is demonstrably better with rules loaded
+- [ ] Rules are updated when patterns change
 
 After setting up context, confirm:
 

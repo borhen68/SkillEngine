@@ -165,6 +165,13 @@ Read `examples.md` in this skill directory for examples of what great ideation s
 - Ignoring existing codebase constraints when ideating inside a project
 - Jumping straight to Phase 3 output without running Phases 1 and 2
 
+## See Also
+
+- [interview-me](skills/interview-me/SKILL.md)
+- [spec-driven-development](skills/spec-driven-development/SKILL.md)
+- [planning-and-task-breakdown](skills/planning-and-task-breakdown/SKILL.md)
+
+
 ## Verification
 
 After completing an ideation session:

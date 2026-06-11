@@ -438,6 +438,12 @@ For detailed security checklists and pre-commit verification steps, see `referen
 | "It's just LLM output, it's only text" | That "text" can be a SQL statement, a script tag, or a shell command. Treat it like any untrusted input. |
 
 ## Red Flags
+- Secrets in code, logs, or error messages
+- User input used in SQL/NoSQL queries without parameterization
+- Authentication checks missing from "internal" endpoints
+- File uploads without type/extension validation
+- CORS configured as "allow all" in production
+- JWT tokens without expiry or refresh mechanism
 
 - User input passed directly to database queries, shell commands, or HTML rendering
 - Secrets in source code or commit history
@@ -451,6 +457,11 @@ For detailed security checklists and pre-commit verification steps, see `referen
 - Secrets, PII, or the full system prompt placed inside an LLM context window
 
 ## Verification
+- [ ] All user inputs validated at system boundaries
+- [ ] No secrets in code (use environment variables or secrets manager)
+- [ ] Authentication enforced on every endpoint that returns data
+- [ ] Security headers present (CSP, HSTS, X-Frame-Options)
+- [ ] OWASP Top 10 reviewed against the feature
 
 After implementing security-relevant code:
 

@@ -187,6 +187,11 @@ Zombie code is code that nobody owns but everybody depends on. It's not actively
 | "We can maintain both systems indefinitely" | Two systems doing the same thing is double the maintenance, testing, documentation, and onboarding cost. |
 
 ## Red Flags
+- Removing a feature without notifying users
+- Deprecating without providing a replacement path
+- Migration timeline that is "ASAP" (no grace period)
+- Breaking changes shipped without a migration guide
+- Keeping deprecated code forever (zombie code accumulation)
 
 - Deprecated systems with no replacement available
 - Deprecation announcements with no migration tooling or documentation
@@ -196,7 +201,18 @@ Zombie code is code that nobody owns but everybody depends on. It's not actively
 - Deprecation without measuring current usage
 - Removing code without verifying zero active consumers
 
+## See Also
+
+- [shipping-and-launch](skills/shipping-and-launch/SKILL.md)
+- [git-workflow-and-versioning](skills/git-workflow-and-versioning/SKILL.md)
+- [documentation-and-adrs](skills/documentation-and-adrs/SKILL.md)
+
+
 ## Verification
+- [ ] Users have a documented migration path
+- [ ] Timeline communicated clearly (deprecation date, removal date)
+- [ ] Analytics confirm low usage before removal
+- [ ] Rollback plan exists if migration causes issues
 
 After completing a deprecation:
 

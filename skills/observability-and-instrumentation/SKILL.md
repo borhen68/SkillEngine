@@ -180,6 +180,11 @@ Instrumentation is code; it can be wrong. Before calling the work done, trigger 
 | "Tracing is overkill for our two services" | Two services already means cross-service latency questions logs can't answer. Auto-instrumentation makes the cost trivial. |
 
 ## Red Flags
+- Logs that contain PII or secrets
+- Metrics with no alert thresholds defined
+- Alerts that fire too often (alert fatigue)
+- No correlation ID across service boundaries
+- Dashboards that nobody looks at
 
 - A feature PR with retries, queues, or external calls and zero new telemetry
 - Log lines built by string interpolation instead of structured fields
@@ -191,7 +196,18 @@ Instrumentation is code; it can be wrong. Before calling the work done, trigger 
 - Secrets, tokens, or full request bodies appearing in logs
 - "It works on my machine" as the only evidence a production feature is healthy
 
+## See Also
+
+- [shipping-and-launch](skills/shipping-and-launch/SKILL.md)
+- [debugging-and-error-recovery](skills/debugging-and-error-recovery/SKILL.md)
+- [performance-optimization](skills/performance-optimization/SKILL.md)
+
+
 ## Verification
+- [ ] Every critical path has at least one metric and one alert
+- [ ] Alert thresholds are documented (why this number?)
+- [ ] Logs do not contain sensitive data
+- [ ] On-call engineer can diagnose the issue without reading code
 
 After instrumenting a feature, confirm:
 

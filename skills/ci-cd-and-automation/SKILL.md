@@ -368,6 +368,11 @@ jobs:
 | "Manual testing is enough" | Manual testing doesn't scale and isn't repeatable. Automate what you can. |
 
 ## Red Flags
+- CI that passes when tests are skipped
+- Secrets in CI config files (GitHub Actions yaml with hardcoded tokens)
+- CI that takes longer than 15 minutes (feedback loop too slow)
+- Only running CI on main, not on PRs
+- Deployment pipeline with no rollback stage
 
 - No CI pipeline in the project
 - CI failures ignored or silenced
@@ -377,7 +382,18 @@ jobs:
 - Secrets stored in code or CI config files (not secrets manager)
 - Long CI times with no optimization effort
 
+## See Also
+
+- [test-driven-development](skills/test-driven-development/SKILL.md)
+- [shipping-and-launch](skills/shipping-and-launch/SKILL.md)
+- [git-workflow-and-versioning](skills/git-workflow-and-versioning/SKILL.md)
+
+
 ## Verification
+- [ ] Pipeline runs in under 10 minutes for the full test suite
+- [ ] Every PR triggers CI before merge is allowed
+- [ ] Failed pipeline blocks deployment automatically
+- [ ] Secrets are injected by the CI system, not stored in code
 
 After setting up or modifying CI:
 
