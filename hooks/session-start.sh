@@ -1,5 +1,5 @@
 #!/bin/bash
-# agent-skills session start hook — GOD-TIER EDITION
+# AgentForge session start hook
 # Injects the using-agent-skills meta-skill into every new session
 #
 # Features:
@@ -20,7 +20,7 @@ readonly MAX_PAYLOAD_SIZE=64000  # ~16K tokens — safe ceiling for most context
 
 # ─── Helpers ─────────────────────────────────────────────────────────────────
 
-log_debug() { printf '[agent-skills:session-start] %s\n' "$*" >&2; }
+log_debug() { printf '[agentforge:session-start] %s\n' "$*" >&2; }
 
 emit_json() {
   local priority="$1"
@@ -45,7 +45,7 @@ emit_json() {
 
 if ! command -v jq >/dev/null 2>&1; then
   emit_json "INFO" \
-    "agent-skills: jq is required for the session-start hook but was not found on PATH. Install jq (e.g. 'brew install jq' or 'apt-get install jq') to enable meta-skill injection. Skills remain available individually."
+    "AgentForge: jq is required for the session-start hook but was not found on PATH. Install jq (e.g. 'brew install jq' or 'apt-get install jq') to enable meta-skill injection. Skills remain available individually."
   exit 0
 fi
 
@@ -53,7 +53,7 @@ fi
 
 if [ ! -f "$META_SKILL" ]; then
   emit_json "INFO" \
-    "agent-skills: using-agent-skills meta-skill not found at $META_SKILL. Skills may still be available individually."
+    "AgentForge: using-agent-skills meta-skill not found at $META_SKILL. Skills may still be available individually."
   exit 0
 fi
 
@@ -70,7 +70,7 @@ if [ "$CONTENT_LEN" -gt "$MAX_PAYLOAD_SIZE" ]; then
 fi
 
 PAYLOAD=$(jq -cn \
-  --arg message "agent-skills v$(git -C "$(dirname "$SCRIPT_DIR")" describe --tags --always 2>/dev/null || echo 'dev') loaded. $(date -u +%Y-%m-%d) build. Use the skill discovery flowchart to find the right skill for your task.
+  --arg message "AgentForge v$(git -C "$(dirname "$SCRIPT_DIR")" describe --tags --always 2>/dev/null || echo 'dev') loaded. $(date -u +%Y-%m-%d) build. Use the skill discovery flowchart to find the right skill for your task.
 
 $CONTENT" \
   '{priority: "IMPORTANT", message: $message}')

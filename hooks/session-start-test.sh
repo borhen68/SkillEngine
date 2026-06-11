@@ -25,7 +25,7 @@ if (hasJq) {
     throw new Error(`expected IMPORTANT priority, got ${payload.priority}`);
   }
 
-  if (!payload.message.includes('agent-skills loaded.')) {
+  if (!payload.message.includes('AgentForge')) {
     throw new Error('message is missing startup preface');
   }
 
