@@ -29,8 +29,8 @@ if (hasJq) {
     throw new Error('message is missing startup preface');
   }
 
-  if (!payload.message.includes('# Using Agent Skills')) {
-    throw new Error('message is missing using-agent-skills content');
+  if (!payload.message.includes('# Using AgentForge')) {
+    throw new Error('message is missing using-agentforge content');
   }
 } else {
   if (payload.priority !== 'INFO') {

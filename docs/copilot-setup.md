@@ -4,7 +4,7 @@
 
 ### Copilot Instructions
 
-Copilot supports creating agent skills using a `.github/skills`, `.claude/skills`, or `.agents/skills` directory in your repository.
+Copilot supports creating AgentForge skills using a `.github/skills`, `.claude/skills`, or `.agents/skills` directory in your repository.
 
 ```bash
 mkdir -p .github

@@ -198,7 +198,7 @@ The commands above are entry points. The pack includes 28 skills total — 24 li
 
 | Skill | What It Does | Use When |
 |-------|-------------|----------|
-| [using-agent-skills](skills/using-agentforge/SKILL.md) | Maps incoming work to the right skill workflow and defines shared operating rules | Starting a session or deciding which skill applies |
+| [using-agentforge](skills/using-agent-skills/SKILL.md) | Maps incoming work to the right skill workflow and defines shared operating rules | Starting a session or deciding which skill applies |
 
 ### Define - Clarify what to build
 

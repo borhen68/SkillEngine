@@ -1,6 +1,6 @@
-# agent-skills
+# AgentForge
 
-This is the agent-skills project — a collection of production-grade engineering skills for AI coding agents.
+This is the AgentForge project — a collection of production-grade engineering skills for AI coding agents.
 
 ## Project Structure
 
