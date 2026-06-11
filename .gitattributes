@@ -1,0 +1,23 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Markdown files
+*.md text eol=lf linguist-documentation
+
+# Shell scripts
+*.sh text eol=lf
+
+# Node.js
+*.js text eol=lf
+*.json text eol=lf
+*.toml text eol=lf
+
+# YAML
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Ensure binary files are not modified
+*.zip binary
+*.png binary
+*.jpg binary
+*.gif binary

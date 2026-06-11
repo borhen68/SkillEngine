@@ -1,0 +1,44 @@
+# markdownlint-cli2 configuration for agent-skills
+# Disables rules that conflict with skill-anatomy.md format requirements
+
+config:
+  # Allow headings to have trailing punctuation (skills use this)
+  heading-style: false
+  
+  # Allow inline HTML (used for diagrams, details elements)
+  no-inline-html: false
+  
+  # Allow bare URLs (skills reference external resources)
+  no-bare-urls: false
+  
+  # Allow emphasis as heading (skills use bold for emphasis)
+  no-emphasis-as-heading: false
+  
+  # Line length — skills can have long lines in tables/code blocks
+  line-length:
+    line_length: 200
+    heading_line_length: 120
+    code_block_line_length: 200
+    tables: false
+  
+  # Allow duplicate headings (skills have consistent section names)
+  no-duplicate-heading: false
+  
+  # Allow trailing spaces in tables (markdown tables need them)
+  no-trailing-spaces: false
+  
+  # First line should not be a top-level heading (skills have frontmatter)
+  first-line-heading: false
+  
+  # Fenced code blocks should have a language
+  fenced-code-language: true
+  
+  # Allow trailing punctuation in headings
+  no-trailing-punctuation:
+    punctuation: ".,;:"
+
+globs:
+  - "skills/**/*.md"
+  - "agents/**/*.md"
+  - "references/**/*.md"
+  - "docs/**/*.md"

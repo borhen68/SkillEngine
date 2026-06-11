@@ -1,0 +1,44 @@
+{
+  "name": "agentforge",
+  "version": "1.0.0",
+  "description": "Forge production-grade AI agents with battle-tested engineering skills",
+  "private": true,
+  "scripts": {
+    "test": "npm run validate && npm run lint:md && npm run test:hooks && npm run quality:cross-skill && npm run quality:agents",
+    "validate": "node scripts/validate-skills.js",
+    "validate:strict": "node scripts/validate-skills.js --strict",
+    "validate:fix": "node scripts/validate-skills.js --fix",
+    "lint:md": "markdownlint-cli2 'skills/**/*.md' 'agents/**/*.md' 'references/**/*.md' 'docs/**/*.md' 'hooks/**/*.md'",
+    "lint:md:fix": "markdownlint-cli2 --fix 'skills/**/*.md' 'agents/**/*.md' 'references/**/*.md' 'docs/**/*.md' 'hooks/**/*.md'",
+    "lint:scripts": "shellcheck hooks/*.sh",
+    "test:hooks": "bash hooks/session-start-test.sh && bash hooks/simplify-ignore-test.sh",
+    "quality:cross-skill": "node scripts/quality-gate.js",
+    "quality:agents": "node scripts/validate-agents.js",
+    "quality:report": "node scripts/quality-gate.js --report",
+    "build:packages": "node scripts/build-packages.js",
+    "ci": "npm run validate:strict && npm run lint:md && npm run test:hooks && npm run quality:cross-skill && npm run quality:agents",
+    "precommit": "npm run ci",
+    "stats": "node scripts/project-stats.js"
+  },
+  "devDependencies": {
+    "markdownlint-cli2": "^0.13.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/borhen68/agentforge.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "ai",
+    "agent",
+    "skills",
+    "claude",
+    "cursor",
+    "engineering",
+    "workflow",
+    "best-practices"
+  ]
+}

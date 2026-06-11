@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "borhen-agentforge",
+  "description": "Production-grade engineering skills for AI coding agents — covering the full software development lifecycle from spec to ship.",
+  "owner": {
+    "name": "Borhen Saidi",
+    "url": "https://github.com/borhen68"
+  },
+  "plugins": [
+    {
+      "name": "agentforge",
+      "source": {
+        "source": "github",
+        "repo": "borhen68/agentforge"
+      },
+      "description": "Production-grade engineering skills covering every phase of software development: spec, plan, build, verify, review, and ship.",
+      "homepage": "https://github.com/borhen68/agentforge",
+      "license": "MIT",
+      "keywords": ["skills", "agents", "engineering", "spec", "tdd", "review", "ship"]
+    }
+  ]
+}
