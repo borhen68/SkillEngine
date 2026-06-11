@@ -12,6 +12,10 @@
 
 *28 battle-tested skills. 6 specialist personas. 5 reference checklists. One mission: make AI agents build software like senior engineers.*
 
+<p align="center">
+  <img src="assets/agentforge-banner.jpg" alt="AgentForge — Structured engineering workflows for AI agents" width="100%">
+</p>
+
 </div>
 
 ---
