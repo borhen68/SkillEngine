@@ -14,13 +14,14 @@
 const fs   = require('fs');
 const path = require('path');
 
+// ─── Shared Utilities ──────────────────────────────────────────────────────
+
+const {
+  C, parseFrontmatter, readFileSafe,
+} = require('./lib/utils');
+
 const AGENTS_DIR = path.resolve(__dirname, '..', 'agents');
 const SKILLS_DIR = path.resolve(__dirname, '..', 'skills');
-
-const C = {
-  reset: '\x1b[0m', bold: '\x1b[1m', red: '\x1b[31m',
-  green: '\x1b[32m', yellow: '\x1b[33m', cyan: '\x1b[36m',
-};
 
 function getKnownSkills() {
   if (!fs.existsSync(SKILLS_DIR)) return new Set();
@@ -28,20 +29,6 @@ function getKnownSkills() {
     fs.readdirSync(SKILLS_DIR)
       .filter(d => fs.statSync(path.join(SKILLS_DIR, d)).isDirectory())
   );
-}
-
-function parseFrontmatter(content) {
-  const match = content.match(/^---[ \t]*\r?\n([\s\S]*?)\r?\n---[ \t]*\r?\n/);
-  if (!match) return null;
-  const result = {};
-  for (const line of match[1].split(/\r?\n/)) {
-    const idx = line.indexOf(':');
-    if (idx === -1) continue;
-    const key = line.slice(0, idx).trim();
-    const value = line.slice(idx + 1).trim().replace(/^['"]|['"]$/g, '');
-    if (key) result[key] = value;
-  }
-  return result;
 }
 
 function validateAgent(fileName, knownSkills) {
@@ -88,7 +75,7 @@ function main() {
   }
 
   const agentFiles = fs.readdirSync(AGENTS_DIR)
-    .filter(f => f.endsWith('.md'))
+    .filter(f => f.endsWith('.md') && f !== 'README.md')
     .sort();
 
   const knownSkills = getKnownSkills();

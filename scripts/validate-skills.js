@@ -31,6 +31,13 @@
 const fs   = require('fs');
 const path = require('path');
 
+// ─── Shared Utilities ──────────────────────────────────────────────────────
+
+const {
+  C, ICONS, parseFrontmatter, readFileSafe,
+  extractMarkdownLinks, estimateTokens, countLines,
+} = require('./lib/utils');
+
 // ─── Config ──────────────────────────────────────────────────────────────────
 
 const SKILLS_DIR = path.resolve(__dirname, '..', 'skills');
@@ -103,44 +110,12 @@ const SKILL_REF_PATTERNS = [
 // Markdown link pattern for internal references
 const MD_LINK_PATTERN = /\[([^\]]+)\]\(([^)]+)\)/g;
 
-// ─── Terminal Colors ─────────────────────────────────────────────────────────
-
-const C = {
-  reset:   '\x1b[0m',
-  bold:    '\x1b[1m',
-  red:     '\x1b[31m',
-  green:   '\x1b[32m',
-  yellow:  '\x1b[33m',
-  blue:    '\x1b[34m',
-  magenta: '\x1b[35m',
-  cyan:    '\x1b[36m',
-  gray:    '\x1b[90m',
-};
-
-const ICONS = {
-  pass:    `${C.green}✓${C.reset}`,
-  fail:    `${C.red}✗${C.reset}`,
-  warn:    `${C.yellow}⚠${C.reset}`,
-  info:    `${C.blue}ℹ${C.reset}`,
-  star:    `${C.magenta}★${C.reset}`,
-  bullet:  `${C.gray}•${C.reset}`,
-};
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function parseFrontmatter(content) {
-  const match = content.match(/^---[ \t]*\r?\n([\s\S]*?)\r?\n---[ \t]*\r?\n/);
-  if (!match) return null;
 
-  const result = {};
-  for (const line of match[1].split(/\r?\n/)) {
-    const colonIdx = line.indexOf(':');
-    if (colonIdx === -1) continue;
-    const key   = line.slice(0, colonIdx).trim();
-    const value = line.slice(colonIdx + 1).trim().replace(/^['"]|['"]$/g, '');
-    if (key) result[key] = value;
-  }
-  return result;
+function countLinesInContent(content) {
+  return content.split(/\r?\n/).length;
 }
 
 function extractSkillReferences(content) {
@@ -155,24 +130,7 @@ function extractSkillReferences(content) {
   return refs;
 }
 
-function countLines(content) {
-  return content.split(/\r?\n/).length;
-}
 
-function estimateTokens(content) {
-  // Rough estimate: ~4 chars per token for English text
-  return Math.ceil(content.length / 4);
-}
-
-function extractMarkdownLinks(content) {
-  const links = [];
-  let m;
-  const pattern = new RegExp(MD_LINK_PATTERN.source, 'g');
-  while ((m = pattern.exec(content)) !== null) {
-    links.push({ text: m[1], href: m[2] });
-  }
-  return links;
-}
 
 function validateInternalLink(href, skillDir, knownSkills) {
   // Skip external URLs and anchors-only
@@ -215,7 +173,8 @@ function checkDescriptionQuality(description) {
 function checkCodeBlockQuality(content) {
   const issues = [];
   // Check for code blocks without language specifiers
-  const unlabeledBlocks = content.match(/\n```\n[\s\S]*?\n```/g);
+  // Use negative lookbehind to avoid matching ```text (already fixed)
+  const unlabeledBlocks = content.match(/\n```(?!text)\n[\s\S]*?\n```/g);
   if (unlabeledBlocks) {
     issues.push(`${unlabeledBlocks.length} code block(s) missing language specifier`);
   }
@@ -252,7 +211,7 @@ function validateSkill(dirName, knownSkills, allSkillNames) {
   }
 
   const content = fs.readFileSync(skillPath, 'utf8');
-  const lines   = countLines(content);
+  const lines   = countLinesInContent(content);
   const tokens  = estimateTokens(content);
 
   // ── Frontmatter ──────────────────────────────────────────────────────────

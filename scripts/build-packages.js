@@ -10,13 +10,13 @@
 
 const fs   = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const { spawnSync } = require('child_process');
 
 const SKILLS_DIR = path.resolve(__dirname, '..', 'skills');
 
 const C = {
   reset: '\x1b[0m', bold: '\x1b[1m', green: '\x1b[32m',
-  yellow: '\x1b[33m', blue: '\x1b[34m', gray: '\x1b[90m',
+  red: '\x1b[31m', yellow: '\x1b[33m', blue: '\x1b[34m', gray: '\x1b[90m',
 };
 
 function getMtime(filePath) {
@@ -63,8 +63,15 @@ function buildPackage(skillName) {
   }
 
   try {
-    const cmd = `cd "${SKILLS_DIR}" && zip -r "${skillName}.zip" "${skillName}/" -x "*.DS_Store" -x "*.git*"`;
-    execSync(cmd, { stdio: 'pipe' });
+    const result = spawnSync('zip', [
+      '-r', `${skillName}.zip`, `${skillName}/`,
+      '-x', '*.DS_Store', '-x', '*.git*',
+    ], { cwd: SKILLS_DIR, stdio: 'pipe' });
+
+    if (result.status !== 0) {
+      const errMsg = result.stderr ? result.stderr.toString() : 'zip failed';
+      return { status: 'error', reason: errMsg };
+    }
     return { status: 'built', reason: 'rebuilt from source' };
   } catch (err) {
     return { status: 'error', reason: err.message };

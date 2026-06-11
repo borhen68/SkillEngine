@@ -19,6 +19,12 @@
 const fs   = require('fs');
 const path = require('path');
 
+// ─── Shared Utilities ──────────────────────────────────────────────────────
+
+const {
+  C, parseFrontmatter, readFileSafe,
+} = require('./lib/utils');
+
 const ROOT_DIR     = path.resolve(__dirname, '..');
 const SKILLS_DIR   = path.join(ROOT_DIR, 'skills');
 const AGENTS_DIR   = path.join(ROOT_DIR, 'agents');
@@ -26,16 +32,6 @@ const REFS_DIR     = path.join(ROOT_DIR, 'references');
 const COMMANDS_DIR = path.join(ROOT_DIR, 'commands');
 const HOOKS_DIR    = path.join(ROOT_DIR, 'hooks');
 
-const C = {
-  reset:   '\x1b[0m',
-  bold:    '\x1b[1m',
-  red:     '\x1b[31m',
-  green:   '\x1b[32m',
-  yellow:  '\x1b[33m',
-  blue:    '\x1b[34m',
-  cyan:    '\x1b[36m',
-  gray:    '\x1b[90m',
-};
 
 // ─── Loaders ─────────────────────────────────────────────────────────────────
 
@@ -52,19 +48,6 @@ function readSkillContent(dirName) {
   return fs.readFileSync(p, 'utf8');
 }
 
-function parseFrontmatter(content) {
-  const match = content.match(/^---[ \t]*\r?\n([\s\S]*?)\r?\n---[ \t]*\r?\n/);
-  if (!match) return {};
-  const result = {};
-  for (const line of match[1].split(/\r?\n/)) {
-    const idx = line.indexOf(':');
-    if (idx === -1) continue;
-    const key = line.slice(0, idx).trim();
-    const value = line.slice(idx + 1).trim().replace(/^['"]|['"]$/g, '');
-    if (key) result[key] = value;
-  }
-  return result;
-}
 
 // ─── Checks ──────────────────────────────────────────────────────────────────
 
