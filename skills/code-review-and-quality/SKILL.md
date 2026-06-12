@@ -1,6 +1,6 @@
 ---
 name: code-review-and-quality
-description: Conducts multi-axis code review. Use before merging any change. Use when reviewing code written by yourself, another agent, or a human. Use when you need to assess code quality across multiple dimensions before it enters the main branch.
+description: Conducts multi-axis code review with hard rules against rubber-stamping and diff-only tunnel vision. Use before merging any change, whether written by yourself, another agent, or a human. Triggers on "review this", "is this ready to merge", or any completed implementation awaiting approval.
 ---
 
 # Code Review and Quality
@@ -19,6 +19,23 @@ change because it isn't exactly how you would have written it. If it improves th
 - When another agent or model produced code you need to evaluate
 - When refactoring existing code
 - After any bug fix (review both the fix and the regression test)
+
+## Iron Rules
+
+These target the review failure modes specific to AI agents. Each is absolute.
+
+1. **No approval without evidence of review.** "LGTM, clean implementation" is a rubber stamp.
+   An approval must state what was checked per axis and what was found — including "checked X, found nothing" — or it didn't happen.
+2. **Review the blast radius, not just the diff.** Changed lines are where bugs are born; unchanged callers are where they detonate.
+   For every modified public function, type, or contract, trace at least its direct callers before approving.
+3. **Every finding needs location, severity, and a concrete fix.** "Consider improving error handling" is noise.
+   "`src/api/tasks.ts:42` — Critical: `deleteTask` swallows the DB error and returns 200; propagate and map to 500" is a review.
+4. **Verify claims, don't inherit them.** "Tests pass" in a PR description is a claim. Check the CI run or run them yourself.
+   Authors — human or agent — report what they believe, not what is true.
+5. **Sycophancy is a review defect.** If the approach has a problem, say so directly with reasoning, even when the author is the user.
+   A polite review that withholds a known issue is worse than no review.
+
+See [examples.md](examples.md) for before/after sessions showing each rule preventing a real failure.
 
 ## The Five-Axis Review
 

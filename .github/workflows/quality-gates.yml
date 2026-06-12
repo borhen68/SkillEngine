@@ -58,6 +58,9 @@ jobs:
       - name: Lint all markdown (blocks broken fences, malformed lists, missing languages)
         run: npm run lint:md
 
+      - name: Validate eval scenarios
+        run: npm run validate:evals
+
   # ─── Gate 2: Cross-Skill Consistency ───────────────────────────────────────
   quality-gates:
     name: Cross-Skill Consistency

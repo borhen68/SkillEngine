@@ -1,6 +1,6 @@
 ---
 name: spec-driven-development
-description: Creates specs before coding. Use when starting a new project, feature, or significant change and no specification exists yet. Use when requirements are unclear, ambiguous, or only exist as a vague idea.
+description: Creates specs before coding, with hard rules against silently filled assumptions and untestable success criteria. Use when starting a new project, feature, or significant change and no specification exists yet. Triggers on "build me", "create a", "add a feature", or any requirement vague enough to need interpretation.
 ---
 
 # Spec-Driven Development
@@ -25,6 +25,23 @@ users.
 - The task would take more than 30 minutes to implement
 
 **When NOT to use:** Single-line fixes, typo corrections, or changes where requirements are unambiguous and self-contained.
+
+## Iron Rules
+
+These target the specification failure modes specific to AI agents. Each is absolute.
+
+1. **Never fill a gap silently.** Every requirement the user didn't state but the implementation needs is an assumption — list each one and get a reaction before it hardens into code.
+   The gaps are where the real requirements live.
+2. **A spec must be disagreeable.** If the spec only paraphrases the request back in more words, it's spec theater.
+   A real spec contains decisions the user *could object to* — chosen trade-offs, named non-goals, explicit exclusions. No possible objection means no decision was made.
+3. **Untestable criteria are not criteria.** "Fast", "intuitive", "robust" cannot fail, so they cannot gate anything.
+   Every success criterion needs a number, a command, or an observable behavior that a third party could check without asking you.
+4. **Gates need an explicit yes.** "Sounds good", "sure", or silence is not approval — re-ask, offering something concrete to disagree with.
+   Code written past an unconfirmed gate is expensive guessing with a spec-shaped fig leaf.
+5. **Discovering means re-specifying, not improvising.** When implementation reveals the spec is wrong, stop. Update the spec, get it re-approved, then continue.
+   Silent divergence makes the spec a lie and every future decision built on it wrong.
+
+See [examples.md](examples.md) for before/after sessions showing each rule preventing a real failure.
 
 ## The Gated Workflow
 

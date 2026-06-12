@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- **Iron Rules + before/after examples for 5 flagship skills:**
+  - `test-driven-development`, `debugging-and-error-recovery`, `code-review-and-quality`,
+    `spec-driven-development`, `security-and-hardening` each gain an Iron Rules section
+    targeting agent-specific failure modes, plus a full `examples.md` with before/after sessions
+- **Eval harness (`evals/`):** reproducible scenarios with scoring rubrics that measure whether a
+  skill actually changes agent behavior (baseline vs with-skill), validated by
+  `scripts/validate-evals.js` in CI
+
+### Fixed
+- Repaired 261 broken CommonMark code fences (closing fences carried info strings, causing
+  entire skill sections to render as code blocks on GitHub)
+- `validate-skills.js` now tracks fence open/close state and flags labeled closing fences,
+  closing the gap that masked the rendering bug
+- Markdownlint is now a blocking CI gate; 419 pre-existing violations resolved
+- Corrected README/AGENTS.md inconsistencies (persona count, directory names, command counts)
 - **New skills:**
   - `chaos-engineering` — Systematic fault injection and resilience testing
   - `cost-optimization` — Cloud spend reduction without sacrificing reliability
@@ -15,7 +30,7 @@ All notable changes to this project will be documented in this file.
 - **New reference:**
   - `reliability-checklist.md` — Pre-production checklist for operational readiness
 - **Infrastructure & tooling:**
-  - God-tier validation engine (`scripts/validate-skills.js`) with token estimation, description quality checks, link validation, and code block analysis
+  - Validation engine (`scripts/validate-skills.js`) with token estimation, description quality checks, link validation, and code block analysis
   - Cross-skill quality gate (`scripts/quality-gate.js`) enforcing consistency across all skills
   - Agent persona validator (`scripts/validate-agents.js`)
   - Skill package builder (`scripts/build-packages.js`) with incremental rebuilds

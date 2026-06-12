@@ -42,3 +42,4 @@ globs:
   - "agents/**/*.md"
   - "references/**/*.md"
   - "docs/**/*.md"
+  - "evals/**/*.md"

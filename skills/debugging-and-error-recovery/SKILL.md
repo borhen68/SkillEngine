@@ -1,6 +1,6 @@
 ---
 name: debugging-and-error-recovery
-description: Guides systematic root-cause debugging. Use when tests fail, builds break, behavior doesn't match expectations, or you encounter any unexpected error. Use when you need a systematic approach to finding and fixing the root cause rather than guessing.
+description: Guides systematic root-cause debugging with hard rules against guess-fixes and symptom suppression. Use when tests fail, builds break, behavior doesn't match expectations, or you encounter any unexpected error. Triggers on "this is broken", "tests are failing", "why doesn't this work", or any error output.
 ---
 
 # Debugging and Error Recovery
@@ -39,6 +39,20 @@ When anything unexpected happens:
 ```
 
 **Don't push past a failing test or broken build to work on the next feature.** Errors compound. A bug in Step 3 that goes unfixed makes Steps 4-10 wrong.
+
+## Iron Rules
+
+These target the debugging failure modes specific to AI agents. Each is absolute — no time pressure overrides them.
+
+1. **No fix before a reproduction.** A plausible diagnosis is a hypothesis, not a finding. If you can't make the failure happen on demand, you can't know your fix works — you can only hope.
+2. **Change one variable at a time.** If you changed three things and the bug disappeared, you don't have a fix — you have two unnecessary changes and an unverified guess. Revert and isolate.
+3. **Never suppress the signal.** Wrapping in try/catch, increasing a timeout, adding a retry, or loosening a check to make an error disappear is symptom suppression, not a fix.
+   Each of these is only valid when you can state *why* the underlying cause makes it the correct response.
+4. **"It works now" without "because" is not fixed.** If you can't explain in one sentence why it broke, the bug is still there — you've just stopped seeing it.
+   Prove causality: revert the fix, confirm the failure returns, re-apply.
+5. **Re-run the original failure, verbatim.** "This should fix it" is a prediction. The exit gate is the original failing command rerun with output showing it now passes — plus the full suite for regressions.
+
+See [examples.md](examples.md) for before/after sessions showing each rule preventing a real failure.
 
 ## The Triage Checklist
 
@@ -280,6 +294,8 @@ Add logging only when it helps. Remove it when done.
 | "It works on my machine" | Environments differ. Check CI, check config, check dependencies. |
 | "I'll fix it in the next commit" | Fix it now. The next commit will introduce new bugs on top of this one. |
 | "This is a flaky test, ignore it" | Flaky tests mask real bugs. Fix the flakiness or understand why it's intermittent. |
+| "Increasing the timeout fixed it" | The race is still there; you made it rarer and slower to debug. Find what the code is actually waiting for and wait on that. |
+| "I'll add a try/catch so it stops crashing" | The crash was the only honest signal the system had. Catch only what you can meaningfully handle, and log the rest loudly. |
 
 ## Treating Error Output as Untrusted Data
 

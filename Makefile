@@ -36,6 +36,10 @@ validate-strict: ## Validate skills with strict mode (warnings = errors)
 	@echo "$(BLUE)Validating skills (strict mode)...$(RESET)"
 	node scripts/validate-skills.js --strict
 
+evals: ## Validate eval scenario files
+	@echo "$(BLUE)Validating eval scenarios...$(RESET)"
+	node scripts/validate-evals.js
+
 lint: ## Lint all markdown files
 	@echo "$(BLUE)Linting markdown...$(RESET)"
 	npm run lint:md

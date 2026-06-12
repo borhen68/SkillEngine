@@ -2,7 +2,7 @@
 
 # AgentForge
 
-[![CI](https://github.com/borhen68/SkillEngine/actions/workflows/test-plugin-install.yml/badge.svg)](https://github.com/borhen68/SkillEngine/actions)
+[![CI](https://github.com/borhen68/SkillEngine/actions/workflows/quality-gates.yml/badge.svg)](https://github.com/borhen68/SkillEngine/actions)
 [![Skills](https://img.shields.io/badge/skills-28-blue)](skills/)
 [![Agents](https://img.shields.io/badge/agents-5-purple)](agents/)
 [![References](https://img.shields.io/badge/references-5-orange)](references/)
@@ -57,6 +57,7 @@ We don't give agents vague suggestions. We give them **structured, battle-tested
 | **Scope** | Generic coding tips | Full lifecycle: spec → plan → build → verify → review → ship → ops |
 | **Quality gates** | None | Built-in CI pipeline with 8 automated checks |
 | **Cross-reference** | Silos | Every skill references related skills; no duplication |
+| **Proof** | "Trust us" | Eval scenarios with scoring rubrics measuring baseline vs with-skill behavior ([evals/](evals/)) |
 
 ---
 
@@ -322,6 +323,20 @@ Every skill follows a consistent anatomy:
 - **Anti-rationalization.** Every skill includes a table of common excuses agents use to skip steps (e.g., "I'll add tests later") with documented counter-arguments.
 - **Verification is non-negotiable.** Every skill ends with evidence requirements - tests passing, build output, runtime data. "Seems right" is never sufficient.
 - **Progressive disclosure.** The `SKILL.md` is the entry point. Supporting references load only when needed, keeping token usage minimal.
+
+### Iron Rules and Examples
+
+Flagship skills go further. Each defines **Iron Rules** — absolute constraints targeting the failure modes specific to AI agents — and ships an `examples.md` with full before/after sessions. A taste, from `test-driven-development`:
+
+> **Without the skill:** *"The test expects 90.00 but the code returns 90.91. I'll update the assertion to match the new behavior. All tests pass now. ✓"*
+>
+> **With the skill:** *"Iron Rule 1: a failing test means the code is wrong until proven otherwise. git log shows this assertion was added in 'fix: discount must apply after tax (FINANCE-212)'. My refactor reintroduces that bug — fixing the implementation, not the test."*
+
+The difference between those two transcripts is the difference between an agent that ships regressions with a green build and one you can trust. See [skills/test-driven-development/examples.md](skills/test-driven-development/examples.md) for the full sessions.
+
+### Proving It: Evals
+
+Claims are cheap. The [evals/](evals/) directory contains reproducible scenarios — each engineered around a known agent failure mode — with rubrics for scoring the same model with and without the skill loaded. Run them against your own agent stack and see the delta yourself.
 
 ---
 
