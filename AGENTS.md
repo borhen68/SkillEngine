@@ -8,7 +8,7 @@ This document is loaded into every session. It defines the rules, the mapping fr
 
 This is not a library. It's not a framework. It's a **control system** for AI agents.
 
-AgentForge encodes the workflows, quality gates, and decision-making patterns that separate production engineering from prototyping. When an agent follows these skills, it ships code that passes review, survives incidents, and doesn't wake engineers at 3 AM.
+SkillEngine encodes the workflows, quality gates, and decision-making patterns that separate production engineering from prototyping. When an agent follows these skills, it ships code that passes review, survives incidents, and doesn't wake engineers at 3 AM.
 
 **What this repository contains:**
 - **28 skills** — step-by-step workflows with checkpoints, anti-rationalization tables, and evidence-based verification

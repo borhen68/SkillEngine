@@ -1,4 +1,4 @@
-# markdownlint-cli2 configuration for AgentForge
+# markdownlint-cli2 configuration for SkillEngine
 # Disables rules that conflict with skill-anatomy.md format requirements
 
 config:

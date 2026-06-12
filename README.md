@@ -1,6 +1,6 @@
 <div align="center">
 
-# AgentForge
+# SkillEngine
 
 [![CI](https://github.com/borhen68/SkillEngine/actions/workflows/quality-gates.yml/badge.svg)](https://github.com/borhen68/SkillEngine/actions)
 [![Skills](https://img.shields.io/badge/skills-28-blue)](skills/)
@@ -13,7 +13,7 @@
 *28 battle-tested skills. 5 specialist personas. 5 reference checklists. One mission: make AI agents build software like senior engineers.*
 
 <p align="center">
-  <img src="assets/agentforge-banner.png" alt="AgentForge — Structured engineering workflows for AI agents" width="100%">
+  <img src="assets/skillengine-banner.png" alt="SkillEngine — Structured engineering workflows for AI agents" width="100%">
 </p>
 
 </div>
@@ -26,7 +26,7 @@ AI coding agents are fast. They're also reckless.
 
 They skip specs. They "forget" tests. They ship without review. They treat "it works on my machine" as a success criterion. In short, they build prototypes, not production software.
 
-**AgentForge fixes this.**
+**SkillEngine fixes this.**
 
 We don't give agents vague suggestions. We give them **structured, battle-tested workflows** that encode how senior engineers actually build software — the same workflows that power teams at Google, Netflix, and Stripe. Every skill has steps, checkpoints, anti-rationalization defenses, and evidence-based verification. When an agent follows these, it ships code you can trust.
 
@@ -49,7 +49,7 @@ We don't give agents vague suggestions. We give them **structured, battle-tested
 
 ## What Makes This Different
 
-| | Other Prompt Packs | AgentForge |
+| | Other Prompt Packs | SkillEngine |
 |---|---|---|
 | **Structure** | Vague advice | Step-by-step workflows with checkpoints |
 | **Verification** | "Make sure it works" | Evidence-based exit criteria (tests, builds, runtime data) |
@@ -90,20 +90,20 @@ Skills also activate automatically based on what you're doing — designing an A
 
 ```
 /plugin marketplace add borhen68/SkillEngine
-/plugin install agentforge@borhen-agentforge
+/plugin install skillengine@borhen-skillengine
 ```
 
 > **SSH errors?** The marketplace clones repos via SSH. If you don't have SSH keys set up on GitHub, either [add your SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) or use the full HTTPS URL to force the HTTPS cloning:
 > ```bash
 > /plugin marketplace add https://github.com/borhen68/SkillEngine.git
-> /plugin install agentforge@borhen-agentforge
+> /plugin install skillengine@borhen-skillengine
 > ```
 
 **Local / development:**
 
 ```bash
 git clone https://github.com/borhen68/SkillEngine.git
-claude --plugin-dir /path/to/agentforge
+claude --plugin-dir /path/to/skillengine
 ```
 
 </details>
@@ -130,7 +130,7 @@ agy plugin install https://github.com/borhen68/SkillEngine.git
 
 ```bash
 git clone https://github.com/borhen68/SkillEngine.git
-agy plugin install ./agentforge
+agy plugin install ./skillengine
 ```
 
 </details>
@@ -149,7 +149,7 @@ gemini skills install https://github.com/borhen68/SkillEngine.git --path skills
 **Install from a local clone:**
 
 ```bash
-gemini skills install ./agentforge/skills/
+gemini skills install ./skillengine/skills/
 ```
 
 </details>
@@ -195,13 +195,13 @@ Skills are plain Markdown - they work with any agent that accepts system prompts
 
 ## All 28 Skills
 
-The commands above are entry points. The pack includes 28 skills total — 24 lifecycle skills, 4 operations skills, plus the `using-agentforge` meta-skill. Each skill is a structured workflow with steps, verification gates, and anti-rationalization tables. You can also reference any skill directly.
+The commands above are entry points. The pack includes 28 skills total — 24 lifecycle skills, 4 operations skills, plus the `using-skillengine` meta-skill. Each skill is a structured workflow with steps, verification gates, and anti-rationalization tables. You can also reference any skill directly.
 
 ### Meta - Discover which skill applies
 
 | Skill | What It Does | Use When |
 |-------|-------------|----------|
-| [using-agentforge](skills/using-agent-skills/SKILL.md) | Maps incoming work to the right skill workflow and defines shared operating rules | Starting a session or deciding which skill applies |
+| [using-skillengine](skills/using-agent-skills/SKILL.md) | Maps incoming work to the right skill workflow and defines shared operating rules | Starting a session or deciding which skill applies |
 
 ### Define - Clarify what to build
 
@@ -433,7 +433,7 @@ make ci
 
 AI agents are incredible accelerators. They're also incredible liability generators — because they optimize for *speed*, not *correctness*. They don't know what they don't know, and they don't know that they don't know it.
 
-**AgentForge is the guardrail.**
+**SkillEngine is the guardrail.**
 
 Every skill in this pack encodes hard-won judgment from production engineering:
 - **When** to write a spec (always, for anything non-trivial)

@@ -1,4 +1,4 @@
-# Contributing to AgentForge
+# Contributing to SkillEngine
 
 Thanks for your interest in contributing! This project is a collection of production-grade engineering skills for AI coding agents.
 

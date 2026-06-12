@@ -1,6 +1,6 @@
-# AgentForge
+# SkillEngine
 
-This is the AgentForge project — a collection of production-grade engineering skills for AI coding agents.
+This is the SkillEngine project — a collection of production-grade engineering skills for AI coding agents.
 
 ## Project Structure
 

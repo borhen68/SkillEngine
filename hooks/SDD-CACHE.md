@@ -47,7 +47,7 @@ responds `304 Not Modified`, which is a fresh verification — not a memory read
    }
    ```
 
-   `${CLAUDE_PROJECT_DIR}` resolves to the directory you launched Claude Code from. The snippet above works when the hooks live inside the same project. If you installed `AgentForge` elsewhere (e.g.
+   `${CLAUDE_PROJECT_DIR}` resolves to the directory you launched Claude Code from. The snippet above works when the hooks live inside the same project. If you installed `SkillEngine` elsewhere (e.g.
 as a shared plugin under `~/SkillEngine`), replace `${CLAUDE_PROJECT_DIR}/hooks/...` with the absolute path to each script.
 
 2. Make sure `.claude/sdd-cache/` is in your `.gitignore` (already included in this repo).

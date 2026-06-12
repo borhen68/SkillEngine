@@ -2,7 +2,7 @@
 /**
  * project-stats.js  —  PROJECT HEALTH DASHBOARD
  *
- * Generates statistics about the AgentForge project:
+ * Generates statistics about the SkillEngine project:
  *   - Skill count and distribution by phase
  *   - Lines of code / documentation
  *   - Coverage metrics
@@ -130,7 +130,7 @@ function main() {
   }
 
   // Output
-  console.log(`\n${C.bold}${C.cyan}AGENTFORGE — PROJECT DASHBOARD${C.reset}`);
+  console.log(`\n${C.bold}${C.cyan}SKILLENGINE — PROJECT DASHBOARD${C.reset}`);
   console.log(`${C.bold}${'═'.repeat(50)}${C.reset}`);
 
   console.log(`\n${C.bold}Inventory${C.reset}`);

@@ -25,12 +25,12 @@ if (hasJq) {
     throw new Error(`expected IMPORTANT priority, got ${payload.priority}`);
   }
 
-  if (!payload.message.includes('AgentForge')) {
+  if (!payload.message.includes('SkillEngine')) {
     throw new Error('message is missing startup preface');
   }
 
-  if (!payload.message.includes('# Using AgentForge')) {
-    throw new Error('message is missing using-agentforge content');
+  if (!payload.message.includes('# Using SkillEngine')) {
+    throw new Error('message is missing using-skillengine content');
   }
 } else {
   if (payload.priority !== 'INFO') {
