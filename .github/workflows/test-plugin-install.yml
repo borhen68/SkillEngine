@@ -39,6 +39,25 @@ jobs:
             scripts/validate-skills.js
             skills/
 
+  # ─── Gate 1b: Markdown Lint ────────────────────────────────────────────────
+  lint-markdown:
+    name: Markdown Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Lint all markdown (blocks broken fences, malformed lists, missing languages)
+        run: npm run lint:md
+
   # ─── Gate 2: Cross-Skill Consistency ───────────────────────────────────────
   quality-gates:
     name: Cross-Skill Consistency

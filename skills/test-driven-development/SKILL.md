@@ -1,6 +1,6 @@
 ---
 name: test-driven-development
-description: Drives development with tests. Use when implementing any logic, fixing any bug, or changing any behavior. Use when you need to prove that code works, when a bug report arrives, or when you're about to modify existing functionality.
+description: Drives development with tests via Red-Green-Refactor and the Prove-It pattern, with hard rules against weakening assertions or faking green suites. Use when implementing any logic, fixing any bug, or changing any behavior. Triggers on "add a feature", "fix this bug", "write tests", or any task where done must be backed by passing tests.
 ---
 
 # Test-Driven Development
@@ -22,6 +22,21 @@ tests is an AI agent's superpower; a codebase without tests is a liability.
 
 **Related:** For browser-based changes, combine TDD with runtime verification using Chrome DevTools MCP — see the Browser Testing section below.
 
+## Iron Rules
+
+These target the failure modes that make AI-written tests worthless. Each rule is absolute — no rationalization in this skill or outside it overrides them.
+
+1. **Never weaken a test to make it pass.** When a test fails, the default assumption is that the code is wrong, not the test.
+   Changing an assertion, widening a tolerance, or deleting a test case requires proof that the *test* was incorrect — state that proof explicitly before touching the test.
+2. **RED must fail for the right reason.** A test failing with `ImportError` or `undefined is not a function` proves nothing.
+   Read the failure output: it must show the behavioral gap the test targets (e.g., `expected 'completed', received 'pending'`). A setup failure is not RED — fix the setup and re-run.
+3. **Never hardcode to the test.** If the implementation special-cases test inputs (`if (id === 'test-1')`), no behavior was implemented — the test was laundered into the code.
+   Implement the general rule the test exemplifies, then ask: "would this pass for inputs the tests don't mention?"
+4. **Evidence or it didn't happen.** "All tests pass" must be backed by actual runner output: suite counts, pass/fail numbers, duration. Reporting results from memory is fabrication.
+5. **A silently skipped test is a lie.** `.skip`, `.todo`, commenting out, or deleting a test to get a green suite must be declared to the user with a reason — never done silently.
+
+See [examples.md](examples.md) for full before/after sessions showing each rule preventing a real failure.
+
 ## The TDD Cycle
 
 ```text
@@ -35,7 +50,8 @@ tests is an AI agent's superpower; a codebase without tests is a liability.
 
 ### Step 1: RED — Write a Failing Test
 
-Write the test first. It must fail. A test that passes immediately proves nothing.
+Write the test first. It must fail, **and it must fail for the right reason** (Iron Rule 2).
+Run it, read the failure output, and confirm the message shows the missing behavior — not a typo, missing import, or broken fixture.
 
 ```typescript
 // RED: This test fails because createTask doesn't exist yet
@@ -237,21 +253,8 @@ production breaks.
 
 ### Use the Arrange-Act-Assert Pattern
 
-```typescript
-it('marks overdue tasks when deadline has passed', () => {
-  // Arrange: Set up the test scenario
-  const task = createTask({
-    title: 'Test',
-    deadline: new Date('2025-01-01'),
-  });
-
-  // Act: Perform the action being tested
-  const result = checkOverdue(task, new Date('2025-01-02'));
-
-  // Assert: Verify the outcome
-  expect(result.isOverdue).toBe(true);
-});
-```
+Structure every test as Arrange (set up the scenario), Act (perform the one action under test), Assert (verify the outcome).
+See [references/testing-patterns.md](../../references/testing-patterns.md) for the full pattern with framework-specific examples.
 
 ### One Assertion Per Concept
 
@@ -363,6 +366,8 @@ For detailed testing patterns, examples, and anti-patterns across frameworks, se
 | "The code is self-explanatory" | Tests ARE the specification. They document what the code should do, not what it does. |
 | "It's just a prototype" | Prototypes become production code. Tests from day one prevent the "test debt" crisis. |
 | "Let me run the tests again just to be extra sure" | After a clean test run, repeating the same command adds nothing unless the code has changed since. Run again after subsequent edits, not as reassurance. |
+| "This assertion is too strict — I'll relax it" | The assertion encodes someone's intent. Loosening it without proving the intent was wrong converts a regression detector into decoration (Iron Rule 1). |
+| "That failing test is unrelated to my change" | Prove it: check out the code before your change and run that test. If it passed before and fails now, it's related. |
 
 ## Red Flags
 
