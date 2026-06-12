@@ -4,7 +4,8 @@ SkillEngine works with any AI coding agent that accepts Markdown instructions. T
 
 ## How Skills Work
 
-Each skill is a Markdown file (`SKILL.md`) that describes a specific engineering workflow. When loaded into an agent's context, the agent follows the workflow — including verification steps, anti-patterns to avoid, and exit criteria.
+Each skill is a Markdown file (`SKILL.md`) that describes a specific engineering workflow. When loaded into an agent's context, the agent follows the workflow — including verification steps,
+anti-patterns to avoid, and exit criteria.
 
 **Skills are not reference docs.** They're step-by-step processes the agent follows.
 
@@ -19,6 +20,7 @@ git clone https://github.com/borhen68/SkillEngine.git
 ### 2. Choose a skill
 
 Browse the `skills/` directory. Each subdirectory contains a `SKILL.md` with:
+
 - **When to use** — triggers that indicate this skill applies
 - **Process** — step-by-step workflow
 - **Verification** — how to confirm the work is done
@@ -55,7 +57,7 @@ These three cover the most critical quality gaps in AI-assisted development.
 
 For comprehensive coverage, load skills by phase:
 
-```
+```text
 Starting a project:  spec-driven-development → planning-and-task-breakdown
 During development:  incremental-implementation + test-driven-development
 Before merge:        code-review-and-quality + security-and-hardening
@@ -74,7 +76,7 @@ Don't load all skills at once — it wastes context. Load skills relevant to the
 
 Every skill follows the same structure:
 
-```
+```text
 YAML frontmatter (name, description)
 ├── Overview — What this skill does
 ├── When to Use — Triggers and conditions

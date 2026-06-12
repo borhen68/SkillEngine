@@ -7,7 +7,8 @@ description: Grounds every implementation decision in official documentation. Us
 
 ## Overview
 
-Every framework-specific code decision must be backed by official documentation. Don't implement from memory — verify, cite, and let the user see your sources. Training data goes stale, APIs get deprecated, best practices evolve. This skill ensures the user gets code they can trust because every pattern traces back to an authoritative source they can check.
+Every framework-specific code decision must be backed by official documentation. Don't implement from memory — verify, cite, and let the user see your sources. Training data goes stale, APIs get
+deprecated, best practices evolve. This skill ensures the user gets code they can trust because every pattern traces back to an authoritative source they can check.
 
 ## When to Use
 
@@ -33,7 +34,7 @@ DETECT ──→ FETCH ──→ IMPLEMENT ──→ CITE
  What       Get the    Follow the   Show your
  stack?     relevant   documented   sources
             docs       patterns
-```text
+```
 
 ### Step 1: Detect Stack and Versions
 
@@ -46,7 +47,7 @@ requirements.txt / pyproject.toml → Python/Django/Flask
 go.mod          → Go
 Cargo.toml      → Rust
 Gemfile         → Ruby/Rails
-```text
+```
 
 State what you found explicitly:
 
@@ -56,7 +57,7 @@ STACK DETECTED:
 - Vite 6.2.0
 - Tailwind CSS 4.0.3
 → Fetching official docs for the relevant patterns.
-```text
+```
 
 If versions are missing or ambiguous, **ask the user**. Don't guess — the version determines which patterns are correct.
 
@@ -88,11 +89,12 @@ GOOD: Fetch react.dev/reference/react/useActionState
 
 BAD:  Search "django authentication best practices"
 GOOD: Fetch docs.djangoproject.com/en/6.0/topics/auth/
-```text
+```
 
 After fetching, extract the key patterns and note any deprecation warnings or migration guidance.
 
-When official sources conflict with each other (e.g. a migration guide contradicts the API reference), surface the discrepancy to the user and verify which pattern actually works against the detected version.
+When official sources conflict with each other (e.g. a migration guide contradicts the API reference), surface the discrepancy to the user and verify which pattern actually works against the detected
+version.
 
 ### Step 3: Implement Following Documented Patterns
 
@@ -115,7 +117,7 @@ Options:
 A) Use the modern pattern (useActionState) — consistent with current docs
 B) Match existing code (useState) — consistent with codebase
 → Which approach do you prefer?
-```text
+```
 
 Surface the conflict. Don't silently pick one.
 
@@ -129,7 +131,7 @@ Every framework-specific pattern gets a citation. The user must be able to verif
 // React 19 form handling with useActionState
 // Source: https://react.dev/reference/react/useActionState#usage
 const [state, formAction, isPending] = useActionState(submitOrder, initialState);
-```text
+```
 
 **In conversation:**
 
@@ -141,7 +143,7 @@ isPending/setIsPending pattern with this hook.
 Source: https://react.dev/blog/2024/12/05/react-19#actions
 "useTransition now supports async functions [...] to handle
 pending states automatically"
-```text
+```
 
 **Citation rules:**
 
@@ -155,7 +157,7 @@ pending states automatically"
 UNVERIFIED: I could not find official documentation for this
 pattern. This is based on training data and may be outdated.
 Verify before using in production.
-```text
+```
 
 Honesty about what you couldn't verify is more valuable than false confidence.
 
@@ -185,7 +187,6 @@ Honesty about what you couldn't verify is more valuable than false confidence.
 - [spec-driven-development](skills/spec-driven-development/SKILL.md)
 - [incremental-implementation](skills/incremental-implementation/SKILL.md)
 - [test-driven-development](skills/test-driven-development/SKILL.md)
-
 
 ## Verification
 

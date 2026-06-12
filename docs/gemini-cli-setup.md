@@ -29,7 +29,7 @@ Skills installed at workspace scope go into `.gemini/skills/` (or `.agents/skill
 
 Once installed, verify with:
 
-```
+```text
 /skills list
 ```
 
@@ -57,7 +57,8 @@ You can also modularize by importing from separate files:
 
 Use `/memory show` to verify loaded context, and `/memory reload` to refresh after changes.
 
-> **Skills vs GEMINI.md:** Skills are on-demand expertise that activate only when relevant, keeping your context window clean. GEMINI.md provides persistent context loaded for every prompt. Use skills for phase-specific workflows and GEMINI.md for always-on project conventions.
+> **Skills vs GEMINI.md:** Skills are on-demand expertise that activate only when relevant, keeping your context window clean. GEMINI.md provides persistent context loaded for every prompt. Use skills
+> for phase-specific workflows and GEMINI.md for always-on project conventions.
 
 ## Recommended Configuration
 
@@ -126,6 +127,7 @@ Each command invokes the corresponding skill automatically — no manual skill l
 ## Usage Tips
 
 1. **Prefer skills over GEMINI.md** — Skills activate on demand and keep your context window focused. Only put skills in GEMINI.md if you want them always loaded.
-2. **Skill descriptions matter** — Each SKILL.md has a `description` field in its frontmatter that tells agents when to activate it. The descriptions in this repo are optimized for auto-discovery across all supported tools (Claude Code, Gemini CLI, etc.) by clearly stating both *what* the skill does and *when* it should be triggered.
+2. **Skill descriptions matter** — Each SKILL.md has a `description` field in its frontmatter that tells agents when to activate it. The descriptions in this repo are optimized for auto-discovery
+across all supported tools (Claude Code, Gemini CLI, etc.) by clearly stating both *what* the skill does and *when* it should be triggered.
 3. **Use agents for review** — Copy `agents/code-reviewer.md` content when requesting structured code reviews.
 4. **Combine with references** — Reference checklists from `references/` when working on specific quality areas like testing or performance.

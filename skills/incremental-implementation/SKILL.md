@@ -7,11 +7,14 @@ description: Delivers changes incrementally. Use when implementing any feature o
 
 ## Overview
 
-The most dangerous coding session is the one where you write 500 lines, hit "save," and pray. By the time you test, you've introduced so many variables that debugging becomes whack-a-mole. Incremental implementation is the discipline of keeping the system working at every step — not just at the end.
+The most dangerous coding session is the one where you write 500 lines, hit "save," and pray. By the time you test, you've introduced so many variables that debugging becomes whack-a-mole. Incremental
+implementation is the discipline of keeping the system working at every step — not just at the end.
 
-**The incremental contract:** Every commit must leave the system in a working, testable state. Implement one vertical slice (end-to-end functionality for a subset of the feature), verify it, commit it, then expand. If you can't demo the current state to a user, the increment is too large.
+**The incremental contract:** Every commit must leave the system in a working, testable state. Implement one vertical slice (end-to-end functionality for a subset of the feature), verify it, commit
+it, then expand. If you can't demo the current state to a user, the increment is too large.
 
-**Real-world impact:** Engineers who work in small increments catch bugs immediately (when they're trivial to fix) rather than at the end (when they're entangled with 20 other changes). This is the practice that separates engineers who ship reliably from engineers who miss deadlines.
+**Real-world impact:** Engineers who work in small increments catch bugs immediately (when they're trivial to fix) rather than at the end (when they're entangled with 20 other changes). This is the
+practice that separates engineers who ship reliably from engineers who miss deadlines.
 
 ## When to Use
 
@@ -35,7 +38,7 @@ The most dangerous coding session is the one where you write 500 lines, hit "sav
 │          Next slice                  │
 │                                      │
 └──────────────────────────────────────┘
-```text
+```
 
 For each slice:
 
@@ -63,7 +66,7 @@ Slice 3: Edit a task (update + API + UI)
 
 Slice 4: Delete a task (delete + API + UI + confirmation)
     → Tests pass, full CRUD complete
-```text
+```
 
 Each slice delivers working end-to-end functionality.
 
@@ -76,7 +79,7 @@ Slice 0: Define the API contract (types, interfaces, OpenAPI spec)
 Slice 1a: Implement backend against the contract + API tests
 Slice 1b: Implement frontend against mock data matching the contract
 Slice 2: Integrate and test end-to-end
-```text
+```
 
 ### Risk-First Slicing
 
@@ -86,7 +89,7 @@ Tackle the riskiest or most uncertain piece first:
 Slice 1: Prove the WebSocket connection works (highest risk)
 Slice 2: Build real-time task updates on the proven connection
 Slice 3: Add offline support and reconnection
-```text
+```
 
 If Slice 1 fails, you discover it before investing in Slices 2 and 3.
 
@@ -97,6 +100,7 @@ If Slice 1 fails, you discover it before investing in Slices 2 and 3.
 Before writing any code, ask: "What is the simplest thing that could work?"
 
 After writing code, review it against these checks:
+
 - Can this be done in fewer lines?
 - Are these abstractions earning their complexity?
 - Would a staff engineer look at this and say "why didn't you just..."?
@@ -112,7 +116,7 @@ SIMPLICITY CHECK:
 
 ✗ Config-driven form builder for three forms
 ✓ Three form components
-```text
+```
 
 Three similar lines of code is better than a premature abstraction. Implement the naive, obviously-correct version first. Optimize only after correctness is proven with tests.
 
@@ -121,6 +125,7 @@ Three similar lines of code is better than a premature abstraction. Implement th
 Touch only what the task requires.
 
 Do NOT:
+
 - "Clean up" code adjacent to your change
 - Refactor imports in files you're not modifying
 - Remove comments you don't fully understand
@@ -134,7 +139,7 @@ NOTICED BUT NOT TOUCHING:
 - src/utils/format.ts has an unused import (unrelated to this task)
 - The auth middleware could use better error messages (separate task)
 → Want me to create tasks for these?
-```text
+```
 
 ### Rule 1: One Thing at a Time
 
@@ -159,7 +164,7 @@ const ENABLE_TASK_SHARING = process.env.FEATURE_TASK_SHARING === 'true';
 if (ENABLE_TASK_SHARING) {
   // New sharing UI
 }
-```text
+```
 
 This lets you merge small increments to the main branch without exposing incomplete work.
 
@@ -173,7 +178,7 @@ export function createTask(data: TaskInput, options?: { notify?: boolean }) {
   const shouldNotify = options?.notify ?? false;
   // ...
 }
-```text
+```
 
 ### Rule 5: Rollback-Friendly
 
@@ -196,7 +201,7 @@ Don't touch the UI yet — we'll do that in the next increment.
 
 After implementing, run `npm test` and `npm run build` to verify
 nothing is broken."
-```text
+```
 
 Be explicit about what's in scope and what's NOT in scope for each increment.
 
@@ -212,7 +217,8 @@ After each increment, verify:
 - [ ] The new functionality works as expected
 - [ ] The change is committed with a descriptive message
 
-**Note:** Run each verification command after a change that could affect it. After a successful run, don't repeat the same command unless the code has changed since — re-running on unchanged code adds no information.
+**Note:** Run each verification command after a change that could affect it. After a successful run, don't repeat the same command unless the code has changed since — re-running on unchanged code adds
+no information.
 
 ## Common Rationalizations
 
@@ -226,6 +232,7 @@ After each increment, verify:
 | "Let me run the build command again just to be sure" | After a successful run, repeating the same command adds nothing unless the code has changed since. Run it again after subsequent edits, not as reassurance. |
 
 ## Red Flags
+
 - Commits with messages like "WIP" or "stuff" (no intent captured)
 - Multiple features mixed in one commit
 - Tests written after the feature "just to check"
@@ -249,8 +256,8 @@ After each increment, verify:
 - [test-driven-development](skills/test-driven-development/SKILL.md)
 - [git-workflow-and-versioning](skills/git-workflow-and-versioning/SKILL.md)
 
-
 ## Verification
+
 - [ ] Every commit message explains WHY, not just WHAT
 - [ ] Each commit leaves all tests passing
 - [ ] No commit touches more than 5 files (atomic change check)

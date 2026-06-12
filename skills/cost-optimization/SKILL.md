@@ -7,7 +7,9 @@ description: Guides systematic cloud and infrastructure cost reduction. Use when
 
 ## Overview
 
-Cost optimization is not about being cheap — it's about spending money where it creates value and eliminating waste. In cloud environments, costs compound silently: oversized instances, forgotten dev environments, unoptimized storage tiers, and data transfer charges that nobody tracks. This skill provides a systematic approach to finding and eliminating waste while maintaining (or improving) system reliability.
+Cost optimization is not about being cheap — it's about spending money where it creates value and eliminating waste. In cloud environments, costs compound silently: oversized instances, forgotten dev
+environments, unoptimized storage tiers, and data transfer charges that nobody tracks. This skill provides a systematic approach to finding and eliminating waste while maintaining (or improving)
+system reliability.
 
 **The 80/20 rule of cloud costs:** 80% of your bill comes from 20% of your resources. Focus on the big items first.
 
@@ -21,6 +23,7 @@ Cost optimization is not about being cheap — it's about spending money where i
 - After an audit reveals "surprise" charges (data transfer, API calls, storage)
 
 **NOT for:**
+
 - Systems where reliability is worth any cost (life-critical, financial trading)
 - One-time cost reduction without ongoing monitoring (costs creep back)
 
@@ -37,7 +40,7 @@ COST ALLOCATION FRAMEWORK:
 ├── Set up cost anomaly detection
 ├── Allocate shared costs (network, monitoring, platform)
 └── Create per-team visibility dashboards
-```text
+```
 
 **Key metrics to track:**
 
@@ -54,6 +57,7 @@ COST ALLOCATION FRAMEWORK:
 Run through this checklist systematically:
 
 **Compute Waste:**
+
 - [ ] Instances with average CPU < 20% over 7 days
 - [ ] Instances with memory utilization < 40%
 - [ ] Running instances in dev/staging outside business hours
@@ -62,6 +66,7 @@ Run through this checklist systematically:
 - [ ] Legacy instance types (newer generations are cheaper per performance unit)
 
 **Storage Waste:**
+
 - [ ] Unattached volumes > 30 days old
 - [ ] Snapshots without retention policies
 - [ ] Objects in hot storage with no access in 90 days
@@ -69,6 +74,7 @@ Run through this checklist systematically:
 - [ ] Logs stored indefinitely without lifecycle policies
 
 **Network Waste:**
+
 - [ ] Cross-AZ traffic that could be co-located
 - [ ] Data transfer to internet instead of CDN
 - [ ] NAT Gateway traffic that could use VPC endpoints
@@ -76,6 +82,7 @@ Run through this checklist systematically:
 - [ ] Egress charges from services that could use private connectivity
 
 **Licensing/Reserved Waste:**
+
 - [ ] On-demand instances that could use reserved capacity
 - [ ] Reserved capacity for services that are being decommissioned
 - [ ] Database licenses where open-source alternatives suffice
@@ -91,7 +98,7 @@ RIGHTSIZING WORKFLOW:
 4. Test the smaller size in staging under load
 5. Deploy to production with monitoring
 6. Observe for 48 hours, adjust if needed
-```text
+```
 
 **Rightsizing examples:**
 
@@ -116,7 +123,7 @@ resources:
   limits:
     cpu: 1500m
     memory: 6Gi
-```text
+```
 
 ### Step 4: Optimize Storage Tiers
 
@@ -129,7 +136,7 @@ Frequently accessed (< 7 days)    → Hot / Standard
 Occasionally accessed (7-90 days) → Warm / Infrequent Access
 Rarely accessed (90+ days)        → Cold / Archive
 Never accessed (backup only)      → Glacier / Deep Archive
-```text
+```
 
 **Storage optimization examples:**
 
@@ -152,7 +159,7 @@ Never accessed (backup only)      → Glacier / Deep Archive
 
 # Database: Use read replicas for read-heavy workloads
 # Instead of scaling primary DB vertically ($$$), add read replicas ($)
-```text
+```
 
 ### Step 5: Reserved Capacity and Commitments
 
@@ -166,7 +173,7 @@ Predictable growth     → 3-year reserved (up to 70% savings)
 Seasonal / burst       → Savings plans (flexible commitment)
 Unpredictable / dev    → Stay on-demand (flexibility > savings)
 Spot-capable workloads → Spot instances (up to 90% savings)
-```text
+```
 
 **Spot / preemptible instance strategy:**
 
@@ -187,7 +194,7 @@ const workerPool = {
   maxSize: 50,
   targetCPU: 70,
 };
-```text
+```
 
 ### Step 6: Implement and Monitor
 
@@ -214,7 +221,7 @@ Every optimization must be measurable:
 - Alert if cost exceeds $[threshold]
 - Review monthly on [date]
 - Re-evaluate if traffic changes > 20%
-```text
+```
 
 ## Architecture Patterns for Cost Efficiency
 
@@ -230,7 +237,7 @@ export async function processWebhook(event: APIGatewayEvent) {
   await enqueueForProcessing(event.body);
   return { statusCode: 202 };
 }
-```text
+```
 
 ### Caching to Reduce Compute
 
@@ -241,7 +248,7 @@ CACHE HIERARCHY (cheapest to most expensive):
 3. Application cache (memory — cheap but limited)
 4. Database cache (query cache, materialized views)
 5. Re-compute (most expensive)
-```text
+```
 
 ### Data Transfer Minimization
 
@@ -254,7 +261,7 @@ CACHE HIERARCHY (cheapest to most expensive):
 
 # BAD: NAT Gateway for all outbound traffic ($0.045/GB)
 # GOOD: VPC endpoints for AWS services ($0/GB)
-```text
+```
 
 ## Common Rationalizations
 

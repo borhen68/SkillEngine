@@ -9,9 +9,9 @@ Refines raw ideas into sharp, actionable concepts worth building through structu
 
 ## How It Works
 
-1.  **Understand & Expand (Divergent):** Restate the idea, ask sharpening questions, and generate variations.
-2.  **Evaluate & Converge:** Cluster ideas, stress-test them, and surface hidden assumptions.
-3.  **Sharpen & Ship:** Produce a concrete markdown one-pager moving work forward.
+1. **Understand & Expand (Divergent):** Restate the idea, ask sharpening questions, and generate variations.
+2. **Evaluate & Converge:** Cluster ideas, stress-test them, and surface hidden assumptions.
+3. **Sharpen & Ship:** Produce a concrete markdown one-pager moving work forward.
 
 ## Usage
 
@@ -20,9 +20,10 @@ This skill is primarily an interactive dialogue. Invoke it with an idea, and the
 ```bash
 # Optional: Initialize the ideas directory
 bash /mnt/skills/user/idea-refine/scripts/idea-refine.sh
-```text
+```
 
 **Trigger Phrases:**
+
 - "Help me refine this idea"
 - "Ideate on [concept]"
 - "Stress-test my plan"
@@ -30,6 +31,7 @@ bash /mnt/skills/user/idea-refine/scripts/idea-refine.sh
 ## Output
 
 The final output is a markdown one-pager saved to `docs/ideas/[idea-name].md` (after user confirmation), containing:
+
 - Problem Statement
 - Recommended Direction
 - Key Assumptions
@@ -79,7 +81,8 @@ When the user invokes this skill with an idea (`$ARGUMENTS`), guide them through
 
    Push beyond what the user initially asked for. Create products people don't know they need yet.
 
-**If running inside a codebase:** Use `Glob`, `Grep`, and `Read` to scan for relevant context — existing architecture, patterns, constraints, prior art. Ground your variations in what actually exists. Reference specific files and patterns when relevant.
+**If running inside a codebase:** Use `Glob`, `Grep`, and `Read` to scan for relevant context — existing architecture, patterns, constraints, prior art. Ground your variations in what actually exists.
+Reference specific files and patterns when relevant.
 
 Read `frameworks.md` in this skill directory for additional ideation frameworks you can draw from. Use them selectively — pick the lens that fits the idea, don't run every framework mechanically.
 
@@ -103,7 +106,8 @@ After the user reacts to Phase 1 (indicates which ideas resonate, pushes back, a
 
    This is where most ideation fails. Don't skip it.
 
-**Be honest, not supportive.** If an idea is weak, say so with kindness. A good ideation partner is not a yes-machine. Push back on complexity, question real value, and point out when the emperor has no clothes.
+**Be honest, not supportive.** If an idea is weak, say so with kindness. A good ideation partner is not a yes-machine. Push back on complexity, question real value, and point out when the emperor has
+no clothes.
 
 #### Phase 3: Sharpen & Ship
 
@@ -133,7 +137,7 @@ Produce a concrete artifact — a markdown one-pager that moves work forward:
 
 ## Open Questions
 - [Question that needs answering before building]
-```text
+```
 
 **The "Not Doing" list is arguably the most valuable part.** Focus is about saying no to good ideas. Make the trade-offs explicit.
 
@@ -151,7 +155,8 @@ Ask the user if they'd like to save this to `docs/ideas/[idea-name].md` (or a lo
 
 ### Tone
 
-Direct, thoughtful, slightly provocative. You're a sharp thinking partner, not a facilitator reading from a script. Channel the energy of "that's interesting, but what if..." -- always pushing one step further without being exhausting.
+Direct, thoughtful, slightly provocative. You're a sharp thinking partner, not a facilitator reading from a script. Channel the energy of "that's interesting, but what if..." -- always pushing one
+step further without being exhausting.
 
 Read `examples.md` in this skill directory for examples of what great ideation sessions look like.
 
@@ -170,7 +175,6 @@ Read `examples.md` in this skill directory for examples of what great ideation s
 - [interview-me](skills/interview-me/SKILL.md)
 - [spec-driven-development](skills/spec-driven-development/SKILL.md)
 - [planning-and-task-breakdown](skills/planning-and-task-breakdown/SKILL.md)
-
 
 ## Verification
 

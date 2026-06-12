@@ -7,11 +7,14 @@ description: Creates specs before coding. Use when starting a new project, featu
 
 ## Overview
 
-The most expensive bug is the one that never should have been built. When you write code without a spec, you're not just risking implementation errors — you're risking building the *wrong thing entirely*. A two-hour spec saves two weeks of rework.
+The most expensive bug is the one that never should have been built. When you write code without a spec, you're not just risking implementation errors — you're risking building the *wrong thing
+entirely*. A two-hour spec saves two weeks of rework.
 
-**The spec-driven contract:** No code is written until both the agent and the human agree on what "done" looks like. The spec is the shared source of truth — it defines objectives, constraints, acceptance criteria, and boundaries. Code without a spec is expensive guessing.
+**The spec-driven contract:** No code is written until both the agent and the human agree on what "done" looks like. The spec is the shared source of truth — it defines objectives, constraints,
+acceptance criteria, and boundaries. Code without a spec is expensive guessing.
 
-**Real-world impact:** Teams that spec before coding ship 40% faster and have 60% fewer post-launch bugs. The time "saved" by skipping the spec is spent debugging, refactoring, and apologizing to users.
+**Real-world impact:** Teams that spec before coding ship 40% faster and have 60% fewer post-launch bugs. The time "saved" by skipping the spec is spent debugging, refactoring, and apologizing to
+users.
 
 ## When to Use
 
@@ -33,7 +36,7 @@ SPECIFY ──→ PLAN ──→ TASKS ──→ IMPLEMENT
    ▼          ▼        ▼          ▼
  Human      Human    Human      Human
  reviews    reviews  reviews    reviews
-```text
+```
 
 ### Phase 1: Specify
 
@@ -48,7 +51,7 @@ ASSUMPTIONS I'M MAKING:
 3. The database is PostgreSQL (based on existing Prisma schema)
 4. We're targeting modern browsers only (no IE11)
 → Correct me now or I'll proceed with these.
-```text
+```
 
 Don't silently fill in ambiguous requirements. The spec's entire purpose is to surface misunderstandings *before* code gets written — assumptions are the most dangerous form of misunderstanding.
 
@@ -57,7 +60,8 @@ Don't silently fill in ambiguous requirements. The spec's entire purpose is to s
 1. **Objective** — What are we building and why? Who is the user? What does success look like?
 
 2. **Commands** — Full executable commands with flags, not just tool names.
-   ```
+
+   ```text
    Build: npm run build
    Test: npm test -- --coverage
    Lint: npm run lint --fix
@@ -65,7 +69,8 @@ Don't silently fill in ambiguous requirements. The spec's entire purpose is to s
    ```
 
 3. **Project Structure** — Where source code lives, where tests go, where docs belong.
-   ```
+
+   ```text
    src/           → Application source code
    src/components → React components
    src/lib        → Shared utilities
@@ -116,7 +121,7 @@ Don't silently fill in ambiguous requirements. The spec's entire purpose is to s
 
 ## Open Questions
 [Anything unresolved that needs human input]
-```text
+```
 
 **Reframe instructions as success criteria.** When receiving vague requirements, translate them into concrete conditions:
 
@@ -128,7 +133,7 @@ REFRAMED SUCCESS CRITERIA:
 - Initial data load completes in < 500ms
 - No layout shift during load (CLS < 0.1)
 → Are these the right targets?
-```text
+```
 
 This lets you loop, retry, and problem-solve toward a clear goal rather than guessing what "faster" means.
 
@@ -155,16 +160,18 @@ Break the plan into discrete, implementable tasks:
 - No task should require changing more than ~5 files
 
 **Task template:**
+
 ```markdown
 - [ ] Task: [Description]
   - Acceptance: [What must be true when done]
   - Verify: [How to confirm — test command, build, manual check]
   - Files: [Which files will be touched]
-```text
+```
 
 ### Phase 4: Implement
 
-Execute tasks one at a time following `skills/incremental-implementation/SKILL.md` (`incremental-implementation`) and `skills/test-driven-development/SKILL.md` (`test-driven-development`). Use `skills/context-engineering/SKILL.md` (`context-engineering`) to load the right spec sections and source files at each step rather than flooding the agent with the entire spec.
+Execute tasks one at a time following `skills/incremental-implementation/SKILL.md` (`incremental-implementation`) and `skills/test-driven-development/SKILL.md` (`test-driven-development`). Use
+`skills/context-engineering/SKILL.md` (`context-engineering`) to load the right spec sections and source files at each step rather than flooding the agent with the entire spec.
 
 ## Keeping the Spec Alive
 
@@ -186,6 +193,7 @@ The spec is a living document, not a one-time artifact:
 | "The user knows what they want" | Even clear requests have implicit assumptions. The spec surfaces those assumptions. |
 
 ## Red Flags
+
 - Spec written after implementation (post-hoc rationalization)
 - Spec that is just a list of features (no user journeys or edge cases)
 - Spec missing acceptance criteria (how do we know it is done?)
@@ -204,8 +212,8 @@ The spec is a living document, not a one-time artifact:
 - [test-driven-development](skills/test-driven-development/SKILL.md)
 - [api-and-interface-design](skills/api-and-interface-design/SKILL.md)
 
-
 ## Verification
+
 - [ ] Spec reviewed by someone who will implement it (feasibility check)
 - [ ] Every requirement has acceptance criteria
 - [ ] Edge cases and error paths are documented

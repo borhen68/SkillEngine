@@ -1,6 +1,7 @@
 # OpenCode Setup
 
-This guide explains how to use AgentForge with OpenCode in a way that closely mirrors the Claude Code experience (automatic skill selection, lifecycle-driven workflows, and strict process enforcement).
+This guide explains how to use AgentForge with OpenCode in a way that closely mirrors the Claude Code experience (automatic skill selection, lifecycle-driven workflows, and strict process
+enforcement).
 
 ## Overview
 
@@ -28,9 +29,9 @@ This more closely matches how Claude Code behaves in practice, where skills are 
 
 1. Clone the repository:
 
-```bash
-git clone https://github.com/borhen68/SkillEngine.git
-```
+   ```bash
+   git clone https://github.com/borhen68/SkillEngine.git
+   ```
 
 2. Open the project in OpenCode.
 
@@ -49,7 +50,7 @@ No additional installation is required.
 
 All skills live in:
 
-```
+```text
 skills/<skill-name>/SKILL.md
 ```
 
@@ -92,11 +93,13 @@ This replaces slash commands like `/spec`, `/plan`, etc.
 ### Example 1: Feature Development
 
 User:
-```
+
+```text
 Add authentication to this app
 ```
 
 Agent behavior:
+
 - Detects feature work
 - Invokes `spec-driven-development`
 - Produces a spec before writing code
@@ -107,11 +110,13 @@ Agent behavior:
 ### Example 2: Bug Fix
 
 User:
-```
+
+```text
 This endpoint is returning 500 errors
 ```
 
 Agent behavior:
+
 - Invokes `debugging-and-error-recovery`
 - Reproduces → localizes → fixes → adds guards
 
@@ -120,11 +125,13 @@ Agent behavior:
 ### Example 3: Code Review
 
 User:
-```
+
+```text
 Review this PR
 ```
 
 Agent behavior:
+
 - Invokes `code-review-and-quality`
 - Applies structured review (correctness, design, readability, etc.)
 

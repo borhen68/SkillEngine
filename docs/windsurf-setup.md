@@ -26,7 +26,7 @@ For skills you want across all projects, add them to Windsurf's global rules:
 
 Keep `.windsurfrules` focused on 2-3 essential skills to stay within context limits:
 
-```
+```text
 # .windsurfrules
 # Essential SkillEngine for this project
 

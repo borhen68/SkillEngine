@@ -9,7 +9,8 @@ description: Conducts multi-axis code review. Use before merging any change. Use
 
 Multi-dimensional code review with quality gates. Every change gets reviewed before merge — no exceptions. Review covers five axes: correctness, readability, architecture, security, and performance.
 
-**The approval standard:** Approve a change when it definitely improves overall code health, even if it isn't perfect. Perfect code doesn't exist — the goal is continuous improvement. Don't block a change because it isn't exactly how you would have written it. If it improves the codebase and follows the project's conventions, approve it.
+**The approval standard:** Approve a change when it definitely improves overall code health, even if it isn't perfect. Perfect code doesn't exist — the goal is continuous improvement. Don't block a
+change because it isn't exactly how you would have written it. If it improves the codebase and follows the project's conventions, approve it.
 
 ## When to Use
 
@@ -88,9 +89,10 @@ Small, focused changes are easier to review, faster to merge, and safer to deplo
 ~100 lines changed   → Good. Reviewable in one sitting.
 ~300 lines changed   → Acceptable if it's a single logical change.
 ~1000 lines changed  → Too large. Split it.
-```text
+```
 
-**What counts as "one change":** A single self-contained modification that addresses one thing, includes related tests, and keeps the system functional after submission. One part of a feature — not the whole feature.
+**What counts as "one change":** A single self-contained modification that addresses one thing, includes related tests, and keeps the system functional after submission. One part of a feature — not
+the whole feature.
 
 **Splitting strategies when a change is too large:**
 
@@ -103,15 +105,18 @@ Small, focused changes are easier to review, faster to merge, and safer to deplo
 
 **When large changes are acceptable:** Complete file deletions and automated refactoring where the reviewer only needs to verify intent, not every line.
 
-**Separate refactoring from feature work.** A change that refactors existing code and adds new behavior is two changes — submit them separately. Small cleanups (variable renaming) can be included at reviewer discretion.
+**Separate refactoring from feature work.** A change that refactors existing code and adds new behavior is two changes — submit them separately. Small cleanups (variable renaming) can be included at
+reviewer discretion.
 
 ## Change Descriptions
 
 Every change needs a description that stands alone in version control history.
 
-**First line:** Short, imperative, standalone. "Delete the FizzBuzz RPC" not "Deleting the FizzBuzz RPC." Must be informative enough that someone searching history can understand the change without reading the diff.
+**First line:** Short, imperative, standalone. "Delete the FizzBuzz RPC" not "Deleting the FizzBuzz RPC." Must be informative enough that someone searching history can understand the change without
+reading the diff.
 
-**Body:** What is changing and why. Include context, decisions, and reasoning not visible in the code itself. Link to bug numbers, benchmark results, or design docs where relevant. Acknowledge approach shortcomings when they exist.
+**Body:** What is changing and why. Include context, decisions, and reasoning not visible in the code itself. Link to bug numbers, benchmark results, or design docs where relevant. Acknowledge
+approach shortcomings when they exist.
 
 **Anti-patterns:** "Fix bug," "Fix build," "Add patch," "Moving code from A to B," "Phase 1," "Add convenience functions."
 
@@ -125,7 +130,7 @@ Before looking at code, understand the intent:
 - What is this change trying to accomplish?
 - What spec or task does it implement?
 - What is the expected behavior change?
-```text
+```
 
 ### Step 2: Review the Tests First
 
@@ -137,7 +142,7 @@ Tests reveal intent and coverage:
 - Are edge cases covered?
 - Do tests have descriptive names?
 - Would the tests catch a regression if the code changed?
-```text
+```
 
 ### Step 3: Review the Implementation
 
@@ -150,7 +155,7 @@ For each file changed:
 3. Architecture: Does this fit the system?
 4. Security: Any vulnerabilities?
 5. Performance: Any bottlenecks?
-```text
+```
 
 ### Step 4: Categorize Findings
 
@@ -176,7 +181,7 @@ Check the author's verification story:
 - Was the change tested manually?
 - Are there screenshots for UI changes?
 - Is there a before/after comparison?
-```text
+```
 
 ## Multi-Model Review Pattern
 
@@ -193,16 +198,17 @@ Model A addresses the feedback
     │
     ▼
 Human makes the final call
-```text
+```
 
 This catches issues that a single model might miss — different models have different blind spots.
 
 **Example prompt for a review agent:**
+
 ```text
 Review this code change for correctness, security, and adherence to
 our project conventions. The spec says [X]. The change should [Y].
 Flag any issues as Critical, Important, or Suggestion.
-```text
+```
 
 ## Dead Code Hygiene
 
@@ -220,7 +226,7 @@ DEAD CODE IDENTIFIED:
 - OldTaskCard component in src/components/ — replaced by TaskCard
 - LEGACY_API_URL constant in src/config.ts — no remaining references
 → Safe to remove these?
-```text
+```
 
 ## Review Speed
 
@@ -240,7 +246,8 @@ When resolving review disputes, apply this hierarchy:
 3. **Software design** must be evaluated on engineering principles, not personal preference
 4. **Codebase consistency** is acceptable if it doesn't degrade overall health
 
-**Don't accept "I'll clean it up later."** Experience shows deferred cleanup rarely happens. Require cleanup before submission unless it's a genuine emergency. If surrounding issues can't be addressed in this change, require filing a bug with self-assignment.
+**Don't accept "I'll clean it up later."** Experience shows deferred cleanup rarely happens. Require cleanup before submission unless it's a genuine emergency. If surrounding issues can't be addressed
+in this change, require filing a bug with self-assignment.
 
 ## Honesty in Review
 
@@ -257,6 +264,7 @@ When reviewing code — whether written by you, another agent, or a human:
 Part of code review is dependency review:
 
 **Before adding any dependency:**
+
 1. Does the existing stack solve this? (Often it does.)
 2. How large is the dependency? (Check bundle impact.)
 3. Is it actively maintained? (Check last commit, open issues.)
@@ -312,7 +320,8 @@ Part of code review is dependency review:
 ### Verdict
 - [ ] **Approve** — Ready to merge
 - [ ] **Request changes** — Issues must be addressed
-```text
+```
+
 ## See Also
 
 - For detailed security review guidance, see `references/security-checklist.md`
@@ -329,6 +338,7 @@ Part of code review is dependency review:
 | "The tests pass, so it's good" | Tests are necessary but not sufficient. They don't catch architecture problems, security issues, or readability concerns. |
 
 ## Red Flags
+
 - Approving without reading the code ("LGTM" reflex)
 - Reviewing style instead of architecture (nitpicks on formatting, missing the design flaw)
 - Not questioning whether the feature should exist at all

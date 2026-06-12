@@ -7,11 +7,15 @@ description: Breaks work into ordered tasks. Use when you have a spec or clear r
 
 ## Overview
 
-The difference between a project that ships on time and one that spirals into endless rework is rarely the complexity of the work — it's the clarity of the plan. Vague tasks breed vague results. A task that says "build auth" will produce a mess. A task that says "implement password validation with bcrypt, rate limiting at 5 attempts per IP, and return 429 on lockout" produces something you can verify.
+The difference between a project that ships on time and one that spirals into endless rework is rarely the complexity of the work — it's the clarity of the plan. Vague tasks breed vague results. A
+task that says "build auth" will produce a mess. A task that says "implement password validation with bcrypt, rate limiting at 5 attempts per IP, and return 429 on lockout" produces something you can
+verify.
 
-**The planning contract:** Every task must have a clear verb, a specific scope, and verifiable acceptance criteria. If you can't describe "done" in one sentence, the task is too big. Break it down until each piece is independently implementable, testable, and reviewable.
+**The planning contract:** Every task must have a clear verb, a specific scope, and verifiable acceptance criteria. If you can't describe "done" in one sentence, the task is too big. Break it down
+until each piece is independently implementable, testable, and reviewable.
 
-**Real-world impact:** Teams with explicit task breakdowns ship 2x faster and have 50% fewer scope-creep issues. The 10 minutes spent decomposing work saves hours of "wait, I also need to..." mid-implementation pivots.
+**Real-world impact:** Teams with explicit task breakdowns ship 2x faster and have 50% fewer scope-creep issues. The 10 minutes spent decomposing work saves hours of "wait, I also need to..."
+mid-implementation pivots.
 
 ## When to Use
 
@@ -54,7 +58,7 @@ Database schema
     │       └── Validation logic
     │
     └── Seed data / migrations
-```text
+```
 
 Implementation order follows the dependency graph bottom-up: build foundations first.
 
@@ -63,20 +67,22 @@ Implementation order follows the dependency graph bottom-up: build foundations f
 Instead of building all the database, then all the API, then all the UI — build one complete feature path at a time:
 
 **Bad (horizontal slicing):**
+
 ```text
 Task 1: Build entire database schema
 Task 2: Build all API endpoints
 Task 3: Build all UI components
 Task 4: Connect everything
-```text
+```
 
 **Good (vertical slicing):**
+
 ```text
 Task 1: User can create an account (schema + API + UI for registration)
 Task 2: User can log in (auth schema + API + UI for login)
 Task 3: User can create a task (task schema + API + UI for creation)
 Task 4: User can view task list (query + API + UI for list view)
-```text
+```
 
 Each vertical slice delivers working, testable functionality.
 
@@ -105,7 +111,7 @@ Each task follows this structure:
 - `tests/path/to/test.ts`
 
 **Estimated scope:** [Small: 1-2 files | Medium: 3-5 files | Large: 5+ files]
-```text
+```
 
 ### Step 5: Order and Checkpoint
 
@@ -124,7 +130,7 @@ Add explicit checkpoints:
 - [ ] Application builds without errors
 - [ ] Core user flow works end-to-end
 - [ ] Review with human before proceeding
-```text
+```
 
 ## Task Sizing Guidelines
 
@@ -139,6 +145,7 @@ Add explicit checkpoints:
 If a task is L or larger, it should be broken into smaller tasks. An agent performs best on S and M tasks.
 
 **When to break a task down further:**
+
 - It would take more than one focused session (roughly 2+ hours of agent work)
 - You cannot describe the acceptance criteria in 3 or fewer bullet points
 - It touches two or more independent subsystems (e.g., auth and billing)
@@ -187,7 +194,7 @@ If a task is L or larger, it should be broken into smaller tasks. An agent perfo
 
 ## Open Questions
 - [Question needing human input]
-```text
+```
 
 ## Parallelization Opportunities
 
@@ -207,6 +214,7 @@ When multiple agents or sessions are available:
 | "I can hold it all in my head" | Context windows are finite. Written plans survive session boundaries and compaction. |
 
 ## Red Flags
+
 - Tasks described with verbs like "implement" or "build" without specifying what done looks like
 - Tasks that depend on 3+ other tasks (too much coupling)
 - No checkpoint defined between tasks (impossible to verify progress)
@@ -225,8 +233,8 @@ When multiple agents or sessions are available:
 - [incremental-implementation](skills/incremental-implementation/SKILL.md)
 - [interview-me](skills/interview-me/SKILL.md)
 
-
 ## Verification
+
 - [ ] Each task can be completed in under 2 hours of focused work
 - [ ] Plan includes explicit checkpoint after every 2-3 tasks
 - [ ] Riskiest tasks are scheduled first (fail-fast ordering)

@@ -7,11 +7,14 @@ description: Hardens code against vulnerabilities. Use when handling user input,
 
 ## Overview
 
-Security vulnerabilities don't announce themselves. They hide in the input field you forgot to validate, the secret you accidentally logged, the dependency with a known CVE you never checked. By the time you discover them, an attacker has already exploited them — or worse, you discover them in a breach notification.
+Security vulnerabilities don't announce themselves. They hide in the input field you forgot to validate, the secret you accidentally logged, the dependency with a known CVE you never checked. By the
+time you discover them, an attacker has already exploited them — or worse, you discover them in a breach notification.
 
-**The security contract:** Every external input is hostile until proven otherwise. Every authorization check is mandatory, not optional. Every secret is a liability that must be minimized. Security isn't a phase you complete — it's a constraint applied to every line of code that touches user data, authentication, or external systems.
+**The security contract:** Every external input is hostile until proven otherwise. Every authorization check is mandatory, not optional. Every secret is a liability that must be minimized. Security
+isn't a phase you complete — it's a constraint applied to every line of code that touches user data, authentication, or external systems.
 
-**Real-world impact:** The average cost of a data breach is $4.5M. A single unparameterized query or missing auth check can expose your entire database. Security is not paranoia — it's the difference between a system that survives and one that makes headlines.
+**Real-world impact:** The average cost of a data breach is $4.5M. A single unparameterized query or missing auth check can expose your entire database. Security is not paranoia — it's the difference
+between a system that survives and one that makes headlines.
 
 ## When to Use
 
@@ -26,18 +29,19 @@ Security vulnerabilities don't announce themselves. They hide in the input field
 
 Controls bolted on without a threat model are guesses. Before hardening, spend five minutes thinking like an attacker:
 
-1. **Map the trust boundaries.** Where does untrusted data cross into your system? HTTP requests, form fields, file uploads, webhooks, third-party APIs, message queues, and **LLM output**. Every boundary is attack surface.
+1. **Map the trust boundaries.** Where does untrusted data cross into your system? HTTP requests, form fields, file uploads, webhooks, third-party APIs, message queues, and **LLM output**. Every
+boundary is attack surface.
 2. **Name the assets.** What's worth stealing or breaking? Credentials, PII, payment data, admin actions, money movement.
 3. **Run STRIDE over each boundary** — a quick lens, not a ceremony:
 
-| Threat | Ask | Typical mitigation |
-|---|---|---|
-| **S**poofing | Can someone impersonate a user/service? | Authentication, signature verification |
-| **T**ampering | Can data be altered in transit or at rest? | Integrity checks, parameterized queries, HTTPS |
-| **R**epudiation | Can an action be denied later? | Audit logging of security events |
-| **I**nformation disclosure | Can data leak? | Encryption, field allowlists, generic errors |
-| **D**enial of service | Can it be overwhelmed? | Rate limiting, input size caps, timeouts |
-| **E**levation of privilege | Can a user gain rights they shouldn't? | Authorization checks, least privilege |
+   | Threat | Ask | Typical mitigation |
+   |---|---|---|
+   | **S**poofing | Can someone impersonate a user/service? | Authentication, signature verification |
+   | **T**ampering | Can data be altered in transit or at rest? | Integrity checks, parameterized queries, HTTPS |
+   | **R**epudiation | Can an action be denied later? | Audit logging of security events |
+   | **I**nformation disclosure | Can data leak? | Encryption, field allowlists, generic errors |
+   | **D**enial of service | Can it be overwhelmed? | Rate limiting, input size caps, timeouts |
+   | **E**levation of privilege | Can a user gain rights they shouldn't? | Authorization checks, least privilege |
 
 4. **Write abuse cases next to use cases.** For each feature, ask "how would I misuse this?" — then make that your first test.
 
@@ -91,7 +95,7 @@ const user = await db.query('SELECT * FROM users WHERE id = $1', [userId]);
 
 // GOOD: ORM with parameterized input
 const user = await prisma.user.findUnique({ where: { id: userId } });
-```text
+```
 
 ### Broken Authentication
 
@@ -115,7 +119,7 @@ app.use(session({
     maxAge: 24 * 60 * 60 * 1000,  // 24 hours
   },
 }));
-```text
+```
 
 ### Cross-Site Scripting (XSS)
 
@@ -129,7 +133,7 @@ return <div>{userInput}</div>;
 // If you MUST render HTML, sanitize first
 import DOMPurify from 'dompurify';
 const clean = DOMPurify.sanitize(userInput);
-```text
+```
 
 ### Broken Access Control
 
@@ -149,7 +153,7 @@ app.patch('/api/tasks/:id', authenticate, async (req, res) => {
   const updated = await taskService.update(req.params.id, req.body);
   return res.json(updated);
 });
-```text
+```
 
 ### Security Misconfiguration
 
@@ -174,7 +178,7 @@ app.use(cors({
   origin: process.env.ALLOWED_ORIGINS?.split(',') || 'http://localhost:3000',
   credentials: true,
 }));
-```text
+```
 
 ### Sensitive Data Exposure
 
@@ -188,11 +192,12 @@ function sanitizeUser(user: UserRecord): PublicUser {
 // Use environment variables for secrets
 const API_KEY = process.env.STRIPE_API_KEY;
 if (!API_KEY) throw new Error('STRIPE_API_KEY not configured');
-```text
+```
 
 ### Server-Side Request Forgery (SSRF)
 
-Any time the server fetches a URL the user influenced — webhooks, "import from URL", image proxies, link previews — an attacker can aim it at internal services (cloud metadata, `localhost`, private IPs).
+Any time the server fetches a URL the user influenced — webhooks, "import from URL", image proxies, link previews — an attacker can aim it at internal services (cloud metadata, `localhost`, private
+IPs).
 
 ```typescript
 // BAD: fetch whatever the user gives you
@@ -217,11 +222,12 @@ async function assertSafeUrl(raw: string): Promise<URL> {
 }
 
 await fetch(await assertSafeUrl(req.body.webhookUrl), { redirect: 'error' });
-```text
+```
 
 The `range() !== 'unicast'` check covers loopback, link-local `169.254.169.254` (cloud metadata, the #1 SSRF target), private, and unique-local ranges across IPv4 and IPv6.
 
-**Caveat — this still has a TOCTOU gap.** `fetch` resolves DNS again after the check, so an attacker using a short-TTL record can rebind to an internal IP between validation and connection. For high-risk surfaces, resolve once and connect to the pinned IP, or put a filtering agent in front (`request-filtering-agent` / `ssrf-req-filter`).
+**Caveat — this still has a TOCTOU gap.** `fetch` resolves DNS again after the check, so an attacker using a short-TTL record can rebind to an internal IP between validation and connection. For
+high-risk surfaces, resolve once and connect to the pinned IP, or put a filtering agent in front (`request-filtering-agent` / `ssrf-req-filter`).
 
 ## Input Validation Patterns
 
@@ -253,7 +259,7 @@ app.post('/api/tasks', async (req, res) => {
   const task = await taskService.create(result.data);
   return res.status(201).json(task);
 });
-```text
+```
 
 ### File Upload Safety
 
@@ -271,7 +277,7 @@ function validateUpload(file: UploadedFile) {
   }
   // Don't trust the file extension — check magic bytes if critical
 }
-```text
+```
 
 ## Triaging npm audit Results
 
@@ -291,9 +297,10 @@ npm audit reports a vulnerability
 │   └── Dev-only? --> Fix when convenient, track in backlog
 └── Severity: low
     └── Track and fix during regular dependency updates
-```text
+```
 
 **Key questions:**
+
 - Is the vulnerable function actually called in your code path?
 - Is the dependency a runtime dependency or dev-only?
 - Is the vulnerability exploitable given your deployment context (e.g., a server-side vulnerability in a client-only app)?
@@ -305,7 +312,8 @@ When you defer a fix, document the reason and set a review date.
 `npm audit` catches known CVEs; it won't catch a malicious or typosquatted package. Also:
 
 - **Commit the lockfile** and install with `npm ci` (not `npm install`) in CI — reproducible builds, no silent version drift.
-- **Review new dependencies before adding them** — maintenance, download counts, and whether they truly earn their place. Every dependency is attack surface (OWASP **A06: Vulnerable Components**, **LLM03: Supply Chain**).
+- **Review new dependencies before adding them** — maintenance, download counts, and whether they truly earn their place. Every dependency is attack surface (OWASP **A06: Vulnerable Components**,
+**LLM03: Supply Chain**).
 - **Be wary of `postinstall` scripts** in unfamiliar packages — they run arbitrary code at install time.
 - **Watch for typosquats** — `cross-env` vs `crossenv`, `react-dom` vs `reactdom`.
 
@@ -327,7 +335,7 @@ app.use('/api/auth/', rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,  // 10 attempts per 15 minutes
 }));
-```text
+```
 
 ## Secrets Management
 
@@ -343,26 +351,32 @@ app.use('/api/auth/', rateLimit({
   .env.*.local
   *.pem
   *.key
-```text
+```
 
 **Always check before committing:**
+
 ```bash
 # Check for accidentally staged secrets
 git diff --cached | grep -i "password\|secret\|api_key\|token"
-```text
+```
 
-**If a secret is ever committed, rotate it.** Deleting the line or rewriting history is not enough — assume it's compromised the moment it reaches a remote. Revoke and reissue the key first, then purge it from history.
+**If a secret is ever committed, rotate it.** Deleting the line or rewriting history is not enough — assume it's compromised the moment it reaches a remote. Revoke and reissue the key first, then
+purge it from history.
 
 ## Securing AI / LLM Features
 
 If your app calls an LLM — chatbots, summarizers, agents, RAG — it inherits a new attack surface. Map it to the [OWASP Top 10 for LLM Applications (2025)](https://genai.owasp.org/llm-top-10/):
 
-- **Treat all model output as untrusted input (LLM05: Improper Output Handling).** Never pass LLM output straight into `eval`, SQL, a shell, `innerHTML`, or a file path. Validate and encode it exactly as you would raw user input.
-- **Assume prompts can be hijacked (LLM01: Prompt Injection).** Untrusted text in the context window — a user message, a fetched web page, a PDF — can carry instructions. The system prompt is not a security boundary; enforce permissions in code, not in the prompt.
-- **Keep secrets and other users' data out of prompts (LLM02 / LLM07).** Anything in the context can be echoed back. Don't put API keys, cross-tenant data, or the full system prompt where the model can repeat it.
+- **Treat all model output as untrusted input (LLM05: Improper Output Handling).** Never pass LLM output straight into `eval`, SQL, a shell, `innerHTML`, or a file path. Validate and encode it exactly
+as you would raw user input.
+- **Assume prompts can be hijacked (LLM01: Prompt Injection).** Untrusted text in the context window — a user message, a fetched web page, a PDF — can carry instructions. The system prompt is not a
+security boundary; enforce permissions in code, not in the prompt.
+- **Keep secrets and other users' data out of prompts (LLM02 / LLM07).** Anything in the context can be echoed back. Don't put API keys, cross-tenant data, or the full system prompt where the model
+can repeat it.
 - **Constrain tool and agent permissions (LLM06: Excessive Agency).** Scope tools to the minimum, require confirmation for destructive or irreversible actions, and validate every tool argument.
 - **Bound consumption (LLM10: Unbounded Consumption).** Cap tokens, request rate, and loop/recursion depth so a crafted input can't run up cost or hang the system.
-- **Isolate retrieval data (LLM08: Vector and Embedding Weaknesses).** In RAG, treat the vector store as a trust boundary: partition embeddings per tenant so one user can't retrieve another's data, and validate documents before indexing so poisoned content can't steer answers.
+- **Isolate retrieval data (LLM08: Vector and Embedding Weaknesses).** In RAG, treat the vector store as a trust boundary: partition embeddings per tenant so one user can't retrieve another's data,
+and validate documents before indexing so poisoned content can't steer answers.
 
 ```typescript
 // BAD: trusting model output as a command or as markup
@@ -379,7 +393,7 @@ try {
 }
 await runAllowlistedAction(intent.action, intent.params);
 container.textContent = await llm.reply(userMessage);
-```text
+```
 
 ## Security Review Checklist
 
@@ -420,7 +434,8 @@ container.textContent = await llm.reply(userMessage);
 - [ ] Model output treated as untrusted (no eval/SQL/innerHTML/shell)
 - [ ] Secrets and other users' data kept out of prompts
 - [ ] Tool/agent permissions scoped; destructive actions require confirmation
-```text
+```
+
 ## See Also
 
 For detailed security checklists and pre-commit verification steps, see `references/security-checklist.md`.
@@ -438,6 +453,7 @@ For detailed security checklists and pre-commit verification steps, see `referen
 | "It's just LLM output, it's only text" | That "text" can be a SQL statement, a script tag, or a shell command. Treat it like any untrusted input. |
 
 ## Red Flags
+
 - Secrets in code, logs, or error messages
 - User input used in SQL/NoSQL queries without parameterization
 - Authentication checks missing from "internal" endpoints
@@ -457,6 +473,7 @@ For detailed security checklists and pre-commit verification steps, see `referen
 - Secrets, PII, or the full system prompt placed inside an LLM context window
 
 ## Verification
+
 - [ ] All user inputs validated at system boundaries
 - [ ] No secrets in code (use environment variables or secrets manager)
 - [ ] Authentication enforced on every endpoint that returns data

@@ -102,6 +102,7 @@ node scripts/quality-gate.js
 ### 5. Add to meta-skill
 
 Update `skills/using-SkillEngine/SKILL.md`:
+
 - Add to the discovery flowchart
 - Add to the Quick Reference table
 - Add to the Lifecycle Sequence if applicable
@@ -132,6 +133,7 @@ npm run stats
 ```
 
 Shows:
+
 - Skill count and phase distribution
 - Documentation volume (lines)
 - Health indicators
@@ -156,6 +158,7 @@ node scripts/validate-skills.js
 ```
 
 Look for:
+
 - **ERROR** (red) — Must fix before merge
 - **WARN** (yellow) — Should fix, doesn't block by default
 - **INFO** (blue) — FYI, for awareness

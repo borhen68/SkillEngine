@@ -66,7 +66,7 @@ Before reaching for controls, spend five minutes thinking like an attacker:
 
 ## Security Headers
 
-```
+```text
 Content-Security-Policy: default-src 'self'; script-src 'self'
 Strict-Transport-Security: max-age=31536000; includeSubDomains
 X-Content-Type-Options: nosniff
@@ -116,6 +116,7 @@ npx npm-check-updates
 ```
 
 **Supply-chain hygiene** (`npm audit` won't catch malicious packages):
+
 - [ ] Lockfile committed; CI installs with `npm ci` (not `npm install`)
 - [ ] New dependencies reviewed (maintenance, downloads, `postinstall` scripts)
 - [ ] No typosquats (`cross-env` vs `crossenv`, `react-dom` vs `reactdom`)

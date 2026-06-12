@@ -7,7 +7,8 @@ description: Optimizes application performance. Use when performance requirement
 
 ## Overview
 
-Measure before optimizing. Performance work without measurement is guessing — and guessing leads to premature optimization that adds complexity without improving what matters. Profile first, identify the actual bottleneck, fix it, measure again. Optimize only what measurements prove matters.
+Measure before optimizing. Performance work without measurement is guessing — and guessing leads to premature optimization that adds complexity without improving what matters. Profile first, identify
+the actual bottleneck, fix it, measure again. Optimize only what measurements prove matters.
 
 ## When to Use
 
@@ -35,7 +36,7 @@ Measure before optimizing. Performance work without measurement is guessing — 
 3. FIX      → Address the specific bottleneck
 4. VERIFY   → Measure again, confirm improvement
 5. GUARD    → Add monitoring or tests to prevent regression
-```text
+```
 
 ### Step 1: Measure
 
@@ -45,6 +46,7 @@ Two complementary approaches — use both:
 - **RUM (web-vitals library, CrUX):** Real user data in real conditions. Required to validate that a fix actually improved user experience.
 
 **Frontend:**
+
 ```bash
 # Synthetic: Lighthouse in Chrome DevTools (or CI)
 # Chrome DevTools → Performance tab → Record
@@ -56,9 +58,10 @@ import { onLCP, onINP, onCLS } from 'web-vitals';
 onLCP(console.log);
 onINP(console.log);
 onCLS(console.log);
-```text
+```
 
 **Backend:**
+
 ```bash
 # Response time logging
 # Application Performance Monitoring (APM)
@@ -68,7 +71,7 @@ onCLS(console.log);
 console.time('db-query');
 const result = await db.query(...);
 console.timeEnd('db-query');
-```text
+```
 
 ### Where to Start Measuring
 
@@ -94,7 +97,7 @@ What is slow?
     ├── Single endpoint slow? --> Profile database queries, check indexes
     ├── All endpoints slow? --> Check connection pool, memory, CPU
     └── Intermittent slowness? --> Check for lock contention, GC pauses, external deps
-```text
+```
 
 ### Step 2: Identify the Bottleneck
 
@@ -133,7 +136,7 @@ for (const task of tasks) {
 const tasks = await db.tasks.findMany({
   include: { owner: true },
 });
-```text
+```
 
 #### Unbounded Data Fetching
 
@@ -147,7 +150,7 @@ const tasks = await db.tasks.findMany({
   skip: (page - 1) * 20,
   orderBy: { createdAt: 'desc' },
 });
-```text
+```
 
 #### Missing Image Optimization (Frontend)
 
@@ -212,7 +215,7 @@ const tasks = await db.tasks.findMany({
   decoding="async"
   alt="Content image description"
 />
-```text
+```
 
 #### Unnecessary Re-renders (React)
 
@@ -238,7 +241,7 @@ function TaskStats({ tasks }: Props) {
   const stats = useMemo(() => calculateStats(tasks), [tasks]);
   return <div>{stats.completed} / {stats.total}</div>;
 }
-```text
+```
 
 #### Large Bundle Size
 
@@ -260,7 +263,7 @@ function App() {
     </Suspense>
   );
 }
-```text
+```
 
 #### Missing Caching (Backend)
 
@@ -287,7 +290,7 @@ app.use('/static', express.static('public', {
 
 // Cache-Control for API responses
 res.set('Cache-Control', 'public, max-age=300'); // 5 minutes
-```text
+```
 
 ## Performance Budget
 
@@ -301,21 +304,21 @@ Fonts: < 100KB total
 API response time: < 200ms (p95)
 Time to Interactive: < 3.5s on 4G
 Lighthouse Performance score: ≥ 90
-```text
+```
 
 **Enforce in CI:**
+
 ```bash
 # Bundle size check
 npx bundlesize --config bundlesize.config.json
 
 # Lighthouse CI
 npx lhci autorun
-```text
+```
 
 ## See Also
 
 For detailed performance checklists, optimization commands, and anti-pattern reference, see `references/performance-checklist.md`.
-
 
 ## Common Rationalizations
 
@@ -328,6 +331,7 @@ For detailed performance checklists, optimization commands, and anti-pattern ref
 | "The framework handles performance" | Frameworks prevent some issues but can't fix N+1 queries or oversized bundles. |
 
 ## Red Flags
+
 - Optimizing without profiling first
 - Premature optimization (complex code for hypothetical performance issues)
 - Caching without cache invalidation strategy
@@ -343,6 +347,7 @@ For detailed performance checklists, optimization commands, and anti-pattern ref
 - `React.memo` and `useMemo` everywhere (overusing is as bad as underusing)
 
 ## Verification
+
 - [ ] Before/after measurements documented with numbers
 - [ ] Optimization target (budget/limit) defined before starting
 - [ ] Regression tests verify the optimization still works

@@ -7,11 +7,14 @@ description: Records decisions and documentation. Use when making architectural 
 
 ## Overview
 
-Six months from now, someone — maybe you, maybe an AI agent — will look at this code and ask "why did they do it this way?" Without documentation, that question becomes a 2-hour archaeology session through git history, Slack threads, and deleted Jira tickets. With documentation, it's a 30-second read.
+Six months from now, someone — maybe you, maybe an AI agent — will look at this code and ask "why did they do it this way?" Without documentation, that question becomes a 2-hour archaeology session
+through git history, Slack threads, and deleted Jira tickets. With documentation, it's a 30-second read.
 
-**The documentation contract:** Every significant decision gets an ADR. Every public API gets documented contracts. Every "gotcha" gets an inline comment. Code shows *what* was built; documentation captures *why* and *what else was considered*. The future you — and every engineer who inherits your code — will thank you.
+**The documentation contract:** Every significant decision gets an ADR. Every public API gets documented contracts. Every "gotcha" gets an inline comment. Code shows *what* was built; documentation
+captures *why* and *what else was considered*. The future you — and every engineer who inherits your code — will thank you.
 
-**Real-world impact:** Teams with Architecture Decision Records spend 40% less time re-debating past choices. A 10-minute ADR prevents the same architectural argument from recurring every six months. Documentation isn't overhead — it's compound interest on your engineering decisions.
+**Real-world impact:** Teams with Architecture Decision Records spend 40% less time re-debating past choices. A 10-minute ADR prevents the same architectural argument from recurring every six months.
+Documentation isn't overhead — it's compound interest on your engineering decisions.
 
 ## When to Use
 
@@ -82,13 +85,13 @@ Use PostgreSQL with Prisma ORM.
 - We can use PostgreSQL's full-text search instead of adding Elasticsearch
 - Team needs PostgreSQL knowledge (standard skill, low risk)
 - Hosting on managed service (Supabase, Neon, or RDS)
-```text
+```
 
 ### ADR Lifecycle
 
 ```text
 PROPOSED → ACCEPTED → (SUPERSEDED or DEPRECATED)
-```text
+```
 
 - **Don't delete old ADRs.** They capture historical context.
 - When a decision changes, write a new ADR that references and supersedes the old one.
@@ -111,7 +114,7 @@ if (now - windowStart > WINDOW_SIZE_MS) {
   counter = 0;
   windowStart = now;
 }
-```text
+```
 
 ### When NOT to Comment
 
@@ -126,7 +129,7 @@ function calculateTotal(items: CartItem[]): number {
 
 // Don't leave commented-out code
 // const oldImplementation = () => { ... }  ← Delete it, git has history
-```text
+```
 
 ### Document Known Gotchas
 
@@ -141,7 +144,7 @@ function calculateTotal(items: CartItem[]): number {
 export function initializeTheme(theme: Theme): void {
   // ...
 }
-```text
+```
 
 ## API Documentation
 
@@ -165,7 +168,7 @@ For public APIs (REST, GraphQL, library interfaces):
 export async function createTask(input: CreateTaskInput): Promise<Task> {
   // ...
 }
-```text
+```
 
 ### OpenAPI / Swagger for REST APIs
 
@@ -189,7 +192,7 @@ paths:
                 $ref: '#/components/schemas/Task'
         '422':
           description: Validation error
-```text
+```
 
 ## README Structure
 
@@ -220,7 +223,7 @@ Link to ADRs for details.
 
 ## Contributing
 How to contribute, coding standards, PR process.
-```text
+```
 
 ## Changelog Maintenance
 
@@ -239,7 +242,7 @@ For shipped features:
 
 ### Changed
 - Task list now loads 50 items per page (was 20) for better UX (#126)
-```text
+```
 
 ## Documentation for Agents
 
@@ -261,6 +264,7 @@ Special consideration for AI agent context:
 | "Comments get outdated" | Comments on *why* are stable. Comments on *what* get outdated — that's why you only write the former. |
 
 ## Red Flags
+
 - ADRs written after the decision is already implemented
 - Documentation that describes what the code does (code already shows that)
 - ADRs with no alternatives considered ("we just picked this")
@@ -281,8 +285,8 @@ Special consideration for AI agent context:
 - [api-and-interface-design](skills/api-and-interface-design/SKILL.md)
 - [shipping-and-launch](skills/shipping-and-launch/SKILL.md)
 
-
 ## Verification
+
 - [ ] Every ADR links to the code it describes
 - [ ] Alternatives considered section has at least 2 options
 - [ ] Decision is reversible (documented how to undo if wrong)

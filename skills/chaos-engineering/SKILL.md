@@ -7,9 +7,11 @@ description: Guides systematic fault injection and resilience testing. Use when 
 
 ## Overview
 
-Chaos engineering is the discipline of experimenting on a system to build confidence in its capability to withstand turbulent conditions. Instead of hoping nothing breaks, you intentionally break things in controlled ways to discover weaknesses before they discover you in production.
+Chaos engineering is the discipline of experimenting on a system to build confidence in its capability to withstand turbulent conditions. Instead of hoping nothing breaks, you intentionally break
+things in controlled ways to discover weaknesses before they discover you in production.
 
-**The core insight:** Systems fail in ways you didn't anticipate. You can't test for every failure mode, but you can systematically surface unknown dependencies, hidden single points of failure, and misconfigured timeouts. Chaos engineering turns "it probably works" into "we've proven it works under these failure conditions."
+**The core insight:** Systems fail in ways you didn't anticipate. You can't test for every failure mode, but you can systematically surface unknown dependencies, hidden single points of failure, and
+misconfigured timeouts. Chaos engineering turns "it probably works" into "we've proven it works under these failure conditions."
 
 ## When to Use
 
@@ -21,6 +23,7 @@ Chaos engineering is the discipline of experimenting on a system to build confid
 - Migrating to new infrastructure (cloud provider, database, message queue)
 
 **NOT for:**
+
 - Systems without basic monitoring and observability (you can't chaos test what you can't observe)
 - Production environments without on-call coverage and rollback procedures
 - Systems handling life-critical or financial transactions without explicit authorization
@@ -37,9 +40,10 @@ STEADY STATE HYPOTHESIS:
 - Baseline: [current observed value, e.g. 145ms]
 - Threshold: [failure threshold, e.g. > 300ms]
 - Duration: [how long the system must maintain this, e.g. 5 minutes]
-```text
+```
 
 **Good steady state metrics:**
+
 - Request success rate (should be > 99.9% for most services)
 - p50/p99 latency (measured from the client perspective)
 - Error rate by endpoint (catch localized failures)
@@ -47,6 +51,7 @@ STEADY STATE HYPOTHESIS:
 - Business metrics (checkouts completed, messages processed)
 
 **Bad steady state metrics:**
+
 - "The service is up" (up != working)
 - CPU utilization (a bad metric for user-facing health)
 - "No alerts are firing" (your alerts might be wrong)
@@ -70,13 +75,13 @@ Every chaos experiment has five components:
 
 5. ROLLBACK: How do we undo?
    └── Kill switch? Feature flag? Automatic after duration?
-```text
+```
 
 **Blast radius progression (never skip steps):**
 
 ```text
 Development environment → Single instance → Single AZ → Production canary → Full production
-```text
+```
 
 ### Step 3: Run the Experiment
 
@@ -89,9 +94,10 @@ tc qdisc add dev eth0 root netem delay 100ms 20ms distribution normal
 echo "Injecting latency... Press Ctrl+C to abort"
 sleep 60
 tc qdisc del dev eth0 root netem  # Cleanup
-```text
+```
 
 **During the experiment:**
+
 - One person watches dashboards (error rate, latency, business metrics)
 - One person controls the experiment (injects fault, can abort)
 - Document actual vs expected behavior in real-time
@@ -123,7 +129,7 @@ During [fault], [metric] will remain within [threshold] because [reasoning].
 1. Reduce cache timeout to 2s with stale-while-revalidate
 2. Fix fallback logic: should serve stale cache on cache miss + dependency down
 3. Increase connection pool to 50 with circuit breaker
-```text
+```
 
 ### Step 5: Fix and Verify
 
@@ -131,7 +137,7 @@ Every failed experiment must result in fixes and a re-run:
 
 ```text
 Fix identified weakness → Deploy fix → Re-run same experiment → Verify hypothesis passes
-```text
+```
 
 A chaos experiment that fails and isn't re-run is worse than no experiment — it proves you know about a weakness and haven't fixed it.
 
@@ -154,7 +160,7 @@ fio --name=randwrite --ioengine=libaio --iodepth=32 --rw=randwrite \
 iptables -A OUTPUT -d 10.0.1.5 -j DROP
 # ... experiment ...
 iptables -D OUTPUT -d 10.0.1.5 -j DROP  # Cleanup
-```text
+```
 
 ### Application Failures
 
@@ -168,7 +174,7 @@ kubectl delete pod -l app=api-gateway --grace-period=0 --force
 # Database connection failure
 # iptables block to database port
 iptables -A OUTPUT -p tcp --dport 5432 -j DROP
-```text
+```
 
 ### Dependency Failures
 
@@ -184,7 +190,7 @@ const proxy = new ChaosProxy({
     { type: 'timeout', delay: '5s', probability: 0.02 },
   ],
 });
-```text
+```
 
 ## Chaos Engineering Maturity Model
 
@@ -194,7 +200,7 @@ Level 2 — Planned       → Schedule experiments, define hypotheses, measure r
 Level 3 — Automated     → CI pipeline runs experiments automatically, gates deploys
 Level 4 — Continuous    → Production runs small experiments continuously (1% of traffic)
 Level 5 — Game Days     → Regular cross-team disaster simulations with business stakeholders
-```text
+```
 
 ## Tools by Layer
 
@@ -235,7 +241,7 @@ Day Of:
 ├── 0:30-0:45 — Recover: Verify steady state restored
 ├── 0:45-1:00 — Document: Record timeline, decisions, and gaps
 └── 1:00+ — Retro: What worked, what didn't, what needs fixing
-```text
+```
 
 ## Common Rationalizations
 

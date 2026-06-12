@@ -7,11 +7,14 @@ description: Manages deprecation and migration. Use when removing old systems, A
 
 ## Overview
 
-Engineering teams celebrate launches. They rarely celebrate removals. Yet every line of code is a liability — it needs testing, updating, documenting, and securing. Code that no longer earns its keep is not neutral; it's actively harmful because it obscures what matters, consumes attention, and accumulates risk.
+Engineering teams celebrate launches. They rarely celebrate removals. Yet every line of code is a liability — it needs testing, updating, documenting, and securing. Code that no longer earns its keep
+is not neutral; it's actively harmful because it obscures what matters, consumes attention, and accumulates risk.
 
-**The deprecation contract:** Every system should be designed with its removal in mind. When deprecation is necessary, provide a replacement, migration tooling, and a clear timeline. Never leave users stranded. Removing code is as important as writing it — and deserves the same rigor.
+**The deprecation contract:** Every system should be designed with its removal in mind. When deprecation is necessary, provide a replacement, migration tooling, and a clear timeline. Never leave users
+stranded. Removing code is as important as writing it — and deserves the same rigor.
 
-**Real-world impact:** Organizations that actively remove dead code have 30% lower maintenance costs and 40% faster onboarding for new engineers. Zombie code (unused but depended upon) is the single biggest source of "don't touch that" fear in legacy systems. Removing it isn't risky — keeping it is.
+**Real-world impact:** Organizations that actively remove dead code have 30% lower maintenance costs and 40% faster onboarding for new engineers. Zombie code (unused but depended upon) is the single
+biggest source of "don't touch that" fear in legacy systems. Removing it isn't risky — keeping it is.
 
 ## When to Use
 
@@ -26,15 +29,18 @@ Engineering teams celebrate launches. They rarely celebrate removals. Yet every 
 
 ### Code Is a Liability
 
-Every line of code has ongoing cost: it needs tests, documentation, security patches, dependency updates, and mental overhead for anyone working nearby. The value of code is the functionality it provides, not the code itself. When the same functionality can be provided with less code, less complexity, or better abstractions — the old code should go.
+Every line of code has ongoing cost: it needs tests, documentation, security patches, dependency updates, and mental overhead for anyone working nearby. The value of code is the functionality it
+provides, not the code itself. When the same functionality can be provided with less code, less complexity, or better abstractions — the old code should go.
 
 ### Hyrum's Law Makes Removal Hard
 
-With enough users, every observable behavior becomes depended on — including bugs, timing quirks, and undocumented side effects. This is why deprecation requires active migration, not just announcement. Users can't "just switch" when they depend on behaviors the replacement doesn't replicate.
+With enough users, every observable behavior becomes depended on — including bugs, timing quirks, and undocumented side effects. This is why deprecation requires active migration, not just
+announcement. Users can't "just switch" when they depend on behaviors the replacement doesn't replicate.
 
 ### Deprecation Planning Starts at Design Time
 
-When building something new, ask: "How would we remove this in 3 years?" Systems designed with clean interfaces, feature flags, and minimal surface area are easier to deprecate than systems that leak implementation details everywhere.
+When building something new, ask: "How would we remove this in 3 years?" Systems designed with clean interfaces, feature flags, and minimal surface area are easier to deprecate than systems that leak
+implementation details everywhere.
 
 ## The Deprecation Decision
 
@@ -55,7 +61,7 @@ Before deprecating anything, answer these questions:
 
 5. What's the ongoing maintenance cost of NOT deprecating?
    → Security risk, engineer time, opportunity cost of complexity.
-```text
+```
 
 ## Compulsory vs Advisory Deprecation
 
@@ -64,7 +70,8 @@ Before deprecating anything, answer these questions:
 | **Advisory** | Migration is optional, old system is stable | Warnings, documentation, nudges. Users migrate on their own timeline. |
 | **Compulsory** | Old system has security issues, blocks progress, or maintenance cost is unsustainable | Hard deadline. Old system will be removed by date X. Provide migration tooling. |
 
-**Default to advisory.** Use compulsory only when the maintenance cost or risk justifies forcing migration. Compulsory deprecation requires providing migration tooling, documentation, and support — you can't just announce a deadline.
+**Default to advisory.** Use compulsory only when the maintenance cost or risk justifies forcing migration. Compulsory deprecation requires providing migration tooling, documentation, and support —
+you can't just announce a deadline.
 
 ## The Migration Process
 
@@ -91,7 +98,7 @@ Don't deprecate without a working alternative. The replacement must:
 1. Replace `import { client } from 'old-service'` with `import { client } from 'new-service'`
 2. Update configuration (see examples below)
 3. Run the migration verification script: `npx migrate-check`
-```text
+```
 
 ### Step 3: Migrate Incrementally
 
@@ -103,9 +110,10 @@ Migrate consumers one at a time, not all at once. For each consumer:
 3. Verify behavior matches (tests, integration checks)
 4. Remove references to the old system
 5. Confirm no regressions
-```text
+```
 
-**The Churn Rule:** If you own the infrastructure being deprecated, you are responsible for migrating your users — or providing backward-compatible updates that require no migration. Don't announce deprecation and leave users to figure it out.
+**The Churn Rule:** If you own the infrastructure being deprecated, you are responsible for migrating your users — or providing backward-compatible updates that require no migration. Don't announce
+deprecation and leave users to figure it out.
 
 ### Step 4: Remove the Old System
 
@@ -117,7 +125,7 @@ Only after all consumers have migrated:
 3. Remove associated tests, documentation, and configuration
 4. Remove the deprecation notices
 5. Celebrate — removing code is an achievement
-```text
+```
 
 ## Migration Patterns
 
@@ -131,7 +139,7 @@ Phase 2: New system handles 10% (canary)
 Phase 3: New system handles 50%
 Phase 4: New system handles 100%, old system idle
 Phase 5: Remove old system
-```text
+```
 
 ### Adapter Pattern
 
@@ -148,7 +156,7 @@ class LegacyTaskService implements OldTaskAPI {
     return this.toOldFormat(task);
   }
 }
-```text
+```
 
 ### Feature Flag Migration
 
@@ -161,7 +169,7 @@ function getTaskService(userId: string): TaskService {
   }
   return new LegacyTaskService();
 }
-```text
+```
 
 ## Zombie Code
 
@@ -187,6 +195,7 @@ Zombie code is code that nobody owns but everybody depends on. It's not actively
 | "We can maintain both systems indefinitely" | Two systems doing the same thing is double the maintenance, testing, documentation, and onboarding cost. |
 
 ## Red Flags
+
 - Removing a feature without notifying users
 - Deprecating without providing a replacement path
 - Migration timeline that is "ASAP" (no grace period)
@@ -207,8 +216,8 @@ Zombie code is code that nobody owns but everybody depends on. It's not actively
 - [git-workflow-and-versioning](skills/git-workflow-and-versioning/SKILL.md)
 - [documentation-and-adrs](skills/documentation-and-adrs/SKILL.md)
 
-
 ## Verification
+
 - [ ] Users have a documented migration path
 - [ ] Timeline communicated clearly (deprecation date, removal date)
 - [ ] Analytics confirm low usage before removal

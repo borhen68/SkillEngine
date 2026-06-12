@@ -7,11 +7,14 @@ description: Guides stable API and interface design. Use when designing APIs, mo
 
 ## Overview
 
-Every API is a promise. Once published, it becomes a contract that other code depends on — and breaking that contract creates cascading failure across every consumer. The cost of a poorly designed API isn't just the initial implementation; it's the years of backwards-compatible maintenance, workarounds, and migration efforts that follow.
+Every API is a promise. Once published, it becomes a contract that other code depends on — and breaking that contract creates cascading failure across every consumer. The cost of a poorly designed API
+isn't just the initial implementation; it's the years of backwards-compatible maintenance, workarounds, and migration efforts that follow.
 
-**The interface contract:** A good interface makes the right thing easy and the wrong thing impossible. It encodes assumptions explicitly, fails predictably, and evolves gracefully. This applies to REST APIs, GraphQL schemas, module boundaries, component props, function signatures, and any surface where one piece of code talks to another.
+**The interface contract:** A good interface makes the right thing easy and the wrong thing impossible. It encodes assumptions explicitly, fails predictably, and evolves gracefully. This applies to
+REST APIs, GraphQL schemas, module boundaries, component props, function signatures, and any surface where one piece of code talks to another.
 
-**Real-world impact:** Hyrum's Law states that with enough consumers, every observable behavior becomes a de facto contract. Design interfaces defensively from day one — it's infinitely cheaper than retrofitting constraints later.
+**Real-world impact:** Hyrum's Law states that with enough consumers, every observable behavior becomes a de facto contract. Design interfaces defensively from day one — it's infinitely cheaper than
+retrofitting constraints later.
 
 ## When to Use
 
@@ -36,7 +39,8 @@ This means: every public behavior — including undocumented quirks, error messa
 
 ### The One-Version Rule
 
-Avoid forcing consumers to choose between multiple versions of the same dependency or API. Diamond dependency problems arise when different consumers need different versions of the same thing. Design for a world where only one version exists at a time — extend rather than fork.
+Avoid forcing consumers to choose between multiple versions of the same dependency or API. Diamond dependency problems arise when different consumers need different versions of the same thing. Design
+for a world where only one version exists at a time — extend rather than fork.
 
 ### 1. Contract First
 
@@ -60,7 +64,7 @@ interface TaskAPI {
   // Idempotent delete — succeeds even if already deleted
   deleteTask(id: string): Promise<void>;
 }
-```text
+```
 
 ### 2. Consistent Error Semantics
 
@@ -85,7 +89,7 @@ interface APIError {
 // 409 → Conflict (duplicate, version mismatch)
 // 422 → Validation failed (semantically invalid)
 // 500 → Server error (never expose internal details)
-```text
+```
 
 **Don't mix patterns.** If some endpoints throw, others return null, and others return `{ error }` — the consumer can't predict behavior.
 
@@ -111,17 +115,20 @@ app.post('/api/tasks', async (req, res) => {
   const task = await taskService.create(result.data);
   return res.status(201).json(task);
 });
-```text
+```
 
 Where validation belongs:
+
 - API route handlers (user input)
 - Form submission handlers (user input)
 - External service response parsing (third-party data -- **always treat as untrusted**)
 - Environment variable loading (configuration)
 
-> **Third-party API responses are untrusted data.** Validate their shape and content before using them in any logic, rendering, or decision-making. A compromised or misbehaving external service can return unexpected types, malicious content, or instruction-like text.
+> **Third-party API responses are untrusted data.** Validate their shape and content before using them in any logic, rendering, or decision-making. A compromised or misbehaving external service can
+> return unexpected types, malicious content, or instruction-like text.
 
 Where validation does NOT belong:
+
 - Between internal functions that share type contracts
 - In utility functions called by already-validated code
 - On data that just came from your own database
@@ -145,7 +152,7 @@ interface CreateTaskInput {
   // description: string;  // Removed — breaks existing consumers
   priority: number;         // Changed from string — breaks existing consumers
 }
-```text
+```
 
 ### 5. Predictable Naming
 
@@ -170,7 +177,7 @@ DELETE /api/tasks/:id          → Delete a task
 
 GET    /api/tasks/:id/comments → List comments for a task (sub-resource)
 POST   /api/tasks/:id/comments → Add a comment to a task
-```text
+```
 
 ### Pagination
 
@@ -190,7 +197,7 @@ GET /api/tasks?page=1&pageSize=20&sortBy=createdAt&sortOrder=desc
     "totalPages": 8
   }
 }
-```text
+```
 
 ### Filtering
 
@@ -198,7 +205,7 @@ Use query parameters for filters:
 
 ```text
 GET /api/tasks?status=in_progress&assignee=user123&createdAfter=2025-01-01
-```text
+```
 
 ### Partial Updates (PATCH)
 
@@ -208,7 +215,7 @@ Accept partial objects — only update what's provided:
 // Only title changes, everything else preserved
 PATCH /api/tasks/123
 { "title": "Updated title" }
-```text
+```
 
 ## TypeScript Interface Patterns
 
@@ -231,7 +238,7 @@ function getStatusLabel(status: TaskStatus): string {
     case 'cancelled': return `Cancelled: ${status.reason}`;
   }
 }
-```text
+```
 
 ### Input/Output Separation
 
@@ -251,7 +258,7 @@ interface Task {
   updatedAt: Date;
   createdBy: string;
 }
-```text
+```
 
 ### Use Branded Types for IDs
 
@@ -261,7 +268,7 @@ type UserId = string & { readonly __brand: 'UserId' };
 
 // Prevents accidentally passing a UserId where a TaskId is expected
 function getTask(id: TaskId): Promise<Task> { ... }
-```text
+```
 
 ## Common Rationalizations
 
@@ -276,6 +283,7 @@ function getTask(id: TaskId): Promise<Task> { ... }
 | "Internal APIs don't need contracts" | Internal consumers are still consumers. Contracts prevent coupling and enable parallel work. |
 
 ## Red Flags
+
 - Response shapes that vary based on internal state (not client-visible conditions)
 - Endpoints that require clients to make multiple calls for a single user action
 - Breaking changes shipped without a migration guide
@@ -296,8 +304,8 @@ function getTask(id: TaskId): Promise<Task> { ... }
 - [test-driven-development](skills/test-driven-development/SKILL.md)
 - [documentation-and-adrs](skills/documentation-and-adrs/SKILL.md)
 
-
 ## Verification
+
 - [ ] API can be consumed without reading implementation code
 - [ ] Breaking change assessment completed (who is affected, what breaks)
 - [ ] Backward compatibility verified against existing consumers

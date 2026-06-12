@@ -7,11 +7,14 @@ description: Extracts what the user actually wants instead of what they think th
 
 ## Overview
 
-The most expensive bug in software isn't a null pointer or a race condition — it's building the wrong thing. Users ask for "a dashboard" not because they need a dashboard, but because they need to know something, and a dashboard is the first solution that comes to mind. They say "make it faster" without a number because they haven't defined what "fast enough" means.
+The most expensive bug in software isn't a null pointer or a race condition — it's building the wrong thing. Users ask for "a dashboard" not because they need a dashboard, but because they need to
+know something, and a dashboard is the first solution that comes to mind. They say "make it faster" without a number because they haven't defined what "fast enough" means.
 
-**The interview contract:** Before any plan, spec, or code, ask one question at a time until you can predict the user's answer. Surface assumptions explicitly. Don't silently fill gaps with your own defaults — the gaps are where the real requirements live.
+**The interview contract:** Before any plan, spec, or code, ask one question at a time until you can predict the user's answer. Surface assumptions explicitly. Don't silently fill gaps with your own
+defaults — the gaps are where the real requirements live.
 
-**Real-world impact:** Research shows that 50% of software features are never used or rarely used. The root cause isn't bad implementation — it's misunderstood requirements. A 10-minute structured interview prevents weeks of building something nobody wanted.
+**Real-world impact:** Research shows that 50% of software features are never used or rarely used. The root cause isn't bad implementation — it's misunderstood requirements. A 10-minute structured
+interview prevents weeks of building something nobody wanted.
 
 ## When to Use
 
@@ -33,7 +36,8 @@ Apply this skill when:
 
 ## Loading Constraints
 
-This skill needs a live, responsive user. **Do not invoke in non-interactive contexts** like CI pipelines, scheduled runs, `/loop`, or autonomous-loop. If you're in one of those and the ask is underspecified, flag that as a blocker for the user instead of guessing.
+This skill needs a live, responsive user. **Do not invoke in non-interactive contexts** like CI pipelines, scheduled runs, `/loop`, or autonomous-loop. If you're in one of those and the ask is
+underspecified, flag that as a blocker for the user instead of guessing.
 
 ## The Process
 
@@ -44,11 +48,13 @@ Before asking anything, write down your current best read of what the user wants
 ```text
 HYPOTHESIS: You want a way to answer "how are we doing?" in standup, and "dashboard" was the convention that came to mind.
 CONFIDENCE: ~30% — missing: who it's for, what "metrics" means in context, and what success looks like
-```text
+```
 
-The number forces honesty. If you wrote down a high number but can't actually predict the user's reactions to the next three questions you'd ask, the number is wrong. Start at the confidence level you can defend.
+The number forces honesty. If you wrote down a high number but can't actually predict the user's reactions to the next three questions you'd ask, the number is wrong. Start at the confidence level you
+can defend.
 
-When confidence is below ~70%, append a brief reason on the same line — what's still unresolved or missing. This tells the user exactly what the interview needs to surface, and prevents the number from being a vague signal.
+When confidence is below ~70%, append a brief reason on the same line — what's still unresolved or missing. This tells the user exactly what the interview needs to surface, and prevents the number
+from being a vague signal.
 
 ### Step 2: Ask one question at a time, each with a guess attached
 
@@ -57,7 +63,7 @@ Format:
 ```text
 Q: <one focused question>
 GUESS: <your hypothesis for the answer, with the reasoning that produced it>
-```text
+```
 
 Wait for the user to react before asking the next question.
 
@@ -93,7 +99,8 @@ That single question often does more work than the previous five.
 
 ### Step 4: Restate intent in the user's own words
 
-When your confidence is high, write back what you now think the user wants. Keep it tight (5–8 lines), use their language where possible, and structure it so the user can confirm or correct line by line:
+When your confidence is high, write back what you now think the user wants. Keep it tight (5–8 lines), use their language where possible, and structure it so the user can confirm or correct line by
+line:
 
 ```text
 Here's what I now think you want:
@@ -106,7 +113,7 @@ Here's what I now think you want:
 - Out of scope: <one line — what we're explicitly not doing>
 
 Yes / no / refine?
-```text
+```
 
 Including "Out of scope" is non-negotiable. Half of misalignment is silent disagreement about what is *not* being built.
 
@@ -129,11 +136,13 @@ You're done when you can answer yes to this:
 
 If yes, you have shared understanding. Stop interviewing and produce the restate. If no, you're not done; ask the next question.
 
-This is a checkable test, not a vibe. It also has a floor: if you've gone several rounds and still can't predict, that's information about the ask, not a reason to keep grinding. Stop and tell the user: "I've asked X questions and I still can't predict your reactions. Something foundational is missing. Want to step back?"
+This is a checkable test, not a vibe. It also has a floor: if you've gone several rounds and still can't predict, that's information about the ask, not a reason to keep grinding. Stop and tell the
+user: "I've asked X questions and I still can't predict your reactions. Something foundational is missing. Want to step back?"
 
 ## Output
 
-The output of this skill is a **confirmed statement of intent**: the restate from Step 4, with an explicit yes from Step 5. That's the deliverable. Specs, plans, and task lists are downstream; they consume the intent this skill produces.
+The output of this skill is a **confirmed statement of intent**: the restate from Step 4, with an explicit yes from Step 5. That's the deliverable. Specs, plans, and task lists are downstream; they
+consume the intent this skill produces.
 
 If the user wants the intent to persist (a multi-session project, a handoff to another collaborator), offer to save it to `docs/intent/[topic].md`. Only save if they confirm.
 
@@ -146,9 +155,10 @@ A short before-and-after.
 ```text
 User:  build me a dashboard for our metrics
 Agent: <starts proposing chart libraries and layouts>
-```text
+```
 
-The agent has assumed: who it's for, what metrics, what "for our team" means, what success looks like. None of these are stated. Every assumption is a place the user can later say "that's not what I meant."
+The agent has assumed: who it's for, what metrics, what "for our team" means, what success looks like. None of these are stated. Every assumption is a place the user can later say "that's not what I
+meant."
 
 **With `interview-me`:**
 
@@ -173,7 +183,7 @@ GUESS: the second one. You have a list of experiments somewhere, but their resul
 User: First one actually. I literally don't have a list. They're spread across different docs.
 
 Agent: <continues>
-```text
+```
 
 Two questions in, the agent has discovered the actual ask isn't "a dashboard." It's "a list." Different artifact, different scope, different work. The dashboard would have been wrong.
 
@@ -182,7 +192,8 @@ Two questions in, the agent has discovered the actual ask isn't "a dashboard." I
 - **`idea-refine`**: downstream. If the confirmed intent is "I want X but I don't know how to scope it," hand off to `idea-refine` to generate variations against the now-explicit intent.
 - **`spec-driven-development`**: downstream. If the confirmed intent is concrete ("I want X for Y users with Z success criteria"), hand off to `spec-driven-development` to write it down.
 - **`planning-and-task-breakdown`**: two hops downstream of this skill (after the spec).
-- **`doubt-driven-development`**: opposite end of the timeline. Interview-me is pre-decision intent extraction; doubt-driven is post-decision artifact review. Both catch divergence, but at different moments.
+- **`doubt-driven-development`**: opposite end of the timeline. Interview-me is pre-decision intent extraction; doubt-driven is post-decision artifact review. Both catch divergence, but at different
+moments.
 - **`source-driven-development`**: orthogonal. Interview-me clarifies what the user wants; SDD verifies framework facts. They don't compete.
 
 ## Common Rationalizations
@@ -199,6 +210,7 @@ Two questions in, the agent has discovered the actual ask isn't "a dashboard." I
 | "The user said yes, we're done" | If the yes followed a vague restate or an open-ended "sounds good," the yes is hollow. Restate concretely and re-confirm. |
 
 ## Red Flags
+
 - Accepting vague requirements without asking clarifying questions
 - Assuming the user wants what they asked for (solutions, not problems)
 - Not surfacing implicit constraints (budget, timeline, team size)
@@ -222,8 +234,8 @@ Two questions in, the agent has discovered the actual ask isn't "a dashboard." I
 - [spec-driven-development](skills/spec-driven-development/SKILL.md)
 - [context-engineering](skills/context-engineering/SKILL.md)
 
-
 ## Verification
+
 - [ ] Requirements are specific enough to write acceptance criteria
 - [ ] At least one implicit assumption was surfaced and validated
 - [ ] Success criteria are defined in measurable terms

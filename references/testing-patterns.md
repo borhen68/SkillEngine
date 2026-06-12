@@ -113,7 +113,7 @@ jest.mock('./utils', () => ({
 
 ### Mock at Boundaries Only
 
-```
+```text
 Mock these:                    Don't mock these:
 ├── Database calls             ├── Internal utility functions
 ├── HTTP requests              ├── Business logic

@@ -5,15 +5,19 @@ description: Simplifies code for clarity. Use when refactoring code for clarity 
 
 # Code Simplification
 
-> Inspired by the [Claude Code Simplifier plugin](https://github.com/anthropics/claude-plugins-official/blob/main/plugins/code-simplifier/agents/code-simplifier.md). Adapted here as a model-agnostic, process-driven skill for any AI coding agent.
+> Inspired by the [Claude Code Simplifier plugin](https://github.com/anthropics/claude-plugins-official/blob/main/plugins/code-simplifier/agents/code-simplifier.md). Adapted here as a model-agnostic,
+> process-driven skill for any AI coding agent.
 
 ## Overview
 
-Complexity is the silent killer of software projects. It doesn't announce itself with a crash — it accumulates one clever abstraction at a time, one unnecessary indirection at a time, until the codebase becomes a maze that even its authors fear to touch. Simplification is the deliberate act of reversing this entropy.
+Complexity is the silent killer of software projects. It doesn't announce itself with a crash — it accumulates one clever abstraction at a time, one unnecessary indirection at a time, until the
+codebase becomes a maze that even its authors fear to touch. Simplification is the deliberate act of reversing this entropy.
 
-**The simplification contract:** Every change must preserve exact behavior while reducing cognitive load. The goal is not fewer lines — it's code that is easier to read, understand, modify, and debug. Before simplifying, understand why the complexity exists (Chesterton's Fence). Then remove what doesn't earn its keep.
+**The simplification contract:** Every change must preserve exact behavior while reducing cognitive load. The goal is not fewer lines — it's code that is easier to read, understand, modify, and debug.
+Before simplifying, understand why the complexity exists (Chesterton's Fence). Then remove what doesn't earn its keep.
 
-**Real-world impact:** A study of 700+ codebases found that complexity metrics predict bug density better than any other factor. Code that's hard to read is code that's hard to fix — and code that's hard to fix accumulates workarounds until it becomes unmaintainable.
+**Real-world impact:** A study of 700+ codebases found that complexity metrics predict bug density better than any other factor. Code that's hard to read is code that's hard to fix — and code that's
+hard to fix accumulates workarounds until it becomes unmaintainable.
 
 ## When to Use
 
@@ -35,7 +39,8 @@ Complexity is the silent killer of software projects. It doesn't announce itself
 
 ### 1. Preserve Behavior Exactly
 
-Don't change what the code does — only how it expresses it. All inputs, outputs, side effects, error behavior, and edge cases must remain identical. If you're not sure a simplification preserves behavior, don't make it.
+Don't change what the code does — only how it expresses it. All inputs, outputs, side effects, error behavior, and edge cases must remain identical. If you're not sure a simplification preserves
+behavior, don't make it.
 
 ```text
 ASK BEFORE EVERY CHANGE:
@@ -43,7 +48,7 @@ ASK BEFORE EVERY CHANGE:
 → Does this maintain the same error behavior?
 → Does this preserve the same side effects and ordering?
 → Do all existing tests still pass without modification?
-```text
+```
 
 ### 2. Follow Project Conventions
 
@@ -58,7 +63,7 @@ Simplification means making code more consistent with the codebase, not imposing
    - Naming conventions
    - Error handling patterns
    - Type annotation depth
-```text
+```
 
 Simplification that breaks project consistency is not simplification — it's churn.
 
@@ -77,7 +82,7 @@ function getStatusLabel(item: Item): string {
   if (item.isArchived) return 'Archived';
   return 'Active';
 }
-```text
+```
 
 ```typescript
 // UNCLEAR: Chained reduces with inline logic
@@ -91,7 +96,7 @@ const countById = new Map<string, number>();
 for (const item of items) {
   countById.set(item.id, (countById.get(item.id) ?? 0) + 1);
 }
-```text
+```
 
 ### 4. Maintain Balance
 
@@ -104,13 +109,15 @@ Simplification has a failure mode: over-simplification. Watch for these traps:
 
 ### 5. Scope to What Changed
 
-Default to simplifying recently modified code. Avoid drive-by refactors of unrelated code unless explicitly asked to broaden scope. Unscoped simplification creates noise in diffs and risks unintended regressions.
+Default to simplifying recently modified code. Avoid drive-by refactors of unrelated code unless explicitly asked to broaden scope. Unscoped simplification creates noise in diffs and risks unintended
+regressions.
 
 ## The Simplification Process
 
 ### Step 1: Understand Before Touching (Chesterton's Fence)
 
-Before changing or removing anything, understand why it exists. This is Chesterton's Fence: if you see a fence across a road and don't understand why it's there, don't tear it down. First understand the reason, then decide if the reason still applies.
+Before changing or removing anything, understand why it exists. This is Chesterton's Fence: if you see a fence across a road and don't understand why it's there, don't tear it down. First understand
+the reason, then decide if the reason still applies.
 
 ```text
 BEFORE SIMPLIFYING, ANSWER:
@@ -120,7 +127,7 @@ BEFORE SIMPLIFYING, ANSWER:
 - Are there tests that define the expected behavior?
 - Why might it have been written this way? (Performance? Platform constraint? Historical reason?)
 - Check git blame: what was the original context for this code?
-```text
+```
 
 If you can't answer these, you're not ready to simplify. Read more context first.
 
@@ -160,7 +167,8 @@ Scan for these patterns — each one is a concrete signal, not a vague smell:
 
 ### Step 3: Apply Changes Incrementally
 
-Make one simplification at a time. Run tests after each change. **Submit refactoring changes separately from feature or bug fix changes.** A PR that refactors and adds a feature is two PRs — split them.
+Make one simplification at a time. Run tests after each change. **Submit refactoring changes separately from feature or bug fix changes.** A PR that refactors and adds a feature is two PRs — split
+them.
 
 ```text
 FOR EACH SIMPLIFICATION:
@@ -168,11 +176,12 @@ FOR EACH SIMPLIFICATION:
 2. Run the test suite
 3. If tests pass → commit (or continue to next simplification)
 4. If tests fail → revert and reconsider
-```text
+```
 
 Avoid batching multiple simplifications into a single untested change. If something breaks, you need to know which simplification caused it.
 
-**The Rule of 500:** If a refactoring would touch more than 500 lines, invest in automation (codemods, sed scripts, AST transforms) rather than making the changes by hand. Manual edits at that scale are error-prone and exhausting to review.
+**The Rule of 500:** If a refactoring would touch more than 500 lines, invest in automation (codemods, sed scripts, AST transforms) rather than making the changes by hand. Manual edits at that scale
+are error-prone and exhausting to review.
 
 ### Step 4: Verify the Result
 
@@ -184,7 +193,7 @@ COMPARE BEFORE AND AFTER:
 - Did you introduce any new patterns inconsistent with the codebase?
 - Is the diff clean and reviewable?
 - Would a teammate approve this change?
-```text
+```
 
 If the "simplified" version is harder to understand or review, revert. Not every simplification attempt succeeds.
 
@@ -237,7 +246,7 @@ function isValid(input: string): boolean {
 function isValid(input: string): boolean {
   return input.length > 0 && input.length < 100;
 }
-```text
+```
 
 ### Python
 
@@ -272,7 +281,7 @@ def process(data):
     if not data.has_permission():
         raise PermissionError("No permission")
     return do_work(data)
-```text
+```
 
 ### React / JSX
 
@@ -296,7 +305,7 @@ function UserBadge({ user }: Props) {
 // SIMPLIFY: Prop drilling through intermediate components
 // Before — consider whether context or composition solves this better.
 // This is a judgment call — flag it, don't auto-refactor.
-```text
+```
 
 ## Common Rationalizations
 
@@ -311,6 +320,7 @@ function UserBadge({ user }: Props) {
 | "I'll refactor while adding this feature" | Separate refactoring from feature work. Mixed changes are harder to review, revert, and understand in history. |
 
 ## Red Flags
+
 - Simplifying without understanding why the complexity existed
 - Removing "unused" code that is actually part of a feature flag path
 - Replacing explicit code with "clever" one-liners
@@ -331,8 +341,8 @@ function UserBadge({ user }: Props) {
 - [test-driven-development](skills/test-driven-development/SKILL.md)
 - [incremental-implementation](skills/incremental-implementation/SKILL.md)
 
-
 ## Verification
+
 - [ ] All existing tests still pass after simplification
 - [ ] New team member understands the simplified code faster than the original
 - [ ] No behavior changes (verified by tests and/or diff review)

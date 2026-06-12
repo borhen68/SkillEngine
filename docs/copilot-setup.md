@@ -33,6 +33,7 @@ cp /path/to/SkillEngine/agents/security-auditor.md .github/agents/security-audit
 ```
 
 Invoke agents in Copilot Chat:
+
 - `@code-reviewer Review this PR`
 - `@test-engineer Analyze test coverage for this module`
 - `@security-auditor Check this endpoint for vulnerabilities`

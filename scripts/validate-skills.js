@@ -172,11 +172,28 @@ function checkDescriptionQuality(description) {
 
 function checkCodeBlockQuality(content) {
   const issues = [];
-  // Check for code blocks without language specifiers
-  // Use negative lookbehind to avoid matching ```text (already fixed)
-  const unlabeledBlocks = content.match(/\n```(?!text)\n[\s\S]*?\n```/g);
-  if (unlabeledBlocks) {
-    issues.push(`${unlabeledBlocks.length} code block(s) missing language specifier`);
+  // Check for code blocks without language specifiers.
+  // Walk fence lines with open/close state so bare closing fences
+  // (which are correct CommonMark) are never counted as violations.
+  let inBlock = false;
+  let unlabeledOpeners = 0;
+  let labeledClosers = 0;
+  for (const line of content.split('\n')) {
+    const fence = line.match(/^\s*```(.*)$/);
+    if (!fence) continue;
+    if (!inBlock) {
+      if (fence[1].trim() === '') unlabeledOpeners++;
+      inBlock = true;
+    } else {
+      if (fence[1].trim() !== '') labeledClosers++;
+      inBlock = false;
+    }
+  }
+  if (unlabeledOpeners > 0) {
+    issues.push(`${unlabeledOpeners} code block(s) missing language specifier`);
+  }
+  if (labeledClosers > 0) {
+    issues.push(`${labeledClosers} closing fence(s) carry an info string (breaks CommonMark rendering)`);
   }
 
   // Check for inconsistent language style (typescript vs ts, javascript vs js)

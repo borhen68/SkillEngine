@@ -7,11 +7,15 @@ description: Automates CI/CD pipeline setup. Use when setting up or modifying bu
 
 ## Overview
 
-Every engineering team believes they have quality gates. The question is: are they enforced by humans (who forget, get busy, and make exceptions) or by machines (who never forget, never get tired, and never make exceptions)? CI/CD is the machine that enforces every other skill's standards — automatically, on every change, without mercy.
+Every engineering team believes they have quality gates. The question is: are they enforced by humans (who forget, get busy, and make exceptions) or by machines (who never forget, never get tired, and
+never make exceptions)? CI/CD is the machine that enforces every other skill's standards — automatically, on every change, without mercy.
 
-**The CI/CD contract:** No code reaches production without passing every gate: lint, type check, build, test, security scan. No exceptions. No "just this once." A pipeline that can be bypassed will be bypassed — usually by the very person who said "I know what I'm doing."
+**The CI/CD contract:** No code reaches production without passing every gate: lint, type check, build, test, security scan. No exceptions. No "just this once." A pipeline that can be bypassed will be
+bypassed — usually by the very person who said "I know what I'm doing."
 
-**Real-world impact:** DORA research shows that elite performers deploy 200x more frequently and recover from failures 2,600x faster than low performers. The difference isn't better engineers — it's automated pipelines that catch problems before they reach users. Shift Left isn't a buzzword; it's a cost equation: a bug caught in linting costs minutes, the same bug in production costs hours and reputation.
+**Real-world impact:** DORA research shows that elite performers deploy 200x more frequently and recover from failures 2,600x faster than low performers. The difference isn't better engineers — it's
+automated pipelines that catch problems before they reach users. Shift Left isn't a buzzword; it's a cost equation: a bug caught in linting costs minutes, the same bug in production costs hours and
+reputation.
 
 ## When to Use
 
@@ -49,7 +53,7 @@ Pull Request Opened
     │
     ▼
   Ready for review
-```text
+```
 
 **No gate can be skipped.** If lint fails, fix lint — don't disable the rule. If a test fails, fix the code — don't skip the test.
 
@@ -95,7 +99,7 @@ jobs:
 
       - name: Security audit
         run: npm audit --audit-level=high
-```text
+```
 
 ### With Database Integration Tests
 
@@ -132,9 +136,10 @@ jobs:
         run: npm run test:integration
         env:
           DATABASE_URL: postgresql://ci_user:${{ secrets.CI_DB_PASSWORD }}@localhost:5432/testdb
-```text
+```
 
-> **Note:** Even for CI-only test databases, use GitHub Secrets for credentials rather than hardcoding values. This builds good habits and prevents accidental reuse of test credentials in other contexts.
+> **Note:** Even for CI-only test databases, use GitHub Secrets for credentials rather than hardcoding values. This builds good habits and prevents accidental reuse of test credentials in other
+> contexts.
 
 ### E2E Tests
 
@@ -159,7 +164,7 @@ jobs:
         with:
           name: playwright-report
           path: playwright-report/
-```text
+```
 
 ## Feeding CI Failures Back to Agents
 
@@ -179,7 +184,7 @@ Fix the issue and verify locally before pushing again."
     │
     ▼
 Agent fixes → pushes → CI runs again
-```text
+```
 
 **Key patterns:**
 
@@ -188,7 +193,7 @@ Lint failure → Agent runs `npm run lint --fix` and commits
 Type error  → Agent reads the error location and fixes the type
 Test failure → Agent follows debugging-and-error-recovery skill
 Build error → Agent checks config and dependencies
-```text
+```
 
 ## Deployment Strategies
 
@@ -205,7 +210,7 @@ deploy-preview:
     - uses: actions/checkout@v4
     - name: Deploy preview
       run: npx vercel --token=${{ secrets.VERCEL_TOKEN }}
-```text
+```
 
 ### Feature Flags
 
@@ -222,7 +227,7 @@ if (featureFlags.isEnabled('new-checkout-flow', { userId })) {
   return renderNewCheckout();
 }
 return renderLegacyCheckout();
-```text
+```
 
 **Flag lifecycle:** Create → Enable for testing → Canary → Full rollout → Remove the flag and dead code. Flags that live forever become technical debt — set a cleanup date when you create them.
 
@@ -242,7 +247,7 @@ PR merged to main
     │
     ├── Errors detected → Rollback
     └── Clean → Done
-```text
+```
 
 ### Rollback Plan
 
@@ -266,7 +271,7 @@ jobs:
         run: |
           # Deploy the specified previous version
           npx vercel rollback ${{ inputs.version }}
-```text
+```
 
 ## Environment Management
 
@@ -276,7 +281,7 @@ jobs:
 .env.test           → Committed (test environment, no real secrets)
 CI secrets          → Stored in GitHub Secrets / vault
 Production secrets  → Stored in deployment platform / vault
-```text
+```
 
 CI should never have production secrets. Use separate secrets for CI testing.
 
@@ -293,11 +298,12 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
-```text
+```
 
 ### Build Cop Role
 
-Designate someone responsible for keeping CI green. When the build breaks, the Build Cop's job is to fix or revert — not the person whose change caused the break. This prevents broken builds from accumulating while everyone assumes someone else will fix it.
+Designate someone responsible for keeping CI green. When the build breaks, the Build Cop's job is to fix or revert — not the person whose change caused the break. This prevents broken builds from
+accumulating while everyone assumes someone else will fix it.
 
 ### PR Checks
 
@@ -324,9 +330,10 @@ Slow CI pipeline?
 │   └── Remove slow tests from the critical path, run them on a schedule instead
 └── Use larger runners
     └── GitHub-hosted larger runners or self-hosted for CPU-heavy builds
-```text
+```
 
 **Example: caching and parallelism**
+
 ```yaml
 jobs:
   lint:
@@ -355,7 +362,7 @@ jobs:
         with: { node-version: '22', cache: 'npm' }
       - run: npm ci
       - run: npm test -- --coverage
-```text
+```
 
 ## Common Rationalizations
 
@@ -368,6 +375,7 @@ jobs:
 | "Manual testing is enough" | Manual testing doesn't scale and isn't repeatable. Automate what you can. |
 
 ## Red Flags
+
 - CI that passes when tests are skipped
 - Secrets in CI config files (GitHub Actions yaml with hardcoded tokens)
 - CI that takes longer than 15 minutes (feedback loop too slow)
@@ -388,8 +396,8 @@ jobs:
 - [shipping-and-launch](skills/shipping-and-launch/SKILL.md)
 - [git-workflow-and-versioning](skills/git-workflow-and-versioning/SKILL.md)
 
-
 ## Verification
+
 - [ ] Pipeline runs in under 10 minutes for the full test suite
 - [ ] Every PR triggers CI before merge is allowed
 - [ ] Failed pipeline blocks deployment automatically

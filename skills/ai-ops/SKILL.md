@@ -7,9 +7,11 @@ description: Guides operational excellence for AI/ML systems in production. Use 
 
 ## Overview
 
-Deploying a machine learning model is the easy part. Keeping it correct, fast, fair, and cost-effective in production is where most AI projects fail. AI Ops (MLOps) bridges the gap between data science experimentation and production engineering — covering model deployment, monitoring, retraining, and governance.
+Deploying a machine learning model is the easy part. Keeping it correct, fast, fair, and cost-effective in production is where most AI projects fail. AI Ops (MLOps) bridges the gap between data
+science experimentation and production engineering — covering model deployment, monitoring, retraining, and governance.
 
-**The AI Ops contract:** A model in production is software that happens to be probabilistic. It needs all the same operational rigor as any other service — plus additional checks for correctness drift, data distribution shifts, and fairness degradation.
+**The AI Ops contract:** A model in production is software that happens to be probabilistic. It needs all the same operational rigor as any other service — plus additional checks for correctness
+drift, data distribution shifts, and fairness degradation.
 
 ## When to Use
 
@@ -22,6 +24,7 @@ Deploying a machine learning model is the easy part. Keeping it correct, fast, f
 - Optimizing inference latency and throughput
 
 **NOT for:**
+
 - Model training and experimentation (this is data science work)
 - Building the initial model prototype
 - Pure research without production intent
@@ -41,7 +44,7 @@ MODEL SUCCESS CONTRACT:
 ├── Explainability: [SHAP/LIME available for all predictions]
 ├── Cost: [inference cost per request < $0.001]
 └── Drift: [input distribution PSI < 0.2, concept drift < 5% accuracy drop]
-```text
+```
 
 ### Step 2: Design the Serving Architecture
 
@@ -54,7 +57,7 @@ Latency Requirement    → Architecture
 10-100ms (near-real)   → Dedicated inference service (containerized)
 100ms-1s (interactive) → Auto-scaled inference cluster
 > 1s (batch)           → Async queue + worker pool (batch inference)
-```text
+```
 
 **Example: Containerized inference service:**
 
@@ -91,7 +94,7 @@ def predict(features: dict):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-```text
+```
 
 ### Step 3: Implement Model Monitoring
 
@@ -107,7 +110,7 @@ DRIFT TYPES:
    
 3. LABEL DRIFT — Ground truth distribution changes
    └── Example: A medical diagnosis model sees a new disease variant
-```text
+```
 
 **Monitoring implementation:**
 
@@ -146,7 +149,7 @@ current = load_last_hour_predictions()
 drift, report = detect_drift(reference, current)
 if drift:
     alert_ml_team('Data drift detected', report)
-```text
+```
 
 ### Step 4: Build Retraining Pipelines
 
@@ -162,7 +165,7 @@ How expensive is retraining?
 ├── Cheap (< 1 hour, <$10)      → Retrain frequently, keep multiple versions
 ├── Moderate                    → Retrain on schedule, validate before deploy
 └── Expensive (> 1 day, >$1000) → Triggered retraining only, heavy validation
-```text
+```
 
 **Retraining pipeline pattern:**
 
@@ -195,7 +198,7 @@ def retrain_pipeline():
     if shadow_metrics_acceptable():
         promote_to_production(new_model)
         archive_old_model()
-```text
+```
 
 ### Step 5: Ensure Model Governance
 
@@ -208,7 +211,7 @@ GOVERNANCE CHECKLIST:
 ├── Security: Model artifacts are access-controlled, no secrets in training data
 ├── Compliance: GDPR right-to-explanation, CCPA opt-out mechanisms
 └── Rollback: Can revert to previous model version in < 5 minutes
-```text
+```
 
 **Model card pattern:**
 
@@ -242,7 +245,7 @@ GOVERNANCE CHECKLIST:
 ## Changelog
 - v1.0.0: Initial deployment
 - v1.1.0: Retrained with Q2 data, +2% accuracy
-```text
+```
 
 ## Feature Store Pattern
 
@@ -272,7 +275,7 @@ class FeatureStore:
         computed = feature_definition.compute()
         self.online_store.load(computed)
         self.offline_store.load(computed)
-```text
+```
 
 ## Common Rationalizations
 

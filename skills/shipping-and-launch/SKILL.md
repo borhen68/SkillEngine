@@ -7,7 +7,8 @@ description: Prepares production launches. Use when preparing to deploy to produ
 
 ## Overview
 
-Most production incidents don't start with a dramatic failure — they start with a calm deployment that seemed fine until it wasn't. The difference between a team that sleeps through launches and a team that spends weekends debugging is preparation.
+Most production incidents don't start with a dramatic failure — they start with a calm deployment that seemed fine until it wasn't. The difference between a team that sleeps through launches and a
+team that spends weekends debugging is preparation.
 
 **The shipping contract:** Every deployment must be reversible within 5 minutes, observable in real-time, and incremental in risk exposure. If you can't roll back, you haven't shipped — you've jumped.
 
@@ -93,7 +94,7 @@ if (flags.taskSharing) {
 
 // Default: existing behavior
 return null;
-```text
+```
 
 **Feature flag lifecycle:**
 
@@ -103,9 +104,10 @@ return null;
 3. GRADUAL ROLLOUT          → 5% → 25% → 50% → 100% of users
 4. MONITOR at each stage    → Watch error rates, performance, user feedback
 5. CLEAN UP                 → Remove flag and dead code path after full rollout
-```text
+```
 
 **Rules:**
+
 - Every feature flag has an owner and an expiration date
 - Clean up flags within 2 weeks of full rollout
 - Don't nest feature flags (creates exponential combinations)
@@ -141,7 +143,7 @@ return null;
 6. FULL rollout (flag ON for all users)
    └── Monitor for 1 week
    └── Clean up feature flag
-```text
+```
 
 ### Rollout Decision Thresholds
 
@@ -157,6 +159,7 @@ Use these thresholds to decide whether to advance, hold, or roll back at each st
 ### When to Roll Back
 
 Roll back immediately if:
+
 - Error rate increases by more than 2x baseline
 - P95 latency increases by more than 50%
 - User-reported issues spike
@@ -187,7 +190,7 @@ Client metrics:
 ├── JavaScript errors
 ├── API error rates from client perspective
 └── Page load time
-```text
+```
 
 ### Error Reporting
 
@@ -224,7 +227,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     error: { code: 'INTERNAL_ERROR', message: 'Something went wrong' },
   });
 });
-```text
+```
 
 ### Post-Launch Verification
 
@@ -237,7 +240,7 @@ In the first hour after launch:
 4. Test the critical user flow manually
 5. Verify logs are flowing and readable
 6. Confirm rollback mechanism works (dry run if possible)
-```text
+```
 
 ## Rollback Strategy
 
@@ -266,7 +269,8 @@ Every deployment needs a rollback plan before it happens:
 - Feature flag: < 1 minute
 - Redeploy previous version: < 5 minutes
 - Database rollback: < 15 minutes
-```text
+```
+
 ## See Also
 
 - For operational readiness checks, see `references/reliability-checklist.md`
@@ -285,6 +289,7 @@ Every deployment needs a rollback plan before it happens:
 | "Rolling back is admitting failure" | Rolling back is responsible engineering. Shipping a broken feature is the failure. |
 
 ## Red Flags
+
 - Deploying on Friday afternoon
 - No rollback plan ("we will just fix forward")
 - Monitoring dashboards not checked before declaring success
@@ -300,6 +305,7 @@ Every deployment needs a rollback plan before it happens:
 - "It's Friday afternoon, let's ship it"
 
 ## Verification
+
 - [ ] Rollback tested (can revert in under 5 minutes)
 - [ ] Monitoring confirms healthy state for 30 minutes post-deploy
 - [ ] Error rate is at or below pre-deploy baseline

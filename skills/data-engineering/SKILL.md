@@ -7,9 +7,11 @@ description: Guides data pipeline design, ETL/ELT workflows, schema evolution, a
 
 ## Overview
 
-Data engineering is the foundation of every data-driven decision. Bad data pipelines silently corrupt analytics, break ML models, and lead to business decisions based on false premises. This skill covers designing pipelines that are correct, observable, and resilient — from ingestion to serving.
+Data engineering is the foundation of every data-driven decision. Bad data pipelines silently corrupt analytics, break ML models, and lead to business decisions based on false premises. This skill
+covers designing pipelines that are correct, observable, and resilient — from ingestion to serving.
 
-**The data engineering contract:** Every pipeline must guarantee that what lands in the destination is what the source intended, or it must fail loudly. Silent data corruption is the worst failure mode.
+**The data engineering contract:** Every pipeline must guarantee that what lands in the destination is what the source intended, or it must fail loudly. Silent data corruption is the worst failure
+mode.
 
 ## When to Use
 
@@ -22,6 +24,7 @@ Data engineering is the foundation of every data-driven decision. Bad data pipel
 - Handling schema evolution without breaking consumers
 
 **NOT for:**
+
 - Simple one-off data exports (use a script)
 - Real-time systems with sub-second latency requirements (use stream processing)
 - Data science / analysis work (this skill is about moving and transforming data, not interpreting it)
@@ -42,7 +45,7 @@ DATA CONTRACT:
 ├── Quality rules: [uniqueness, referential integrity, range checks]
 ├── Retention: [how long to keep, compliance requirements]
 └── SLA: [acceptable downtime, max lag, error rate threshold]
-```text
+```
 
 **Schema definition example:**
 
@@ -74,7 +77,7 @@ quality_rules:
   - table: fact_orders
     check: referential_integrity
     references: dim_customers.customer_id
-```text
+```
 
 ### Step 2: Choose the Right Pattern
 
@@ -86,7 +89,7 @@ Streaming, < 5 min latency  → Stream processing (Flink, Spark Streaming, Kafka
 Event-driven, sporadic      → Function-as-a-service triggers (Lambda, Cloud Functions)
 Micro-batch, 5-30 min       → Incremental batch with watermarking
 One-time migration          → Bulk load with validation, not a pipeline
-```text
+```
 
 ### Step 3: Design for Failure
 
@@ -102,7 +105,7 @@ Duplicate records         → Idempotency key + deduplication
 Partial load              → Transactional loads (all-or-nothing)
 Late-arriving data        → Watermarking + reprocessing triggers
 Downstream unavailable    → Dead letter queue + retry with backoff
-```text
+```
 
 **Idempotent load pattern:**
 
@@ -120,7 +123,7 @@ def load_orders(batch_id, orders_df):
     )
     # Track batch in metadata table
     log_batch_completion(batch_id, len(orders_df))
-```text
+```
 
 ### Step 4: Implement Quality Gates
 
@@ -167,7 +170,7 @@ checks = {
 }
 
 quality_gate(transformed_df, checks)
-```text
+```
 
 ### Step 5: Make It Observable
 
@@ -210,7 +213,7 @@ def run_pipeline():
         raise
     finally:
         emit_pipeline_metrics(metrics)
-```text
+```
 
 **Key metrics to emit:**
 
@@ -235,7 +238,7 @@ SCHEMA EVOLUTION RULES:
 3. RENAME columns: Don't. Add new, deprecate old, remove old after cycle.
 4. CHANGE types: Migration required. Backfill with casting logic.
 5. CHANGE nullability: Dangerous. Requires data backfill + consumer notification.
-```text
+```
 
 **Schema registry pattern:**
 
@@ -256,7 +259,7 @@ schema_registry.register(
     }),
     compatibility='BACKWARD'  # New readers can read old data
 )
-```text
+```
 
 ## Data Quality Framework
 
@@ -277,7 +280,7 @@ schema_registry.register(
 
 5. UNIQUENESS → Are there duplicates?
    └── Check: Primary key constraints, idempotency verification
-```text
+```
 
 ### Data Reconciliation Pattern
 
@@ -307,7 +310,7 @@ SELECT
 FROM source_counts s
 LEFT JOIN warehouse_counts w ON s.dt = w.dt
 ORDER BY s.dt DESC;
-```text
+```
 
 ## Common Rationalizations
 

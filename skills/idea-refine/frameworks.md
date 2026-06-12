@@ -25,11 +25,13 @@ Reframe problems as opportunities using the "How Might We..." format:
 - Generate multiple HMW framings of the same problem — different framings unlock different solutions
 
 **Good HMW qualities:**
+
 - Narrow enough to be actionable ("...help new users find relevant content in their first 5 minutes")
 - Broad enough to allow creative solutions (not "...add a recommendation sidebar")
 - Contains a tension or constraint that forces creativity
 
 **Bad HMW qualities:**
+
 - Too broad: "How might we make users happy?"
 - Too narrow: "How might we add a button to the settings page?"
 - Solution-embedded: "How might we build a chatbot for support?"

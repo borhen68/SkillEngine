@@ -25,6 +25,7 @@ The user (or a slash command) is the orchestrator. **Personas do not call other 
 ## When to use each
 
 ### Direct persona invocation
+
 Pick this when you want one perspective on the current change and the user is in the loop.
 
 - "Review this PR" → invoke `code-reviewer` directly
@@ -34,6 +35,7 @@ Pick this when you want one perspective on the current change and the user is in
 - "Is this infrastructure production-ready?" → invoke `site-reliability-engineer` directly
 
 ### Slash command (single persona behind it)
+
 Pick this when there's a repeatable workflow you'd otherwise re-explain every time.
 
 - `/review` → wraps `code-reviewer` with the project's review skill
@@ -41,6 +43,7 @@ Pick this when there's a repeatable workflow you'd otherwise re-explain every ti
 - `/webperf` → wraps `web-performance-auditor` for performance-focused audits on web apps
 
 ### Slash command (orchestrator — fan-out)
+
 Pick this only when **independent** investigations can run in parallel and produce reports that a single agent then merges.
 
 - `/ship` → fans out to `code-reviewer` + `security-auditor` + `test-engineer` + `site-reliability-engineer` in parallel, then synthesizes their reports into a go/no-go decision
@@ -49,7 +52,7 @@ This is the only orchestration pattern this repo endorses. See [references/orche
 
 ## Decision matrix
 
-```
+```text
 Is the work a single perspective on a single artifact?
 ├── Yes → Direct persona invocation
 └── No  → Are the sub-tasks independent (no shared mutable state, no ordering)?
@@ -61,7 +64,7 @@ Is the work a single perspective on a single artifact?
 
 `/ship` is the canonical fan-out orchestrator in this repo:
 
-```
+```text
 /ship
   ├── (parallel) code-reviewer    → review report
   ├── (parallel) security-auditor → audit report
@@ -73,6 +76,7 @@ Is the work a single perspective on a single artifact?
 ```
 
 Why this works:
+
 - Each sub-agent operates on the same diff but produces a **different perspective**
 - They have no dependencies on each other → genuine parallelism, real wall-clock savings
 - Each runs in a fresh context window → main session stays uncluttered
@@ -82,7 +86,7 @@ Why this works:
 
 A `meta-orchestrator` persona whose job is "decide which other persona to call":
 
-```
+```text
 /work-on-pr → meta-orchestrator
                   ↓ (decides "this needs a review")
               code-reviewer
@@ -93,6 +97,7 @@ A `meta-orchestrator` persona whose job is "decide which other persona to call":
 ```
 
 Why this fails:
+
 - Pure routing layer with no domain value
 - Adds two paraphrasing hops → information loss + 2× token cost
 - The user already knows they want a review; let them call `/review` directly
@@ -101,7 +106,8 @@ Why this fails:
 ## Rules for personas
 
 1. A persona is a single role with a single output format. If you find yourself adding a second role, create a second persona.
-2. **Personas do not invoke other personas.** Composition is the job of slash commands or the user. On Claude Code this is also a hard platform constraint — *"subagents cannot spawn other subagents"* — so the rule is enforced for you.
+2. **Personas do not invoke other personas.** Composition is the job of slash commands or the user. On Claude Code this is also a hard platform constraint — *"subagents cannot spawn other subagents"*
+— so the rule is enforced for you.
 3. A persona may invoke skills (the *how*).
 4. Every persona file ends with a "Composition" block stating where it fits.
 
@@ -109,10 +115,13 @@ Why this fails:
 
 The personas in this repo are designed to work as Claude Code subagents and as Agent Teams teammates without modification:
 
-- **As subagents:** auto-discovered when this plugin is enabled (no path config needed). Use the Agent tool with `subagent_type: code-reviewer` (or `security-auditor`, `test-engineer`). `/ship` is the canonical example.
-- **As Agent Teams teammates** (experimental, requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`): reference the same persona name when spawning a teammate. The persona's body is **appended to** the teammate's system prompt as additional instructions (not a replacement), so your persona text sits on top of the team-coordination instructions the lead installs (SendMessage, task-list tools, etc.).
+- **As subagents:** auto-discovered when this plugin is enabled (no path config needed). Use the Agent tool with `subagent_type: code-reviewer` (or `security-auditor`, `test-engineer`). `/ship` is the
+canonical example.
+- **As Agent Teams teammates** (experimental, requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`): reference the same persona name when spawning a teammate. The persona's body is **appended to** the
+teammate's system prompt as additional instructions (not a replacement), so your persona text sits on top of the team-coordination instructions the lead installs (SendMessage, task-list tools, etc.).
 
-Subagents only report results back to the main agent. Agent Teams let teammates message each other directly. Use subagents when reports are enough; use Agent Teams when sub-agents need to challenge each other's findings (e.g. competing-hypothesis debugging). See [references/orchestration-patterns.md](../references/orchestration-patterns.md) for the full mapping.
+Subagents only report results back to the main agent. Agent Teams let teammates message each other directly. Use subagents when reports are enough; use Agent Teams when sub-agents need to challenge
+each other's findings (e.g. competing-hypothesis debugging). See [references/orchestration-patterns.md](../references/orchestration-patterns.md) for the full mapping.
 
 Plugin agents do not support `hooks`, `mcpServers`, or `permissionMode` frontmatter — those fields are silently ignored. Avoid relying on them when authoring new personas here.
 

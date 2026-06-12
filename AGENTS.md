@@ -12,7 +12,7 @@ AgentForge encodes the workflows, quality gates, and decision-making patterns th
 
 **What this repository contains:**
 - **28 skills** — step-by-step workflows with checkpoints, anti-rationalization tables, and evidence-based verification
-- **6 agent personas** — specialist roles (code reviewer, security auditor, test engineer, performance auditor, SRE)
+- **5 agent personas** — specialist roles (code reviewer, security auditor, test engineer, performance auditor, SRE)
 - **5 reference checklists** — quick-reference material for testing, security, performance, accessibility, and reliability
 - **Validation pipeline** — automated quality gates that enforce skill anatomy and cross-skill consistency
 
@@ -143,7 +143,7 @@ Equivalent headings like `Workflow`, `Core Process`, or `When to Use` are fine w
 
 Include this section only if the skill ships runnable helpers under `scripts/`. Markdown-only skills can omit both the section and the directory entirely.
 
-```bash
+```
 bash /mnt/skills/user/{skill-name}/scripts/{script}.sh [args]
 ```
 

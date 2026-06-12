@@ -7,11 +7,14 @@ description: Structures git workflow practices. Use when making any code change.
 
 ## Overview
 
-When AI agents generate code at machine speed, version control becomes your only safety mechanism. Without it, a single bad generation can overwrite hours of work irreversibly. With it, every change is a save point you can inspect, revert, or compare.
+When AI agents generate code at machine speed, version control becomes your only safety mechanism. Without it, a single bad generation can overwrite hours of work irreversibly. With it, every change
+is a save point you can inspect, revert, or compare.
 
-**The git contract:** Every meaningful change gets its own commit with a clear message. Branches are short-lived (1-3 days max). History tells a story an engineer can follow. Commits are small enough to review in under 10 minutes. This isn't bureaucracy — it's the difference between confident experimentation and fearful coding.
+**The git contract:** Every meaningful change gets its own commit with a clear message. Branches are short-lived (1-3 days max). History tells a story an engineer can follow. Commits are small enough
+to review in under 10 minutes. This isn't bureaucracy — it's the difference between confident experimentation and fearful coding.
 
-**Real-world impact:** DORA research consistently shows trunk-based development correlates with elite engineering performance. Teams that merge small changes frequently have 60% fewer integration failures and recover from incidents 2x faster. Large, long-lived branches are where code goes to die — or worse, to create merge conflicts that take days to resolve.
+**Real-world impact:** DORA research consistently shows trunk-based development correlates with elite engineering performance. Teams that merge small changes frequently have 60% fewer integration
+failures and recover from incidents 2x faster. Large, long-lived branches are where code goes to die — or worse, to create merge conflicts that take days to resolve.
 
 ## When to Use
 
@@ -21,15 +24,17 @@ Always. Every code change flows through git.
 
 ### Trunk-Based Development (Recommended)
 
-Keep `main` always deployable. Work in short-lived feature branches that merge back within 1-3 days. Long-lived development branches are hidden costs — they diverge, create merge conflicts, and delay integration. DORA research consistently shows trunk-based development correlates with high-performing engineering teams.
+Keep `main` always deployable. Work in short-lived feature branches that merge back within 1-3 days. Long-lived development branches are hidden costs — they diverge, create merge conflicts, and delay
+integration. DORA research consistently shows trunk-based development correlates with high-performing engineering teams.
 
 ```text
 main ──●──●──●──●──●──●──●──●──●──  (always deployable)
         ╲      ╱  ╲    ╱
          ●──●─╱    ●──╱    ← short-lived feature branches (1-3 days)
-```text
+```
 
-This is the recommended default. Teams using gitflow or long-lived branches can adapt the principles (atomic commits, small changes, descriptive messages) to their branching model — the commit discipline matters more than the specific branching strategy.
+This is the recommended default. Teams using gitflow or long-lived branches can adapt the principles (atomic commits, small changes, descriptive messages) to their branching model — the commit
+discipline matters more than the specific branching strategy.
 
 - **Dev branches are costs.** Every day a branch lives, it accumulates merge risk.
 - **Release branches are acceptable.** When you need to stabilize a release while main moves forward.
@@ -45,7 +50,7 @@ Work pattern:
 
 Not this:
   Implement everything → Hope it works → Giant commit
-```text
+```
 
 Commits are save points. If the next change breaks something, you can revert to the last known-good state instantly.
 
@@ -64,7 +69,7 @@ m1n2o3p Add task creation tests (unit + integration)
 # Bad: Everything mixed together
 git log --oneline
 x1y2z3a Add task feature, fix sidebar, update deps, refactor utils
-```text
+```
 
 ### 3. Descriptive Messages
 
@@ -80,16 +85,18 @@ consistent with existing validation patterns in auth.ts.
 
 # Bad: Describes what's obvious from the diff
 update auth.ts
-```text
+```
 
 **Format:**
+
 ```text
 <type>: <short description>
 
 <optional body explaining why, not what>
-```text
+```
 
 **Types:**
+
 - `feat` — New feature
 - `fix` — Bug fix
 - `refactor` — Code change that neither fixes a bug nor adds a feature
@@ -108,9 +115,10 @@ git commit -m "feat: add phone number validation to registration"
 
 # Bad: Mixed concerns
 git commit -m "refactor validation and add phone number field"
-```text
+```
 
-**Separate refactoring from feature work.** A refactoring change and a feature change are two different changes — submit them separately. This makes each change easier to review, revert, and understand in history. Small cleanups (renaming a variable) can be included in a feature commit at reviewer discretion.
+**Separate refactoring from feature work.** A refactoring change and a feature change are two different changes — submit them separately. This makes each change easier to review, revert, and
+understand in history. Small cleanups (renaming a variable) can be included in a feature commit at reviewer discretion.
 
 ### 5. Size Your Changes
 
@@ -120,7 +128,7 @@ Target ~100 lines per commit/PR. Changes over ~1000 lines should be split. See t
 ~100 lines  → Easy to review, easy to revert
 ~300 lines  → Acceptable for a single logical change
 ~1000 lines → Split into smaller changes
-```text
+```
 
 ## Branching Strategy
 
@@ -132,7 +140,7 @@ main (always deployable)
   ├── feature/task-creation    ← One feature per branch
   ├── feature/user-settings    ← Parallel work
   └── fix/duplicate-tasks      ← Bug fixes
-```text
+```
 
 - Branch from `main` (or the team's default branch)
 - Keep branches short-lived (merge within 1-3 days) — long-lived branches are hidden costs
@@ -146,7 +154,7 @@ feature/<short-description>   → feature/task-creation
 fix/<short-description>       → fix/duplicate-tasks
 chore/<short-description>     → chore/update-deps
 refactor/<short-description>  → refactor/auth-module
-```text
+```
 
 ## Working with Worktrees
 
@@ -166,9 +174,10 @@ ls ../
 
 # When done, merge and clean up
 git worktree remove ../project-feature-a
-```text
+```
 
 Benefits:
+
 - Multiple agents can work on different features simultaneously
 - No branch switching needed (each directory has its own branch)
 - If one experiment fails, delete the worktree — nothing is lost
@@ -188,7 +197,7 @@ Agent starts work
     │   └── Test fails? → Revert to last commit → Investigate
     │
     └── Feature complete → All commits form a clean history
-```text
+```
 
 This pattern means you never lose more than one increment of work. If an agent goes off the rails, `git reset --hard HEAD` takes you back to the last successful state.
 
@@ -208,9 +217,10 @@ THINGS I DIDN'T TOUCH (intentionally):
 POTENTIAL CONCERNS:
 - The Zod schema is strict — rejects extra fields. Confirm this is desired.
 - Added zod as a dependency (72KB gzipped) — already in package.json
-```text
+```
 
-This pattern catches wrong assumptions early and gives reviewers a clear map of the change. The "DIDN'T TOUCH" section is especially important — it shows you exercised scope discipline and didn't go on an unsolicited renovation.
+This pattern catches wrong assumptions early and gives reviewers a clear map of the change. The "DIDN'T TOUCH" section is especially important — it shows you exercised scope discipline and didn't go
+on an unsolicited renovation.
 
 ## Pre-Commit Hygiene
 
@@ -231,7 +241,7 @@ npm run lint
 
 # 5. Run type checking
 npx tsc --noEmit
-```text
+```
 
 Automate this with git hooks:
 
@@ -243,7 +253,7 @@ Automate this with git hooks:
     "*.{json,md}": ["prettier --write"]
   }
 }
-```text
+```
 
 ## Handling Generated Files
 
@@ -269,7 +279,7 @@ git blame src/services/task.ts
 
 # Search commit messages for a keyword
 git log --grep="validation" --oneline
-```text
+```
 
 ## Common Rationalizations
 
@@ -283,6 +293,7 @@ git log --grep="validation" --oneline
 | "I don't need a .gitignore" | Until `.env` with production secrets gets committed. Set it up immediately. |
 
 ## Red Flags
+
 - "Fix typo" commits (amend or squash instead)
 - Committing broken code "to save progress"
 - Force-pushing to shared branches
@@ -303,8 +314,8 @@ git log --grep="validation" --oneline
 - [shipping-and-launch](skills/shipping-and-launch/SKILL.md)
 - [incremental-implementation](skills/incremental-implementation/SKILL.md)
 
-
 ## Verification
+
 - [ ] Every commit has a descriptive message explaining intent
 - [ ] No secrets, passwords, or tokens in commit history
 - [ ] Branch history is linear and readable (rebased, not merged messily)

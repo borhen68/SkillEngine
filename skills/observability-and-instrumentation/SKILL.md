@@ -7,11 +7,14 @@ description: Instruments code so production behavior is visible and diagnosable.
 
 ## Overview
 
-When production breaks at 3 AM, the engineer on call doesn't have time to read your code. They need to know — in seconds — what the system is doing, where it's failing, and why. Without observability, debugging becomes archaeology: digging through logs hoping to find a clue. With observability, it's diagnosis: the system tells you what's wrong.
+When production breaks at 3 AM, the engineer on call doesn't have time to read your code. They need to know — in seconds — what the system is doing, where it's failing, and why. Without observability,
+debugging becomes archaeology: digging through logs hoping to find a clue. With observability, it's diagnosis: the system tells you what's wrong.
 
-**The observability contract:** Every feature that runs in production must emit enough telemetry to answer "what is the system doing and why?" without reading code. Logs for narrative, metrics for aggregates, traces for causality. Instrumentation is not a post-launch add-on — it's written alongside the feature, the same way tests are.
+**The observability contract:** Every feature that runs in production must emit enough telemetry to answer "what is the system doing and why?" without reading code. Logs for narrative, metrics for
+aggregates, traces for causality. Instrumentation is not a post-launch add-on — it's written alongside the feature, the same way tests are.
 
-**Real-world impact:** The median time to resolve an incident with good observability is 15 minutes. Without it, it's 4+ hours. When users are losing money or data, that difference isn't academic — it's the difference between a brief hiccup and a news headline.
+**Real-world impact:** The median time to resolve an incident with good observability is 15 minutes. Without it, it's 4+ hours. When users are losing money or data, that difference isn't academic —
+it's the difference between a brief hiccup and a news headline.
 
 ## When to Use
 
@@ -22,6 +25,7 @@ When production breaks at 3 AM, the engineer on call doesn't have time to read y
 - Reviewing a PR that adds I/O, retries, queues, or cross-service calls
 
 **NOT for:**
+
 - Diagnosing a failure happening right now — use the `debugging-and-error-recovery` skill (observability is what makes that skill fast next time)
 - Profiling and optimizing measured slowness — use the `performance-optimization` skill
 - Launch-day monitoring checklists and rollback triggers — see the `shipping-and-launch` skill; this skill covers the instrumentation that feeds them
@@ -39,7 +43,7 @@ QUESTIONS ON-CALL WILL ASK:
 2. When a payment fails permanently, why? (provider error? timeout? validation?)
 3. Is the payment provider slower than usual?
 → Every signal below must help answer one of these.
-```text
+```
 
 If you can't name the questions, you're not ready to instrument — you'll log everything and learn nothing.
 
@@ -69,7 +73,7 @@ logger.warn({
   errorCode: err.code,
   attempt: n,
 }, 'payment failed');
-```text
+```
 
 **Log levels — use them consistently:**
 
@@ -80,7 +84,8 @@ logger.warn({
 | `info` | Significant business event (order placed, job finished) | None |
 | `debug` | Diagnostic detail | Off in production by default |
 
-**Correlation IDs are mandatory.** Generate (or accept) a request ID at the system boundary and attach it to every log line, span, and outbound call. Without it, you cannot reconstruct a single request from interleaved logs:
+**Correlation IDs are mandatory.** Generate (or accept) a request ID at the system boundary and attach it to every log line, span, and outbound call. Without it, you cannot reconstruct a single
+request from interleaved logs:
 
 ```typescript
 // Express: child logger per request, ID propagated downstream
@@ -90,15 +95,18 @@ app.use((req, res, next) => {
   res.setHeader('x-request-id', req.id);
   next();
 });
-```text
+```
 
-**Never log secrets, tokens, passwords, or full PII.** This is a hard rule from the `security-and-hardening` skill — telemetry pipelines are a classic data-leak path. Allowlist fields; don't log whole request bodies.
+**Never log secrets, tokens, passwords, or full PII.** This is a hard rule from the `security-and-hardening` skill — telemetry pipelines are a classic data-leak path. Allowlist fields; don't log whole
+request bodies.
 
 ### 4. Metrics
 
-For request-driven services, instrument **RED** on every endpoint and every external dependency: **R**ate (requests/sec), **E**rrors (failure rate), **D**uration (latency histogram, not average). For resources (queues, pools, hosts), use **USE**: **U**tilization, **S**aturation, **E**rrors.
+For request-driven services, instrument **RED** on every endpoint and every external dependency: **R**ate (requests/sec), **E**rrors (failure rate), **D**uration (latency histogram, not average). For
+resources (queues, pools, hosts), use **USE**: **U**tilization, **S**aturation, **E**rrors.
 
-As with tracing, the vendor-neutral path is the OpenTelemetry metrics API (same SDK and context as step 5). The example below uses Prometheus' `prom-client` — one common backend choice, not the only one; the RED/USE and cardinality rules are identical either way.
+As with tracing, the vendor-neutral path is the OpenTelemetry metrics API (same SDK and context as step 5). The example below uses Prometheus' `prom-client` — one common backend choice, not the only
+one; the RED/USE and cardinality rules are identical either way.
 
 ```typescript
 import { Histogram } from 'prom-client';
@@ -109,14 +117,15 @@ const httpDuration = new Histogram({
   labelNames: ['method', 'route', 'status_class'],  // '2xx', not '200'
   buckets: [0.05, 0.1, 0.25, 0.5, 1, 2.5, 5],
 });
-```text
+```
 
-**Cardinality is the failure mode.** Every unique label combination is a separate time series. Labels must come from small, fixed sets (route template, status class, provider name). Never use user IDs, raw URLs, error messages, or other unbounded values as labels — that belongs in logs and traces.
+**Cardinality is the failure mode.** Every unique label combination is a separate time series. Labels must come from small, fixed sets (route template, status class, provider name). Never use user
+IDs, raw URLs, error messages, or other unbounded values as labels — that belongs in logs and traces.
 
 ```text
 OK as label:    route="/api/tasks/:id"   status_class="5xx"   provider="stripe"
 NEVER a label:  user_id, email, request_id, full URL, error message text
-```text
+```
 
 Track averages never, percentiles always: an average hides the 1% of users having a terrible time. Use histograms and read p50/p95/p99.
 
@@ -134,9 +143,10 @@ const sdk = new NodeSDK({
   instrumentations: [getNodeAutoInstrumentations()],
 });
 sdk.start();
-```text
+```
 
-Add manual spans only around meaningful internal units of work (e.g., `applyDiscounts`, `chargeProvider`) and attach the attributes on-call will filter by. Propagate context across every async boundary — HTTP headers, queue message metadata — or the trace dies at the gap. Sample head-based at a low rate by default; keep 100% of errors if your backend supports tail sampling.
+Add manual spans only around meaningful internal units of work (e.g., `applyDiscounts`, `chargeProvider`) and attach the attributes on-call will filter by. Propagate context across every async
+boundary — HTTP headers, queue message metadata — or the trace dies at the gap. Sample head-based at a low rate by default; keep 100% of errors if your backend supports tail sampling.
 
 ### 6. Alerting
 
@@ -147,7 +157,7 @@ SYMPTOM (page-worthy):           CAUSE (dashboard, not a page):
 error rate > 1% for 5 min        CPU at 85%
 p99 latency > 2s                 one pod restarted
 queue age > 10 min               disk at 70%
-```text
+```
 
 Cause-based alerts fire when nothing is wrong and miss failures you didn't predict. Symptom-based alerts fire exactly when users are hurt, regardless of the cause.
 
@@ -180,6 +190,7 @@ Instrumentation is code; it can be wrong. Before calling the work done, trigger 
 | "Tracing is overkill for our two services" | Two services already means cross-service latency questions logs can't answer. Auto-instrumentation makes the cost trivial. |
 
 ## Red Flags
+
 - Logs that contain PII or secrets
 - Metrics with no alert thresholds defined
 - Alerts that fire too often (alert fatigue)
@@ -202,8 +213,8 @@ Instrumentation is code; it can be wrong. Before calling the work done, trigger 
 - [debugging-and-error-recovery](skills/debugging-and-error-recovery/SKILL.md)
 - [performance-optimization](skills/performance-optimization/SKILL.md)
 
-
 ## Verification
+
 - [ ] Every critical path has at least one metric and one alert
 - [ ] Alert thresholds are documented (why this number?)
 - [ ] Logs do not contain sensitive data

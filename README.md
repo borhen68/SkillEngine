@@ -4,13 +4,13 @@
 
 [![CI](https://github.com/borhen68/SkillEngine/actions/workflows/test-plugin-install.yml/badge.svg)](https://github.com/borhen68/SkillEngine/actions)
 [![Skills](https://img.shields.io/badge/skills-28-blue)](skills/)
-[![Agents](https://img.shields.io/badge/agents-6-purple)](agents/)
+[![Agents](https://img.shields.io/badge/agents-5-purple)](agents/)
 [![References](https://img.shields.io/badge/references-5-orange)](references/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 **Forge production-grade AI agents.**
 
-*28 battle-tested skills. 6 specialist personas. 5 reference checklists. One mission: make AI agents build software like senior engineers.*
+*28 battle-tested skills. 5 specialist personas. 5 reference checklists. One mission: make AI agents build software like senior engineers.*
 
 <p align="center">
   <img src="assets/agentforge-banner.png" alt="AgentForge — Structured engineering workflows for AI agents" width="100%">
@@ -24,7 +24,7 @@
 
 AI coding agents are fast. They're also reckless.
 
-They skip specs. They "forget" tests. They ship without review. They treat "it works on my machine" as a success criteria. In short, they build prototypes, not production software.
+They skip specs. They "forget" tests. They ship without review. They treat "it works on my machine" as a success criterion. In short, they build prototypes, not production software.
 
 **AgentForge fixes this.**
 
@@ -57,8 +57,6 @@ We don't give agents vague suggestions. We give them **structured, battle-tested
 | **Scope** | Generic coding tips | Full lifecycle: spec → plan → build → verify → review → ship → ops |
 | **Quality gates** | None | Built-in CI pipeline with 8 automated checks |
 | **Cross-reference** | Silos | Every skill references related skills; no duplication |
-
----
 
 ---
 
@@ -359,13 +357,13 @@ agent-skills/
 │   ├── cost-optimization/             #   Ops
 │   ├── data-engineering/              #   Ops
 │   ├── ai-ops/                        #   Ops
-│   └── using-agentforge/            #   Meta: how to use this pack
+│   └── using-agent-skills/            #   Meta: how to use this pack
 ├── agents/                            # 5 specialist personas
 ├── references/                        # 5 supplementary checklists
 ├── hooks/                             # Session lifecycle hooks
 ├── scripts/                           # Validation & build automation
-├── .claude/commands/                  # 7 slash commands (Claude Code)
-├── .gemini/commands/                  # 7 slash commands (Gemini CLI)
+├── .claude/commands/                  # 8 slash commands (Claude Code)
+├── .gemini/commands/                  # 8 slash commands (Gemini CLI)
 ├── commands/                          # 8 slash commands (Antigravity CLI)
 ├── plugin.json                        # Antigravity plugin manifest
 ├── package.json                       # Node.js tooling & scripts

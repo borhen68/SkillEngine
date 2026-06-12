@@ -7,7 +7,8 @@ description: Discovers and invokes agent skills. Use when starting a session or 
 
 ## Overview
 
-AgentForge is a collection of production-grade engineering workflow skills organized by development phase. Each skill encodes a specific process that senior engineers follow. This meta-skill helps you discover and apply the right skill for your current task.
+AgentForge is a collection of production-grade engineering workflow skills organized by development phase. Each skill encodes a specific process that senior engineers follow. This meta-skill helps you
+discover and apply the right skill for your current task.
 
 ## Skill Discovery
 
@@ -43,7 +44,7 @@ Task arrives
     ├── Optimizing cloud costs? ───────→ cost-optimization
     ├── Building data pipelines? ─────→ data-engineering
     └── Deploying AI/ML models? ──────→ ai-ops
-```text
+```
 
 ## Core Operating Behaviors
 
@@ -59,7 +60,7 @@ ASSUMPTIONS I'M MAKING:
 2. [assumption about architecture]
 3. [assumption about scope]
 → Correct me now or I'll proceed with these.
-```text
+```
 
 Don't silently fill in ambiguous requirements. The most common failure mode is making wrong assumptions and running with them unchecked. Surface uncertainty early — it's cheaper than rework.
 
@@ -91,6 +92,7 @@ Sycophancy is a failure mode. "Of course!" followed by implementing a bad idea h
 Your natural tendency is to overcomplicate. Actively resist it.
 
 Before finishing any implementation, ask:
+
 - Can this be done in fewer lines?
 - Are these abstractions earning their complexity?
 - Would a staff engineer look at this and say "why didn't you just..."?
@@ -102,6 +104,7 @@ If you build 1000 lines and 100 would suffice, you have failed. Prefer the borin
 Touch only what you're asked to touch.
 
 Do NOT:
+
 - Remove comments you don't understand
 - "Clean up" code orthogonal to the task
 - Refactor adjacent systems as a side effect
@@ -135,7 +138,8 @@ These are the subtle errors that look like productivity but create problems:
 
 2. **Skills are workflows, not suggestions.** Follow the steps in order. Don't skip verification steps.
 
-3. **Multiple skills can apply.** A feature implementation might involve `idea-refine` → `spec-driven-development` → `planning-and-task-breakdown` → `incremental-implementation` → `test-driven-development` → `code-review-and-quality` → `code-simplification` → `shipping-and-launch` in sequence.
+3. **Multiple skills can apply.** A feature implementation might involve `idea-refine` → `spec-driven-development` → `planning-and-task-breakdown` → `incremental-implementation` →
+`test-driven-development` → `code-review-and-quality` → `code-simplification` → `shipping-and-launch` in sequence.
 
 4. **When in doubt, start with a spec.** If the task is non-trivial and there's no spec, begin with `spec-driven-development`.
 
@@ -164,9 +168,10 @@ For a complete feature, the typical skill sequence is:
 18. cost-optimization           → Eliminate waste without sacrificing reliability
 19. data-engineering            → Ensure data quality and pipeline integrity
 20. ai-ops                      → Monitor model drift and maintain ML systems
-```text
+```
 
-Not every task needs every skill. A bug fix might only need: `debugging-and-error-recovery` → `test-driven-development` → `code-review-and-quality`. An ML model deployment might only need: `ai-ops` → `shipping-and-launch`.
+Not every task needs every skill. A bug fix might only need: `debugging-and-error-recovery` → `test-driven-development` → `code-review-and-quality`. An ML model deployment might only need: `ai-ops` →
+`shipping-and-launch`.
 
 ## Quick Reference
 
